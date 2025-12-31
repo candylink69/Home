@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CandyLink69 – Loading Video...</title>
+
+<style>
+body{
+    margin:0;
+    padding-bottom:60px;
+    background:#0b0b0b;
+    color:#fff;
+    font-family:Arial,sans-serif;
+    text-align:center;
+}
+.container{
+    max-width:900px;
+    margin:auto;
+    padding:8px;
+}
+.title{
+    font-size:20px;
+    color:#ff2d55;
+    font-weight:bold;
+    margin:8px 0;
+}
+.video-box{
+    position:relative;
+    width:100%;
+    padding-top:56.25%;
+    background:#000;
+    margin:8px 0;
+}
+.video-box iframe{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    border:none;
+}
+
+/* 🔥 ULTRA COMPACT CTA */
+.danger-box{
+    margin:6px 0;
+    padding:4px 6px;
+    border-radius:6px;
+    background:#140000;
+    border:1px solid #ff3300;
+    display:inline-flex;
+    flex-direction:column;
+    align-items:center;
+    box-shadow:0 0 12px rgba(255,60,0,.6);
+}
+.danger-text{
+    font-size:13px;
+    font-weight:700;
+    white-space:nowrap;
+    line-height:1.1;
+    margin:1px 0;
+}
+.danger-btn{
+    margin-top:3px;
+    padding:4px 10px;
+    font-size:12px;
+    font-weight:bold;
+    background:#ff3300;
+    color:#fff;
+    border-radius:4px;
+    text-decoration:none;
+}
+
+/* Navigation */
+.nav-buttons{
+    margin:10px 0;
+    display:flex;
+    justify-content:center;
+    gap:10px;
+}
+.nav-btn{
+    background:#333;
+    color:#fff;
+    padding:6px 12px;
+    border-radius:4px;
+    text-decoration:none;
+    font-size:12px;
+}
+.nav-btn:hover{
+    background:#ff3300;
+}
+
+/* STICKY */
+#sticky{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    background:#000;
+    z-index:9999;
+    min-height:50px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* Video info */
+.video-info{
+    margin:10px 0;
+    font-size:14px;
+    color:#ccc;
+    text-align:left;
+    max-width:800px;
+    margin-left:auto;
+    margin-right:auto;
+}
+.video-id{
+    color:#ff9900;
+    font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- Dynamic Title -->
+<div class="title" id="videoTitle">🔥 CandyLink69 – Loading Video... 🔥</div>
+
+<!-- TOP AD -->
+<div id="ad-top"></div>
+
+<!-- VIDEO (Dynamic) -->
+<div class="video-box">
+<iframe id="videoPlayer" src="" allowfullscreen></iframe>
+</div>
+
+<!-- Video Info -->
+<div class="video-info">
+    <div>Video: <span class="video-id" id="currentVideoId">V001</span></div>
+    <div id="videoDescription"></div>
+</div>
+
+<!-- Navigation -->
+<div class="nav-buttons">
+    <a class="nav-btn" href="index.html">« Back to Gallery</a>
+    <a class="nav-btn" id="prevBtn" href="#" style="display:none">« Previous</a>
+    <a class="nav-btn" id="nextBtn" href="#" style="display:none">Next »</a>
+</div>
+
+<!-- CTA (Same as yours) -->
+<div class="danger-box">
+<div class="danger-text">🥵 YOU WANT SOMETHING SPICY? 🥵</div>
+<a class="danger-btn" href="https://www.effectivegatecpm.com/njp16fur?key=f0a7ec3b2fa8d91d821777018c8eec71" target="_blank">
+CLICK HERE
+</a>
+</div>
+
+<!-- NATIVE (Same as yours) -->
+<div id="native-ad">
+<script async data-cfasync="false"
+src="https://pl28370520.effectivegatecpm.com/dceead676280d8758acad3c44709124b/invoke.js"></script>
+<div id="container-dceead676280d8758acad3c44709124b"></div>
+</div>
+
+<!-- BOTTOM AD -->
+<div id="ad-bottom"></div>
+
+</div>
+
+<!-- STICKY -->
+<div id="sticky"></div>
+
+<!-- SOCIAL BAR -->
+<script src="https://pl28370524.effectivegatecpm.com/3a/d6/0f/3ad60f18f18ad6833a8dd0aadd895e49.js"></script>
+
+<!-- DYNAMIC VIDEO LOADER -->
+<script>
+// Get video ID from URL
+const urlParams = new URLSearchParams(window.location.search);
+const videoId = urlParams.get('v') || 'V001';
+
+// Load videos data
+fetch('videos.json')
+  .then(response => response.json())
+  .then(videosData => {
+    const video = videosData[videoId];
+    
+    if (video) {
+      // Update page content
+      document.title = `CandyLink69 – ${video.title || videoId}`;
+      document.getElementById('videoTitle').textContent = `🔥 ${video.title || videoId} 🔥`;
+      document.getElementById('videoPlayer').src = video.embed;
+      document.getElementById('currentVideoId').textContent = videoId;
+      
+      if (video.description) {
+        document.getElementById('videoDescription').textContent = video.description;
+      }
+      
+      // Setup navigation
+      const videoIds = Object.keys(videosData);
+      const currentIndex = videoIds.indexOf(videoId);
+      
+      // Previous button
+      if (currentIndex > 0) {
+        const prevBtn = document.getElementById('prevBtn');
+        prevBtn.href = `video.html?v=${videoIds[currentIndex - 1]}`;
+        prevBtn.style.display = 'inline-block';
+      }
+      
+      // Next button
+      if (currentIndex < videoIds.length - 1) {
+        const nextBtn = document.getElementById('nextBtn');
+        nextBtn.href = `video.html?v=${videoIds[currentIndex + 1]}`;
+        nextBtn.style.display = 'inline-block';
+      }
+      
+    } else {
+      // Video not found
+      document.getElementById('videoTitle').textContent = 'Video Not Found';
+      document.getElementById('videoPlayer').outerHTML = 
+        '<div style="padding:50px;color:#ccc">This video is no longer available.</div>';
+    }
+  })
+  .catch(error => {
+    console.error('Error loading video:', error);
+    document.getElementById('videoTitle').textContent = 'Error Loading Video';
+  });
+
+// ADS ENGINE (EXACTLY YOUR CODE - NO CHANGES)
+function loadAd(id,key,w,h){
+    let d=document.getElementById(id);
+    if(!d) return;
+    d.innerHTML='';
+    delete window.atOptions;
+
+    let s1=document.createElement('script');
+    s1.innerHTML=`
+    var atOptions={
+        'key':'${key}',
+        'format':'iframe',
+        'height':${h},
+        'width':${w},
+        'params':{}
+    };`;
+    let s2=document.createElement('script');
+    s2.src='https://www.highperformanceformat.com/'+key+'/invoke.js?x='+Math.random();
+    s2.async=true;
+
+    d.appendChild(s1);
+    d.appendChild(s2);
+}
+
+function loadAllAds(){
+    if(innerWidth<768){
+        loadAd('ad-top','28a19f677ddf30c65892eb4af1ddee10',320,50);
+        loadAd('ad-bottom','1236280d3c879dfd9af37ab923f7cfb3',300,250);
+        loadAd('sticky','28a19f677ddf30c65892eb4af1ddee10',320,50);
+    }else{
+        loadAd('ad-top','a7f6af07e7b981a82b1a2a982b13ba01',728,90);
+        loadAd('ad-bottom','a7f6af07e7b981a82b1a2a982b13ba01',728,90);
+        loadAd('sticky','28a19f677ddf30c65892eb4af1ddee10',320,50);
+    }
+}
+
+document.addEventListener('DOMContentLoaded',loadAllAds);
+setInterval(loadAllAds,45000);
+</script>
+
+</body>
+</html>
