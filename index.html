@@ -6,47 +6,222 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#000;color:#fff}
+/* NO HORIZONTAL SCROLL ANYWHERE */
+body, html {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #000;
+  color: #fff;
+}
 
 /* Flaming wrapper */
-.wrapper{
-  margin:10px;padding:12px;border-radius:14px;border:3px solid transparent;
-  background:linear-gradient(#000,#000) padding-box,
-  linear-gradient(45deg,#ff0033,#ff9900,#ff0033) border-box;
-  animation:flame 3s linear infinite
+.wrapper {
+  margin: 10px;
+  padding: 12px;
+  border-radius: 14px;
+  border: 3px solid transparent;
+  background: linear-gradient(#000, #000) padding-box,
+              linear-gradient(45deg, #ff0033, #ff9900, #ff0033) border-box;
+  animation: flame 3s linear infinite;
+  max-width: 100%;
+  box-sizing: border-box;
 }
-@keyframes flame{0%{filter:hue-rotate(0)}100%{filter:hue-rotate(360deg)}}
 
-h1{text-align:center;margin:10px 0 15px;color:#ff2b2b;font-size:22px}
+@keyframes flame {
+  0% { filter: hue-rotate(0); }
+  100% { filter: hue-rotate(360deg); }
+}
 
-/* Grid */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
-.grid a{text-decoration:none}
-.grid img{width:100%;display:block;border-radius:10px}
+h1 {
+  text-align: center;
+  margin: 10px 0 15px;
+  color: #ff2b2b;
+  font-size: 22px;
+  word-wrap: break-word;
+}
+
+/* Grid - FIXED NO HORIZONTAL SCROLL */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Responsive grid */
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 10px;
+  }
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  }
+}
+
+.grid a {
+  text-decoration: none;
+  display: block;
+}
+
+/* THUMBNAIL CONTAINER - FIXED 16:9 */
+.thumb-container {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 aspect ratio */
+  overflow: hidden;
+  border-radius: 10px;
+  background: #111;
+  margin-bottom: 5px;
+}
+
+.thumb-container img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.thumb-container:hover img {
+  transform: scale(1.05);
+}
+
+/* Duration overlay */
+.duration {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: bold;
+  z-index: 2;
+}
+
+/* Video title styling */
+.video-title {
+  margin-top: 5px;
+  font-size: 12px;
+  color: #ffcc00;
+  min-height: 30px;
+  display: flex;
+  align-items: center;
+  line-height: 1.3;
+  word-break: break-word;
+}
+
+.video-title.center {
+  justify-content: center;
+  text-align: center;
+}
+
+.video-title.left {
+  justify-content: flex-start;
+  text-align: left;
+  padding-left: 5px;
+}
+
+.vid-id {
+  color: #ff9900;
+  margin-right: 3px;
+  font-weight: bold;
+}
 
 /* Ads */
-.ad-box{grid-column:1/-1;margin:15px 0;padding:10px;background:#111;border-radius:8px;text-align:center}
-.ad-desktop{display:none}
-.ad-mobile{display:block}
-@media(min-width:768px){.ad-desktop{display:block}.ad-mobile{display:none}}
+.ad-box {
+  grid-column: 1 / -1;
+  margin: 15px 0;
+  padding: 10px;
+  background: #111;
+  border-radius: 8px;
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.ad-desktop { display: none; }
+.ad-mobile { display: block; }
+
+@media (min-width: 768px) {
+  .ad-desktop { display: block; }
+  .ad-mobile { display: none; }
+}
 
 /* Smart link CTA */
-.smart{
-  display:block;text-align:center;margin:10px 0 18px;
-  background:#ff0033;color:#fff;padding:10px;border-radius:8px;
-  text-decoration:none;font-weight:bold
+.smart {
+  display: block;
+  text-align: center;
+  margin: 10px 0 18px;
+  background: #ff0033;
+  color: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Pagination */
-.pagination{display:flex;justify-content:center;gap:16px;margin:20px 0 5px}
-.pagination a{background:#ff0033;color:#fff;padding:8px 16px;border-radius:6px;text-decoration:none}
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin: 20px 0 5px;
+  flex-wrap: wrap;
+}
+
+.pagination a {
+  background: #ff0033;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+.pagination span {
+  background: #666;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 6px;
+}
 
 /* Sticky mobile */
-.sticky{
-  position:fixed;left:0;right:0;bottom:0;z-index:9999;
-  background:#000;padding:6px;text-align:center
+.sticky {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  background: #000;
+  padding: 6px;
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
 }
-@media(min-width:768px){.sticky{display:none}}
+
+@media (min-width: 768px) {
+  .sticky { display: none; }
+}
 </style>
 </head>
 
@@ -81,8 +256,8 @@ h1{text-align:center;margin:10px 0 15px;color:#ff2b2b;font-size:22px}
   </div>
 </div>
 
-<div class="pagination">
-  <a href="page2.html">Next »</a>
+<div class="pagination" id="paginationContainer">
+  <!-- Auto-generated pagination -->
 </div>
 </div>
 
@@ -99,30 +274,134 @@ h1{text-align:center;margin:10px 0 15px;color:#ff2b2b;font-size:22px}
 
 <script src="data.js"></script>
 <script>
-const PER_PAGE=20,PAGE=1;
-const start=(PAGE-1)*PER_PAGE,end=start+PER_PAGE;
-const c=document.getElementById("videoList");
+// Configuration
+const urlParams = new URLSearchParams(window.location.search);
+const PAGE = parseInt(urlParams.get('page')) || 1;
+const PER_PAGE = 20;
 
-videos.slice(start,end).forEach((v,i)=>{
-  c.innerHTML+=`<a href="V/${v}.html"><img src="Thumbs/${v}.jpg" alt="${v}"></a>`;
-  if((i+1)%5===0){
-    c.innerHTML+=`
-      <div class="ad-box">
-        <div class="ad-mobile">
-          <script>
-            atOptions={'key':'28a19f677ddf30c65892eb4af1ddee10','format':'iframe','height':50,'width':320,'params':{}};
-          <\/script>
-          <script src="https://www.highperformanceformat.com/28a19f677ddf30c65892eb4af1ddee10/invoke.js"><\/script>
+// Calculate
+const start = (PAGE - 1) * PER_PAGE;
+const end = start + PER_PAGE;
+const totalVideos = videos.length;
+const totalPages = Math.ceil(totalVideos / PER_PAGE);
+const c = document.getElementById("videoList");
+
+// Redirect if invalid page
+if (PAGE > totalPages || PAGE < 1) {
+  window.location.href = 'index.html';
+}
+
+// Display videos
+const currentVideos = videos.slice(start, end);
+if (currentVideos.length === 0) {
+  c.innerHTML = '<p style="text-align:center;padding:50px">No videos found</p>';
+} else {
+  currentVideos.forEach((v, i) => {
+    // Check if title exists
+    const hasTitle = v.title && v.title.trim().length > 0;
+    const alignClass = hasTitle ? 'left' : 'center';
+    
+    // Generate HTML with FIXED ASPECT RATIO container
+    const videoHTML = `
+      <a href="video.html?v=${v.id}">
+        <div class="thumb-container">
+          <img src="Thumbs/${v.id}.jpg" alt="${v.id}" 
+               loading="lazy" 
+               onload="this.classList.add('loaded')">
+          ${v.duration ? `<div class="duration">${v.duration}</div>` : ''}
         </div>
-        <div class="ad-desktop">
-          <script>
-            atOptions={'key':'1236280d3c879dfd9af37ab923f7cfb3','format':'iframe','height':250,'width':300,'params':{}};
-          <\/script>
-          <script src="https://www.highperformanceformat.com/1236280d3c879dfd9af37ab923f7cfb3/invoke.js"><\/script>
+        <div class="video-title ${alignClass}">
+          ${hasTitle ? `<span class="vid-id">${v.id}:</span> ${v.title}` : v.id}
         </div>
-      </div>`;
+      </a>`;
+    
+    c.insertAdjacentHTML('beforeend', videoHTML);
+    
+    // Insert ad after every 5 videos
+    if((i+1)%5===0 && (i+1) < currentVideos.length){
+      c.insertAdjacentHTML('beforeend', `
+        <div class="ad-box">
+          <div class="ad-mobile">
+            <script>
+              atOptions={'key':'28a19f677ddf30c65892eb4af1ddee10','format':'iframe','height':50,'width':320,'params':{}};
+            <\/script>
+            <script src="https://www.highperformanceformat.com/28a19f677ddf30c65892eb4af1ddee10/invoke.js"><\/script>
+          </div>
+          <div class="ad-desktop">
+            <script>
+              atOptions={'key':'1236280d3c879dfd9af37ab923f7cfb3','format':'iframe','height':250,'width':300,'params':{}};
+            <\/script>
+            <script src="https://www.highperformanceformat.com/1236280d3c879dfd9af37ab923f7cfb3/invoke.js"><\/script>
+          </div>
+        </div>`);
+    }
+  });
+}
+
+// SMART PAGINATION (Only shows when needed)
+let paginationHTML = '';
+const paginationContainer = document.getElementById('paginationContainer');
+
+if (totalPages > 1) {
+  // Previous button
+  if (PAGE > 1) {
+    const prevPage = PAGE - 1;
+    const prevLink = prevPage === 1 ? 'index.html' : `index.html?page=${prevPage}`;
+    paginationHTML += `<a href="${prevLink}">« Prev</a> `;
   }
-});
+  
+  // Page numbers (max 7 visible)
+  const maxVisiblePages = 7;
+  let startPage = Math.max(1, PAGE - 3);
+  let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+  
+  // Adjust start if near end
+  if (endPage - startPage + 1 < maxVisiblePages) {
+    startPage = Math.max(1, endPage - maxVisiblePages + 1);
+  }
+  
+  // First page
+  if (startPage > 1) {
+    paginationHTML += `<a href="index.html">1</a> `;
+    if (startPage > 2) paginationHTML += `<span>...</span> `;
+  }
+  
+  // Page numbers
+  for (let i = startPage; i <= endPage; i++) {
+    if (i === PAGE) {
+      paginationHTML += `<span>${i}</span> `;
+    } else {
+      const link = i === 1 ? 'index.html' : `index.html?page=${i}`;
+      paginationHTML += `<a href="${link}">${i}</a> `;
+    }
+  }
+  
+  // Last page
+  if (endPage < totalPages) {
+    if (endPage < totalPages - 1) paginationHTML += `<span>...</span> `;
+    paginationHTML += `<a href="index.html?page=${totalPages}">${totalPages}</a> `;
+  }
+  
+  // Next button
+  if (PAGE < totalPages) {
+    paginationHTML += `<a href="index.html?page=${PAGE + 1}">Next »</a>`;
+  }
+  
+  paginationContainer.innerHTML = paginationHTML;
+} else {
+  // Hide pagination if only 1 page
+  paginationContainer.style.display = 'none';
+}
+
+// Update page title
+if (PAGE > 1) {
+  document.title = `CandyLink69 – Page ${PAGE}`;
+}
+
+// Clean URL (remove ?page=1)
+if (PAGE === 1 && window.location.search.includes('page=1')) {
+  window.history.replaceState({}, document.title, window.location.pathname);
+}
 </script>
 
 </body>
