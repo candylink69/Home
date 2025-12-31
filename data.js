@@ -1,7 +1,8 @@
 const videos = [
   {
     id: "V001",
-    title: "Boyfriend Cheating",
+    title: "",
     duration: "45:22"
   }
 ];
+
