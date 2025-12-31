@@ -6,128 +6,123 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background: #000;
-  color: #fff;
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#000;color:#fff}
+
+/* Flaming wrapper */
+.wrapper{
+  margin:10px;padding:12px;border-radius:14px;border:3px solid transparent;
+  background:linear-gradient(#000,#000) padding-box,
+  linear-gradient(45deg,#ff0033,#ff9900,#ff0033) border-box;
+  animation:flame 3s linear infinite
+}
+@keyframes flame{0%{filter:hue-rotate(0)}100%{filter:hue-rotate(360deg)}}
+
+h1{text-align:center;margin:10px 0 15px;color:#ff2b2b;font-size:22px}
+
+/* Grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+.grid a{text-decoration:none}
+.grid img{width:100%;display:block;border-radius:10px}
+
+/* Ads */
+.ad-box{grid-column:1/-1;margin:15px 0;padding:10px;background:#111;border-radius:8px;text-align:center}
+.ad-desktop{display:none}
+.ad-mobile{display:block}
+@media(min-width:768px){.ad-desktop{display:block}.ad-mobile{display:none}}
+
+/* Smart link CTA */
+.smart{
+  display:block;text-align:center;margin:10px 0 18px;
+  background:#ff0033;color:#fff;padding:10px;border-radius:8px;
+  text-decoration:none;font-weight:bold
 }
 
-/* ===== Premium Flaming Border Wrapper ===== */
-.wrapper {
-  margin: 10px;
-  padding: 12px;
-  border-radius: 14px;
-  border: 3px solid transparent;
-  background:
-    linear-gradient(#000, #000) padding-box,
-    linear-gradient(45deg, #ff0033, #ff9900, #ff0033) border-box;
-  animation: flame 3s linear infinite;
-}
+/* Pagination */
+.pagination{display:flex;justify-content:center;gap:16px;margin:20px 0 5px}
+.pagination a{background:#ff0033;color:#fff;padding:8px 16px;border-radius:6px;text-decoration:none}
 
-@keyframes flame {
-  0%   { filter: hue-rotate(0deg); }
-  100% { filter: hue-rotate(360deg); }
+/* Sticky mobile */
+.sticky{
+  position:fixed;left:0;right:0;bottom:0;z-index:9999;
+  background:#000;padding:6px;text-align:center
 }
-
-/* ===== Title ===== */
-h1 {
-  text-align: center;
-  margin: 10px 0 15px;
-  color: #ff2b2b;
-  font-size: 22px;
-}
-
-/* ===== Responsive Thumbnail Grid ===== */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 12px;
-}
-
-.grid a {
-  text-decoration: none;
-}
-
-.grid img {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-radius: 10px;
-}
-
-/* ===== Ads Box ===== */
-.ad-box {
-  margin: 15px 0;
-  padding: 10px;
-  background: #111;
-  border-radius: 8px;
-  text-align: center;
-}
-
-/* ===== Pagination ===== */
-.pagination {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  margin: 20px 0 5px;
-}
-
-.pagination a {
-  background: #ff0033;
-  color: #fff;
-  padding: 8px 16px;
-  border-radius: 6px;
-  text-decoration: none;
-  font-size: 14px;
-}
+@media(min-width:768px){.sticky{display:none}}
 </style>
 </head>
 
 <body>
 
 <div class="wrapper">
-
 <h1>🔥 CandyLink69 Exclusive Videos 🔥</h1>
 
-<!-- ===== TOP ADS ===== -->
-<div class="ad-box">
-  <!-- Adsterra TOP AD CODE YAHAN PASTE KARNA -->
-</div>
+<!-- 🔝 TOP SMART LINK -->
+<a class="smart" href="https://www.effectivegatecpm.com/njp16fur?key=f0a7ec3b2fa8d91d821777018c8eec71" target="_blank">
+  🔥 Watch More Exclusive Content 🔥
+</a>
 
-<!-- ===== VIDEO LIST ===== -->
 <div class="grid" id="videoList"></div>
 
-<!-- ===== BOTTOM ADS ===== -->
+<!-- 🔽 BOTTOM ADS (2 banners) -->
 <div class="ad-box">
-  <!-- Adsterra BOTTOM AD CODE YAHAN PASTE KARNA -->
+  <!-- Desktop 728x90 -->
+  <div class="ad-desktop">
+    <script>
+      atOptions={'key':'a7f6af07e7b981a82b1a2a982b13ba01','format':'iframe','height':90,'width':728,'params':{}};
+    </script>
+    <script src="https://www.highperformanceformat.com/a7f6af07e7b981a82b1a2a982b13ba01/invoke.js"></script>
+  </div>
+
+  <!-- All devices 300x250 -->
+  <div class="ad-mobile">
+    <script>
+      atOptions={'key':'1236280d3c879dfd9af37ab923f7cfb3','format':'iframe','height':250,'width':300,'params':{}};
+    </script>
+    <script src="https://www.highperformanceformat.com/1236280d3c879dfd9af37ab923f7cfb3/invoke.js"></script>
+  </div>
 </div>
 
-<!-- ===== PAGINATION ===== -->
 <div class="pagination">
   <a href="page2.html">Next »</a>
 </div>
-
 </div>
 
-<!-- ===== DATA + LOGIC ===== -->
+<!-- 📌 STICKY MOBILE 320x50 -->
+<div class="sticky">
+  <script>
+    atOptions={'key':'28a19f677ddf30c65892eb4af1ddee10','format':'iframe','height':50,'width':320,'params':{}};
+  </script>
+  <script src="https://www.highperformanceformat.com/28a19f677ddf30c65892eb4af1ddee10/invoke.js"></script>
+</div>
+
+<!-- SOCIAL BAR (site-wide) -->
+<script src="https://pl28370524.effectivegatecpm.com/3a/d6/0f/3ad60f18f18ad6833a8dd0aadd895e49.js"></script>
+
 <script src="data.js"></script>
 <script>
-  const PER_PAGE = 20;   // ek page par kitni videos
-  const PAGE = 1;        // index.html = page 1
+const PER_PAGE=20,PAGE=1;
+const start=(PAGE-1)*PER_PAGE,end=start+PER_PAGE;
+const c=document.getElementById("videoList");
 
-  const start = (PAGE - 1) * PER_PAGE;
-  const end   = start + PER_PAGE;
-
-  const container = document.getElementById("videoList");
-
-  videos.slice(start, end).forEach(v => {
-    container.innerHTML += `
-      <a href="V/${v}.html">
-        <img src="Thumbs/${v}.jpg" alt="${v}">
-      </a>
-    `;
-  });
+videos.slice(start,end).forEach((v,i)=>{
+  c.innerHTML+=`<a href="V/${v}.html"><img src="Thumbs/${v}.jpg" alt="${v}"></a>`;
+  if((i+1)%5===0){
+    c.innerHTML+=`
+      <div class="ad-box">
+        <div class="ad-mobile">
+          <script>
+            atOptions={'key':'28a19f677ddf30c65892eb4af1ddee10','format':'iframe','height':50,'width':320,'params':{}};
+          <\/script>
+          <script src="https://www.highperformanceformat.com/28a19f677ddf30c65892eb4af1ddee10/invoke.js"><\/script>
+        </div>
+        <div class="ad-desktop">
+          <script>
+            atOptions={'key':'1236280d3c879dfd9af37ab923f7cfb3','format':'iframe','height':250,'width':300,'params':{}};
+          <\/script>
+          <script src="https://www.highperformanceformat.com/1236280d3c879dfd9af37ab923f7cfb3/invoke.js"><\/script>
+        </div>
+      </div>`;
+  }
+});
 </script>
 
 </body>
