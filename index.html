@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CandyLink69 – Exclusive Videos</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #000;
+  color: #fff;
+}
+
+/* ===== Premium Flaming Border Wrapper ===== */
+.wrapper {
+  margin: 10px;
+  padding: 12px;
+  border-radius: 14px;
+  border: 3px solid transparent;
+  background:
+    linear-gradient(#000, #000) padding-box,
+    linear-gradient(45deg, #ff0033, #ff9900, #ff0033) border-box;
+  animation: flame 3s linear infinite;
+}
+
+@keyframes flame {
+  0%   { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+
+/* ===== Title ===== */
+h1 {
+  text-align: center;
+  margin: 10px 0 15px;
+  color: #ff2b2b;
+  font-size: 22px;
+}
+
+/* ===== Responsive Thumbnail Grid ===== */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px;
+}
+
+.grid a {
+  text-decoration: none;
+}
+
+.grid img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 10px;
+}
+
+/* ===== Ads Box ===== */
+.ad-box {
+  margin: 15px 0;
+  padding: 10px;
+  background: #111;
+  border-radius: 8px;
+  text-align: center;
+}
+
+/* ===== Pagination ===== */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin: 20px 0 5px;
+}
+
+.pagination a {
+  background: #ff0033;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrapper">
+
+<h1>🔥 CandyLink69 Exclusive Videos 🔥</h1>
+
+<!-- ===== TOP ADS ===== -->
+<div class="ad-box">
+  <!-- Adsterra TOP AD CODE YAHAN PASTE KARNA -->
+</div>
+
+<!-- ===== VIDEO LIST ===== -->
+<div class="grid" id="videoList"></div>
+
+<!-- ===== BOTTOM ADS ===== -->
+<div class="ad-box">
+  <!-- Adsterra BOTTOM AD CODE YAHAN PASTE KARNA -->
+</div>
+
+<!-- ===== PAGINATION ===== -->
+<div class="pagination">
+  <a href="page2.html">Next »</a>
+</div>
+
+</div>
+
+<!-- ===== DATA + LOGIC ===== -->
+<script src="data.js"></script>
+<script>
+  const PER_PAGE = 20;   // ek page par kitni videos
+  const PAGE = 1;        // index.html = page 1
+
+  const start = (PAGE - 1) * PER_PAGE;
+  const end   = start + PER_PAGE;
+
+  const container = document.getElementById("videoList");
+
+  videos.slice(start, end).forEach(v => {
+    container.innerHTML += `
+      <a href="V/${v}.html">
+        <img src="Thumbs/${v}.jpg" alt="${v}">
+      </a>
+    `;
+  });
+</script>
+
+</body>
+</html>
