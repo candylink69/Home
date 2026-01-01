@@ -18,20 +18,20 @@ body{
     max-width:900px;
     margin:auto;
     padding:8px;
-    padding-top:20px; /* ⭐ ADDED: Video shifted down */
+    padding-top:25px; /* ⭐ VIDEO NICHE KARNE KE LIYE */
 }
 .title{
     font-size:20px;
     color:#ff2d55;
     font-weight:bold;
-    margin:8px 0;
+    margin:8px 0 15px 0; /* ⭐ NICHE KI TARAF MARGIN */
 }
 .video-box{
     position:relative;
     width:100%;
     padding-top:56.25%;
     background:#000;
-    margin:15px 0 8px 0; /* ⭐ CHANGED: More top margin */
+    margin:20px 0 8px 0; /* ⭐ TOP MARGIN BADHAYA */
     border-radius:8px;
     overflow:hidden;
 }
@@ -120,13 +120,6 @@ body{
     color:#ff9900;
     font-weight:bold;
 }
-
-/* ⭐ ADDED: Ad spacing */
-#ad-top {
-    margin-bottom:15px; /* Space below ad */
-    min-height:50px;
-    display:block;
-}
 </style>
 </head>
 
@@ -140,7 +133,7 @@ body{
 <!-- TOP AD -->
 <div id="ad-top"></div>
 
-<!-- VIDEO (Dynamic) -->
+<!-- VIDEO (Dynamic) - NOW LOWER DOWN -->
 <div class="video-box">
 <iframe id="videoPlayer" src="" allowfullscreen></iframe>
 </div>
@@ -237,7 +230,7 @@ fetch('videos.json')
     document.getElementById('videoTitle').textContent = 'Error Loading Video';
   });
 
-// ADS ENGINE (ORIGINAL FUNCTION - NO CHANGES)
+// ADS ENGINE
 function loadAd(id,key,w,h){
     let d=document.getElementById(id);
     if(!d) return;
@@ -273,76 +266,9 @@ function loadAllAds(){
     }
 }
 
-// ⭐⭐ SMART REFRESH SYSTEM (USER ACTIVITY BASED) ⭐⭐
-let refreshCount = 0;
-const MAX_REFRESHES = 2;
-let lastActivity = Date.now();
-let lastRefresh = 0;
-let isFullscreen = false;
-
-// Activity detection
-const activityEvents = ['mousedown', 'mousemove', 'scroll', 'touchstart', 'click', 'keydown'];
-activityEvents.forEach(event => {
-  document.addEventListener(event, () => {
-    lastActivity = Date.now();
-    trySmartRefresh();
-  }, { passive: true });
-});
-
-// Fullscreen detection
-document.addEventListener('fullscreenchange', () => {
-  isFullscreen = !!document.fullscreenElement;
-});
-
-// Smart refresh function
-function trySmartRefresh() {
-  const now = Date.now();
-  
-  // Safety checks
-  if(
-    refreshCount >= MAX_REFRESHES ||      // Max refreshes reached
-    now - lastRefresh < 90000 ||          // 1.5 min cooldown
-    now - lastActivity > 10000 ||         // No recent activity (10s)
-    document.hidden ||                    // Tab hidden
-    isFullscreen ||                       // Fullscreen mode
-    Math.random() > 0.25                  // 25% chance only
-  ) {
-    return;
-  }
-  
-  // Random delay 1-4 seconds (natural feeling)
-  const delay = 1000 + Math.random() * 3000;
-  
-  setTimeout(() => {
-    // Re-check conditions
-    if(
-      refreshCount < MAX_REFRESHES &&
-      Date.now() - lastActivity < 15000 &&
-      !document.hidden &&
-      !isFullscreen
-    ) {
-      loadAllAds();
-      refreshCount++;
-      lastRefresh = Date.now();
-    }
-  }, delay);
-}
-
-// Initial ad load
+// ⭐⭐ ONLY CHANGE: REMOVED AUTO-REFRESH ⭐⭐
 document.addEventListener('DOMContentLoaded', loadAllAds);
-
-// First smart refresh after 30 seconds (if user active)
-setTimeout(() => {
-  if(Date.now() - lastActivity < 25000) {
-    trySmartRefresh();
-  }
-}, 30000);
-
-// Periodic check (every 2-4 minutes randomly)
-setInterval(() => {
-  trySmartRefresh();
-}, 120000 + Math.random() * 120000);
-
+// That's it! NO setInterval, NO auto-refresh
 </script>
 
 </body>
