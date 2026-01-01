@@ -274,6 +274,134 @@ h1 {
 
 <script src="data.js"></script>
 <script>
+// ⭐⭐ SMART AD REFRESH SYSTEM FOR GALLERY PAGE ⭐⭐
+(function() {
+  'use strict';
+  
+  // Ad loading function (from original code)
+  function loadAd(id, key, w, h) {
+    let d = document.getElementById(id);
+    if(!d) return;
+    d.innerHTML = '';
+    delete window.atOptions;
+
+    let s1 = document.createElement('script');
+    s1.innerHTML = `
+    var atOptions = {
+      'key': '${key}',
+      'format': 'iframe',
+      'height': ${h},
+      'width': ${w},
+      'params': {}
+    };`;
+    let s2 = document.createElement('script');
+    s2.src = 'https://www.highperformanceformat.com/' + key + '/invoke.js?x=' + Math.random();
+    s2.async = true;
+
+    d.appendChild(s1);
+    d.appendChild(s2);
+  }
+
+  // Load all ads function
+  function loadAllAds() {
+    if(window.innerWidth < 768) {
+      loadAd('ad-top', '28a19f677ddf30c65892eb4af1ddee10', 320, 50);
+      loadAd('ad-bottom', '1236280d3c879dfd9af37ab923f7cfb3', 300, 250);
+      loadAd('sticky', '28a19f677ddf30c65892eb4af1ddee10', 320, 50);
+    } else {
+      loadAd('ad-top', 'a7f6af07e7b981a82b1a2a982b13ba01', 728, 90);
+      loadAd('ad-bottom', 'a7f6af07e7b981a82b1a2a982b13ba01', 728, 90);
+      loadAd('sticky', '28a19f677ddf30c65892eb4af1ddee10', 320, 50);
+    }
+  }
+
+  // ⭐ SMART REFRESH VARIABLES ⭐
+  let refreshCount = 0;
+  const MAX_REFRESHES = 3; // Gallery page can have more refreshes
+  let lastActivity = Date.now();
+  let lastRefresh = 0;
+  let isUserActive = true;
+
+  // Activity detection - user scrolls, clicks, touches
+  const activityEvents = ['mousedown', 'mousemove', 'scroll', 'touchstart', 'click', 'keydown'];
+  activityEvents.forEach(event => {
+    document.addEventListener(event, () => {
+      lastActivity = Date.now();
+      isUserActive = true;
+      trySmartRefresh();
+    }, { passive: true });
+  });
+
+  // Inactivity detection
+  setInterval(() => {
+    if(Date.now() - lastActivity > 30000) { // 30 seconds inactive
+      isUserActive = false;
+    }
+  }, 10000);
+
+  // Smart refresh function
+  function trySmartRefresh() {
+    const now = Date.now();
+    
+    // Safety checks
+    if(
+      refreshCount >= MAX_REFRESHES ||      // Max refreshes reached
+      now - lastRefresh < 120000 ||         // 2 minute cooldown
+      now - lastActivity > 15000 ||         // No recent activity (15s)
+      !isUserActive ||                      // User inactive
+      document.hidden ||                    // Tab hidden
+      Math.random() > 0.2                   // 20% chance only
+    ) {
+      return;
+    }
+    
+    // Random delay 2-5 seconds (natural feeling)
+    const delay = 2000 + Math.random() * 3000;
+    
+    setTimeout(() => {
+      // Re-check conditions
+      if(
+        refreshCount < MAX_REFRESHES &&
+        Date.now() - lastActivity < 20000 &&
+        isUserActive &&
+        !document.hidden
+      ) {
+        loadAllAds();
+        refreshCount++;
+        lastRefresh = Date.now();
+      }
+    }, delay);
+  }
+
+  // Initial ad load
+  document.addEventListener('DOMContentLoaded', function() {
+    loadAllAds();
+    
+    // First smart refresh after 45 seconds (if user active)
+    setTimeout(() => {
+      if(Date.now() - lastActivity < 30000) {
+        trySmartRefresh();
+      }
+    }, 45000);
+  });
+
+  // Gallery specific - ads in grid
+  function loadGridAd() {
+    if(window.innerWidth < 768) {
+      loadAd('ad-mobile', '28a19f677ddf30c65892eb4af1ddee10', 320, 50);
+    } else {
+      loadAd('ad-desktop', '1236280d3c879dfd9af37ab923f7cfb3', 300, 250);
+    }
+  }
+
+  // Make functions available globally for grid ads
+  window.loadAd = loadAd;
+  window.loadAllAds = loadAllAds;
+  window.loadGridAd = loadGridAd;
+  window.trySmartRefresh = trySmartRefresh;
+  
+})();
+
 // Configuration
 const urlParams = new URLSearchParams(window.location.search);
 const PAGE = parseInt(urlParams.get('page')) || 1;
@@ -405,4 +533,4 @@ if (PAGE === 1 && window.location.search.includes('page=1')) {
 </script>
 
 </body>
-</html>
+  </html>
