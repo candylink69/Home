@@ -323,12 +323,8 @@ function refreshTopAndStickyAds(){
         refreshInterval = null;
         console.log('✅ ad-top & sticky auto refresh COMPLETED (3/3)');
         
-        // Optional: Status message
-        const statusMsg = document.createElement('div');
-        statusMsg.style.cssText = 'position:fixed; top:10px; right:10px; background:#111; color:#0f0; padding:5px 8px; font-size:10px; z-index:10001; border-radius:4px; border:1px solid #0f0; font-family:monospace;';
-        statusMsg.textContent = 'Ads refresh: DONE (3/3)';
-        document.body.appendChild(statusMsg);
-        setTimeout(() => statusMsg.remove(), 3000);
+        // ✅ YAHAN SE STATUS MESSAGE CODE COMPLETELY REMOVE KAR DIYA
+        // Audience ko koi message show nahi hoga
     }
 }
 
