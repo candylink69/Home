@@ -18,22 +18,50 @@ body{
     max-width:900px;
     margin:auto;
     padding:8px;
-    padding-top:25px; /* ⭐ VIDEO NICHE KARNE KE LIYE */
 }
+
+/* 🔥 BLINKING ANIMATED TITLE 🔥 */
 .title{
     font-size:20px;
-    color:#ff2d55;
     font-weight:bold;
-    margin:8px 0 15px 0; /* ⭐ NICHE KI TARAF MARGIN */
+    margin:8px 0 15px 0; /* नीचे 15px space */
+    padding:12px;
+    border-radius:10px;
+    background:rgba(0,0,0,0.7);
+    border:3px solid;
+    text-shadow:0 0 10px currentColor;
+    animation:blinkColors 2s infinite alternate, pulseLight 1.5s infinite alternate;
 }
+
+@keyframes blinkColors {
+    0%   {color:#ff2d55; border-color:#ff2d55; box-shadow:0 0 20px #ff2d55;}
+    14%  {color:#ff5500; border-color:#ff5500; box-shadow:0 0 20px #ff5500;}
+    28%  {color:#ffaa00; border-color:#ffaa00; box-shadow:0 0 20px #ffaa00;}
+    42%  {color:#ffff00; border-color:#ffff00; box-shadow:0 0 20px #ffff00;}
+    57%  {color:#00ff88; border-color:#00ff88; box-shadow:0 0 20px #00ff88;}
+    71%  {color:#0088ff; border-color:#0088ff; box-shadow:0 0 20px #0088ff;}
+    85%  {color:#aa55ff; border-color:#aa55ff; box-shadow:0 0 20px #aa55ff;}
+    100% {color:#ff2d55; border-color:#ff2d55; box-shadow:0 0 20px #ff2d55;}
+}
+
+@keyframes pulseLight {
+    0%   {opacity:0.7;}
+    100% {opacity:1;}
+}
+
+/* ✅ FUTURE BANNER SPACE (अभी खाली) */
+.banner-space {
+    height: 50px; /* 350×50 banner के लिए perfect */
+    margin: 10px 0;
+    background: transparent;
+}
+
 .video-box{
     position:relative;
     width:100%;
     padding-top:56.25%;
     background:#000;
-    margin:20px 0 8px 0; /* ⭐ TOP MARGIN BADHAYA */
-    border-radius:8px;
-    overflow:hidden;
+    margin: 0 0 8px 0; /* top margin removed क्योंकि banner-space है */
 }
 .video-box iframe{
     position:absolute;
@@ -127,13 +155,18 @@ body{
 
 <div class="container">
 
-<!-- Dynamic Title -->
-<div class="title" id="videoTitle">🔥 CandyLink69 – Loading Video... 🔥</div>
+<!-- FIXED BLINKING TITLE - Always CandyLink69 -->
+<div class="title" id="mainTitle">🔥 CandyLink69 🔥</div>
+
+<!-- ✅ FUTURE BANNER SPACE -->
+<div class="banner-space" id="future-banner">
+    <!-- अभी खाली - बाद में यहाँ banner आएगी -->
+</div>
 
 <!-- TOP AD -->
 <div id="ad-top"></div>
 
-<!-- VIDEO (Dynamic) - NOW LOWER DOWN -->
+<!-- VIDEO (Dynamic) -->
 <div class="video-box">
 <iframe id="videoPlayer" src="" allowfullscreen></iframe>
 </div>
@@ -190,9 +223,9 @@ fetch('videos.json')
     const video = videosData[videoId];
     
     if (video) {
-      // Update page content
+      // Update page content - BUT NOT THE MAIN TITLE
       document.title = `CandyLink69 – ${video.title || videoId}`;
-      document.getElementById('videoTitle').textContent = `🔥 ${video.title || videoId} 🔥`;
+      // Main title remains "CandyLink69" - no change needed
       document.getElementById('videoPlayer').src = video.embed;
       document.getElementById('currentVideoId').textContent = videoId;
       
@@ -220,20 +253,23 @@ fetch('videos.json')
       
     } else {
       // Video not found
-      document.getElementById('videoTitle').textContent = 'Video Not Found';
       document.getElementById('videoPlayer').outerHTML = 
         '<div style="padding:50px;color:#ccc">This video is no longer available.</div>';
     }
   })
   .catch(error => {
     console.error('Error loading video:', error);
-    document.getElementById('videoTitle').textContent = 'Error Loading Video';
   });
 
-// ADS ENGINE
+// AUTO REFRESH FOR ad-top AND sticky ONLY - MAX 3 TIMES
+let refreshCount = 0;
+const MAX_REFRESHES = 3;
+let refreshInterval = null;
+
 function loadAd(id,key,w,h){
     let d=document.getElementById(id);
     if(!d) return;
+    
     d.innerHTML='';
     delete window.atOptions;
 
@@ -254,21 +290,86 @@ function loadAd(id,key,w,h){
     d.appendChild(s2);
 }
 
-function loadAllAds(){
+// ✅ SIRF ad-top और sticky REFRESH करेगा
+function refreshTopAndStickyAds(){
+    // Check limit
+    if (refreshCount >= MAX_REFRESHES) {
+        if (refreshInterval) {
+            clearInterval(refreshInterval);
+            refreshInterval = null;
+            console.log('✅ Auto refresh stopped after ' + MAX_REFRESHES + ' times');
+        }
+        return;
+    }
+    
+    console.log('🔄 Refreshing ad-top & sticky #' + (refreshCount + 1) + ' of ' + MAX_REFRESHES);
+    
+    // ✅ SIRF ad-top और sticky REFRESH करो
     if(innerWidth<768){
+        // Mobile
         loadAd('ad-top','28a19f677ddf30c65892eb4af1ddee10',320,50);
-        loadAd('ad-bottom','1236280d3c879dfd9af37ab923f7cfb3',300,250);
         loadAd('sticky','28a19f677ddf30c65892eb4af1ddee10',320,50);
     }else{
+        // Desktop
         loadAd('ad-top','a7f6af07e7b981a82b1a2a982b13ba01',728,90);
+        loadAd('sticky','28a19f677ddf30c65892eb4af1ddee10',320,50);
+    }
+    
+    refreshCount++;
+    
+    // 3 बार होने के बाद stop
+    if (refreshCount >= MAX_REFRESHES && refreshInterval) {
+        clearInterval(refreshInterval);
+        refreshInterval = null;
+        console.log('✅ ad-top & sticky auto refresh COMPLETED (3/3)');
+        
+        // Optional: Status message
+        const statusMsg = document.createElement('div');
+        statusMsg.style.cssText = 'position:fixed; top:10px; right:10px; background:#111; color:#0f0; padding:5px 8px; font-size:10px; z-index:10001; border-radius:4px; border:1px solid #0f0; font-family:monospace;';
+        statusMsg.textContent = 'Ads refresh: DONE (3/3)';
+        document.body.appendChild(statusMsg);
+        setTimeout(() => statusMsg.remove(), 3000);
+    }
+}
+
+// Page load पर सारे ads load करो
+function loadAllAdsInitially(){
+    // Mobile/Desktop check
+    if(innerWidth<768){
+        // Mobile
+        // 1. ad-top (auto refresh होगा)
+        loadAd('ad-top','28a19f677ddf30c65892eb4af1ddee10',320,50);
+        // 2. ad-bottom (static - एक बार)
+        loadAd('ad-bottom','1236280d3c879dfd9af37ab923f7cfb3',300,250);
+        // 3. sticky (auto refresh होगा)
+        loadAd('sticky','28a19f677ddf30c65892eb4af1ddee10',320,50);
+    }else{
+        // Desktop
+        // 1. ad-top (auto refresh होगा)
+        loadAd('ad-top','a7f6af07e7b981a82b1a2a982b13ba01',728,90);
+        // 2. ad-bottom (static - एक बार)
         loadAd('ad-bottom','a7f6af07e7b981a82b1a2a982b13ba01',728,90);
+        // 3. sticky (auto refresh होगा)
         loadAd('sticky','28a19f677ddf30c65892eb4af1ddee10',320,50);
     }
 }
 
-// ⭐⭐ ONLY CHANGE: REMOVED AUTO-REFRESH ⭐⭐
-document.addEventListener('DOMContentLoaded', loadAllAds);
-// That's it! NO setInterval, NO auto-refresh
+// DOM Ready
+document.addEventListener('DOMContentLoaded', function() {
+    // ✅ पहली बार सारे ads load करो
+    loadAllAdsInitially();
+    
+    // ✅ ad-top और sticky के लिए auto refresh start करो (45 सेकंड में)
+    refreshInterval = setInterval(refreshTopAndStickyAds, 45000);
+    
+    // Page unload पर interval clear (safety)
+    window.addEventListener('beforeunload', function() {
+        if (refreshInterval) {
+            clearInterval(refreshInterval);
+        }
+    });
+});
+
 </script>
 
 </body>
