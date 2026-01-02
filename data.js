@@ -2,7 +2,13 @@ const videos = [
   {
     id: "V001",
     title: "",
-    duration: "45:22"
+    duration: "43:53"
+  },
+   {
+    id: "V002",
+    title: "",
+    duration: "50:04"
   }
 ];
+
 
