@@ -30,9 +30,4 @@ const videos = [
     duration: "19:34"
     categories: [Indian]
   }
-];
-
-
-
-
-
+]
