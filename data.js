@@ -1,4 +1,4 @@
-const VIDEOS = [
+const videos = [
   {
     id: "V001",
     title: "",
@@ -27,6 +27,7 @@ const VIDEOS = [
     id: "I001",
     title: "",
     duration: "19:34",
-    categories: ["Indian"]
+    categories: ["indian"]
   }
 ];
+
