@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CandyLink69 – Categories</title>
+
+<style>
+/* === SAME THEME AS video.html === */
+body {
+    margin: 0;
+    padding-bottom: 60px;
+    background: #0b0b0b;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 8px;
+}
+
+/* 🔥 BLINKING TITLE (SAME AS video.html) */
+.title {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 8px 0 15px 0;
+    padding: 12px;
+    border-radius: 10px;
+    background: rgba(0,0,0,0.7);
+    border: 3px solid;
+    text-shadow: 0 0 10px currentColor;
+    animation: blinkColors 2s infinite alternate, pulseLight 1.5s infinite alternate;
+}
+
+@keyframes blinkColors {
+    0%   {color:#ff2d55; border-color:#ff2d55; box-shadow:0 0 20px #ff2d55;}
+    14%  {color:#ff5500; border-color:#ff5500; box-shadow:0 0 20px #ff5500;}
+    28%  {color:#ffaa00; border-color:#ffaa00; box-shadow:0 0 20px #ffaa00;}
+    42%  {color:#ffff00; border-color:#ffff00; box-shadow:0 0 20px #ffff00;}
+    57%  {color:#00ff88; border-color:#00ff88; box-shadow:0 0 20px #00ff88;}
+    71%  {color:#0088ff; border-color:#0088ff; box-shadow:0 0 20px #0088ff;}
+    85%  {color:#aa55ff; border-color:#aa55ff; box-shadow:0 0 20px #aa55ff;}
+    100% {color:#ff2d55; border-color:#ff2d55; box-shadow:0 0 20px #ff2d55;}
+}
+
+@keyframes pulseLight {
+    0%   {opacity:0.7;}
+    100% {opacity:1;}
+}
+
+/* 🔍 SEARCH BAR (IMPROVED) */
+.search-container {
+    margin: 15px auto;
+    max-width: 700px;
+    padding: 0 10px;
+    position: relative;
+}
+
+.search-box {
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 16px;
+    border-radius: 30px;
+    border: 2px solid #ff3300;
+    background: rgba(255,255,255,0.1);
+    color: white;
+    outline: none;
+    box-sizing: border-box;
+    padding-left: 50px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="%23ff9900" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>');
+    background-repeat: no-repeat;
+    background-position: 20px center;
+}
+
+.search-box::placeholder {
+    color: #aaa;
+}
+
+.search-box:focus {
+    box-shadow: 0 0 20px rgba(255,51,0,0.7);
+    background-color: rgba(255,255,255,0.15);
+}
+
+/* SEARCH RESULTS */
+#searchResults {
+    position: absolute;
+    top: 100%;
+    left: 10px;
+    right: 10px;
+    background: #111;
+    border-radius: 10px;
+    margin-top: 5px;
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 1000;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    display: none;
+}
+
+.search-result-item {
+    padding: 12px 15px;
+    border-bottom: 1px solid #333;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.2s;
+}
+
+.search-result-item:hover {
+    background: rgba(255,51,0,0.1);
+}
+
+.search-video-id {
+    color: #ff9900;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.search-video-title {
+    color: #ccc;
+    font-size: 12px;
+    margin-top: 3px;
+}
+
+.search-video-cats {
+    color: #888;
+    font-size: 11px;
+    margin-top: 3px;
+}
+
+.search-no-results {
+    padding: 20px;
+    color: #999;
+    text-align: center;
+}
+
+/* 📱 CATEGORIES GRID */
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+    padding: 0 10px;
+}
+
+.category-card {
+    background: rgba(255,255,255,0.05);
+    border-radius: 15px;
+    overflow: hidden;
+    border: 2px solid #333;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+.category-card:hover {
+    border-color: #ff3300;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(255,51,0,0.3);
+}
+
+.category-thumb {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.category-name {
+    padding: 15px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffcc00;
+    background: rgba(0,0,0,0.8);
+}
+
+.video-count {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255,51,0,0.9);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* 📌 TRENDING SECTION */
+.section-title {
+    text-align: left;
+    margin: 30px 15px 15px;
+    font-size: 22px;
+    color: #ff9900;
+    border-bottom: 2px solid #ff3300;
+    padding-bottom: 8px;
+}
+
+.trending-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+    margin: 0 10px;
+}
+
+.trending-item {
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #444;
+    cursor: pointer;
+}
+
+.trending-thumb {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+}
+
+.trending-title {
+    padding: 10px;
+    font-size: 14px;
+    color: #fff;
+    text-align: center;
+}
+
+/* 📊 STATS BAR */
+.stats-bar {
+    display: flex;
+    justify-content: space-around;
+    background: rgba(255,51,0,0.1);
+    border-radius: 10px;
+    padding: 15px;
+    margin: 20px 10px;
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 10px;
+}
+
+.stat-number {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ff9900;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: #aaa;
+    margin-top: 5px;
+}
+
+/* 📱 RESPONSIVE */
+@media (max-width: 768px) {
+    .categories-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    }
+    
+    .category-thumb {
+        height: 120px;
+    }
+    
+    .category-name {
+        padding: 10px;
+        font-size: 16px;
+    }
+    
+    .trending-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+}
+
+/* ADS STYLING (SAME AS YOUR SYSTEM) */
+.ad-box {
+    margin: 20px auto;
+    padding: 10px;
+    background: #111;
+    border-radius: 8px;
+    text-align: center;
+    max-width: 100%;
+}
+
+.ad-desktop { display: none; }
+.ad-mobile { display: block; }
+
+@media (min-width: 768px) {
+    .ad-desktop { display: block; }
+    .ad-mobile { display: none; }
+}
+
+/* STICKY MOBILE AD */
+#sticky {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #000;
+    z-index: 9999;
+    min-height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- 🔥 MAIN TITLE -->
+<div class="title">🔥 CandyLink69 Categories 🔥</div>
+
+<!-- 🔍 SEARCH BAR (IMPROVED) -->
+<div class="search-container">
+    <input type="text" class="search-box" id="searchInput" 
+           placeholder="Search videos by ID, title or keywords..." autocomplete="off">
+    <div id="searchResults"></div>
+</div>
+
+<!-- 📊 STATS BAR -->
+<div class="stats-bar">
+    <div class="stat-item">
+        <div class="stat-number" id="totalVideos">0</div>
+        <div class="stat-label">Total Videos</div>
+    </div>
+    <div class="stat-item">
+        <div class="stat-number" id="totalCategories">0</div>
+        <div class="stat-label">Categories</div>
+    </div>
+    <div class="stat-item">
+        <div class="stat-number" id="trendingVideos">0</div>
+        <div class="stat-label">Trending</div>
+    </div>
+</div>
+
+<!-- 📌 TOP AD -->
+<div id="ad-top"></div>
+
+<!-- 🏆 CATEGORIES GRID -->
+<div class="section-title">🎯 Browse Categories</div>
+<div class="categories-grid" id="categoriesContainer">
+    <!-- Categories will load here dynamically -->
+</div>
+
+<!-- 📌 TRENDING VIDEOS -->
+<div class="section-title">🔥 Trending Now</div>
+<div class="trending-grid" id="trendingContainer">
+    <!-- Trending videos will load here -->
+</div>
+
+<!-- 📌 BOTTOM AD -->
+<div id="ad-bottom"></div>
+
+</div>
+
+<!-- 📱 STICKY MOBILE AD -->
+<div id="sticky"></div>
+
+<!-- 🔗 SMART LINK SCRIPT (SAME AS YOURS) -->
+<script src="https://pl28370524.effectivegatecpm.com/3a/d6/0f/3ad60f18f18ad6833a8dd0aadd895e49.js"></script>
+
+<!-- 📁 DATA FILES -->
+<script src="data.js"></script>
+
+<!-- 🚀 MAIN SCRIPT -->
+<script>
+// ========== CONFIGURATION ==========
+const CATEGORIES_DATA_URL = 'categories.json';
+const VIDEOS_PER_TRENDING = 4;
+
+// ========== GLOBAL VARIABLES ==========
+let allCategories = [];
+
+// ========== LOAD CATEGORIES ==========
+async function loadCategories() {
+    try {
+        const response = await fetch(CATEGORIES_DATA_URL);
+        allCategories = await response.json();
+        displayCategories(allCategories);
+        updateStats(allCategories);
+    } catch (error) {
+        console.log('No categories.json found, creating default...');
+        allCategories = createDefaultCategories();
+        displayCategories(allCategories);
+        updateStats(allCategories);
+    }
+}
+
+// ========== CREATE DEFAULT CATEGORIES ==========
+function createDefaultCategories() {
+    // Extract unique categories from videos
+    const categoryMap = {};
+    
+    videos.forEach(video => {
+        if (video.categories && Array.isArray(video.categories)) {
+            video.categories.forEach(catId => {
+                if (!categoryMap[catId]) {
+                    categoryMap[catId] = {
+                        id: catId,
+                        name: catId.charAt(0).toUpperCase() + catId.slice(1),
+                        thumbnail: `Thumbs/${video.id}.jpg`,
+                        videoCount: 0
+                    };
+                }
+            });
+        }
+    });
+
+    // Count videos per category
+    Object.keys(categoryMap).forEach(catId => {
+        categoryMap[catId].videoCount = videos.filter(v => 
+            v.categories && v.categories.includes(catId)
+        ).length;
+    });
+
+    // If no categories in videos, create defaults
+    if (Object.keys(categoryMap).length === 0) {
+        return [
+            { id: 'indian', name: '🇮🇳 Indian', thumbnail: 'Thumbs/V001.jpg', videoCount: videos.length },
+            { id: 'foreign', name: '🌍 Foreign', thumbnail: 'Thumbs/V002.jpg', videoCount: 0 },
+            { id: 'premium', name: '💎 Premium', thumbnail: 'Thumbs/V003.jpg', videoCount: 0 },
+            { id: 'trending', name: '🔥 Trending', thumbnail: 'Thumbs/V004.jpg', videoCount: 0 }
+        ];
+    }
+
+    return Object.values(categoryMap);
+}
+
+// ========== DISPLAY CATEGORIES ==========
+function displayCategories(categories) {
+    const container = document.getElementById('categoriesContainer');
+    container.innerHTML = '';
+
+    categories.forEach(category => {
+        const videoCount = videos.filter(v => 
+            v.categories && v.categories.includes(category.id)
+        ).length;
+        
+        const categoryCard = `
+            <div class="category-card" onclick="selectCategory('${category.id}')">
+                <img src="${category.thumbnail}" alt="${category.name}" class="category-thumb">
+                <div class="video-count">${videoCount} videos</div>
+                <div class="category-name">${category.name}</div>
+            </div>
+        `;
+        container.innerHTML += categoryCard;
+    });
+}
+
+// ========== SELECT CATEGORY ==========
+function selectCategory(categoryId) {
+    localStorage.setItem('selectedCategory', categoryId);
+    window.location.href = `list.html?category=${categoryId}`;
+}
+
+// ========== ADVANCED SEARCH FUNCTIONALITY ==========
+function setupSearch() {
+    const searchInput = document.getElementById('searchInput');
+    const searchResults = document.getElementById('searchResults');
+
+    searchInput.addEventListener('input', function() {
+        const query = this.value.toLowerCase().trim();
+        
+        if (query.length < 2) {
+            searchResults.style.display = 'none';
+            return;
+        }
+
+        // Split query into words for better search
+        const queryWords = query.split(/\s+/).filter(word => word.length > 1);
+        
+        // Search in videos
+        const results = videos.filter(video => {
+            // Check video ID
+            if (video.id.toLowerCase().includes(query)) return true;
+            
+            // Check video title
+            if (video.title && video.title.toLowerCase().includes(query)) return true;
+            
+            // Check categories
+            if (video.categories) {
+                const catMatch = video.categories.some(cat => 
+                    cat.toLowerCase().includes(query)
+                );
+                if (catMatch) return true;
+                
+                // Also check category names
+                const categoryNames = video.categories.map(catId => {
+                    const cat = allCategories.find(c => c.id === catId);
+                    return cat ? cat.name.toLowerCase() : catId;
+                });
+                
+                if (categoryNames.some(name => name.includes(query))) return true;
+            }
+            
+            // Multi-word search
+            if (queryWords.length > 1) {
+                const searchText = [
+                    video.id,
+                    video.title || '',
+                    video.categories ? video.categories.join(' ') : ''
+                ].join(' ').toLowerCase();
+                
+                return queryWords.every(word => searchText.includes(word));
+            }
+            
+            return false;
+        });
+
+        displaySearchResults(results, query);
+    });
+
+    // Close search results when clicking outside
+    document.addEventListener('click', function(event) {
+        if (!searchInput.contains(event.target) && !searchResults.contains(event.target)) {
+            searchResults.style.display = 'none';
+        }
+    });
+}
+
+// ========== DISPLAY SEARCH RESULTS ==========
+function displaySearchResults(results, query) {
+    const searchResults = document.getElementById('searchResults');
+    
+    if (results.length === 0) {
+        searchResults.innerHTML = `
+            <div class="search-no-results">
+                No videos found for "${query}"
+            </div>
+        `;
+        searchResults.style.display = 'block';
+        return;
+    }
+
+    let resultsHTML = '';
+    
+    results.forEach(video => {
+        // Get category names
+        const categoryNames = video.categories ? 
+            video.categories.map(catId => {
+                const cat = allCategories.find(c => c.id === catId);
+                return cat ? cat.name : catId;
+            }).join(', ') : 'No categories';
+        
+        resultsHTML += `
+            <div class="search-result-item" onclick="goToVideo('${video.id}')">
+                <div class="search-video-id">${video.id}</div>
+                ${video.title ? `<div class="search-video-title">${video.title}</div>` : ''}
+                <div class="search-video-cats">${categoryNames}</div>
+            </div>
+        `;
+    });
+
+    searchResults.innerHTML = resultsHTML;
+    searchResults.style.display = 'block';
+}
+
+// ========== GO TO VIDEO ==========
+function goToVideo(videoId) {
+    window.location.href = `video.html?v=${videoId}`;
+}
+
+// ========== LOAD TRENDING VIDEOS ==========
+function loadTrendingVideos() {
+    const container = document.getElementById('trendingContainer');
+    container.innerHTML = '';
+
+    // Show first few videos as trending
+    const trendingVideos = videos.slice(0, Math.min(VIDEOS_PER_TRENDING, videos.length));
+    
+    trendingVideos.forEach(video => {
+        const trendingItem = `
+            <div class="trending-item" onclick="goToVideo('${video.id}')">
+                <img src="Thumbs/${video.id}.jpg" alt="${video.id}" class="trending-thumb">
+                <div class="trending-title">${video.id}</div>
+            </div>
+        `;
+        container.innerHTML += trendingItem;
+    });
+}
+
+// ========== UPDATE STATS ==========
+function updateStats(categories) {
+    document.getElementById('totalVideos').textContent = videos.length;
+    document.getElementById('totalCategories').textContent = categories.length;
+    document.getElementById('trendingVideos').textContent = Math.min(VIDEOS_PER_TRENDING, videos.length);
+}
+
+// ========== ADS SYSTEM (SAME AS YOURS) ==========
+let refreshCount = 0;
+const MAX_REFRESHES = 3;
+let lastActivity = Date.now();
+let isUserActive = true;
+
+function loadAd(id, key, w, h) {
+    let d = document.getElementById(id);
+    if(!d) return;
+    d.innerHTML = '';
+    delete window.atOptions;
+
+    let s1 = document.createElement('script');
+    s1.innerHTML = `
+    var atOptions = {
+        'key': '${key}',
+        'format': 'iframe',
+        'height': ${h},
+        'width': ${w},
+        'params': {}
+    };`;
+    let s2 = document.createElement('script');
+    s2.src = 'https://www.highperformanceformat.com/' + key + '/invoke.js?x=' + Math.random();
+    s2.async = true;
+
+    d.appendChild(s1);
+    d.appendChild(s2);
+}
+
+function loadAllAds() {
+    if(window.innerWidth < 768) {
+        loadAd('ad-top', '28a19f677ddf30c65892eb4af1ddee10', 320, 50);
+        loadAd('ad-bottom', '1236280d3c879dfd9af37ab923f7cfb3', 300, 250);
+        loadAd('sticky', '28a19f677ddf30c65892eb4af1ddee10', 320, 50);
+    } else {
+        loadAd('ad-top', 'a7f6af07e7b981a82b1a2a982b13ba01', 728, 90);
+        loadAd('ad-bottom', 'a7f6af07e7b981a82b1a2a982b13ba01', 728, 90);
+        loadAd('sticky', '28a19f677ddf30c65892eb4af1ddee10', 320, 50);
+    }
+}
+
+// Smart refresh function
+function trySmartRefresh() {
+    const now = Date.now();
+    
+    if(
+        refreshCount >= MAX_REFRESHES ||
+        now - lastActivity > 15000 ||
+        !isUserActive ||
+        document.hidden ||
+        Math.random() > 0.2
+    ) {
+        return;
+    }
+    
+    const delay = 2000 + Math.random() * 3000;
+    
+    setTimeout(() => {
+        if(
+            refreshCount < MAX_REFRESHES &&
+            Date.now() - lastActivity < 20000 &&
+            isUserActive &&
+            !document.hidden
+        ) {
+            loadAllAds();
+            refreshCount++;
+        }
+    }, delay);
+}
+
+// Activity detection
+const activityEvents = ['mousedown', 'mousemove', 'scroll', 'touchstart', 'click', 'keydown'];
+activityEvents.forEach(event => {
+    document.addEventListener(event, () => {
+        lastActivity = Date.now();
+        isUserActive = true;
+        trySmartRefresh();
+    }, { passive: true });
+});
+
+// ========== INITIALIZE EVERYTHING ==========
+document.addEventListener('DOMContentLoaded', function() {
+    // Load categories and videos
+    loadCategories();
+    loadTrendingVideos();
+    setupSearch();
+    
+    // Load ads
+    loadAllAds();
+    
+    // First smart refresh after 45 seconds
+    setTimeout(() => {
+        if(Date.now() - lastActivity < 30000) {
+            trySmartRefresh();
+        }
+    }, 45000);
+});
+
+// ========== MAKE FUNCTIONS AVAILABLE GLOBALLY ==========
+window.loadAd = loadAd;
+window.loadAllAds = loadAllAds;
+window.trySmartRefresh = trySmartRefresh;
+window.selectCategory = selectCategory;
+window.goToVideo = goToVideo;
+</script>
+
+</body>
+  </html>
