@@ -18,8 +18,15 @@ const videos = [
     id: "V004",
     title: "",
     duration: "1:01:34"
+  },
+  
+  {
+    id: "I001",
+    title: "",
+    duration: "19:34"
   }
 ];
+
 
 
 
