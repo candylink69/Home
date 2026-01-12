@@ -1,0 +1,14 @@
+[
+  {
+    "id": "indian",
+    "name": "🇮🇳 Indian",
+    "thumbnail": "Thumbs/V001.jpg",
+    "description": "Best Indian insta viral"
+  },
+  {
+    "id": "professional",
+    "name": "🎬 Professional",
+    "thumbnail": "Thumbs/V002.jpg",
+    "description": "Professional shoots"
+  }
+]
