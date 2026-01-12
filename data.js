@@ -31,5 +31,3 @@ const videos = [
     categories: ["Indian"]
   }
 ]
-
-
