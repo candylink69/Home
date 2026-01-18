@@ -28,6 +28,13 @@ const videos = [
     title: "",
     duration: "19:34",
     categories: ["indian"]
+  },
+  {
+    id: "M001",
+    title: "",
+    duration: "29:46",
+    categories: ["mom"]
   }
 ];
+
 
