@@ -34,7 +34,14 @@ const videos = [
     title: "",
     duration: "29:46",
     categories: ["mom"]
+  },
+  {
+    id: "S001",
+    title: "",
+    duration: "42:04",
+    categories: ["sister"]
   }
 ];
+
 
 
