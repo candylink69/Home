@@ -46,6 +46,7 @@ const videos = [
     title: "",
     duration: "11:22",
     categories: ["indian"]
-  },
+  }
 ];
+
 
