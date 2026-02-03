@@ -37,7 +37,7 @@ const videos = [
   },
   {
     id: "S001",
-    title: "",
+    title: "Stepbrother thinks his sister is a lesbian but she proves him wrong",
     duration: "42:04",
     categories: ["sister"]
   },
@@ -46,7 +46,13 @@ const videos = [
     title: "",
     duration: "11:22",
     categories: ["indian"]
-  }
+  },
+  {
+    id: "S002",
+    title: "",
+    duration: "33:41",
+    categories: ["sister"]
 ];
+
 
 
