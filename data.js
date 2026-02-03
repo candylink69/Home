@@ -52,7 +52,5 @@ const videos = [
     title: "",
     duration: "33:41",
     categories: ["sister"]
+  }
 ];
-
-
-
