@@ -40,5 +40,12 @@ const videos = [
     title: "",
     duration: "42:04",
     categories: ["sister"]
-  }
+  },
+  {
+    id: "I002",
+    title: "",
+    duration: "11:22",
+    categories: ["indian"]
+  },
 ];
+
