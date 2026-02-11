@@ -3,10 +3,9 @@
   "trailingSlash": false,
 
   "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
+  { "source": "/", "destination": "/index.html" },
+  { "source": "/list", "destination": "/list.html" },
+  { "source": "/video", "destination": "/video.html" }
   ],
 
   "headers": [
