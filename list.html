@@ -778,7 +778,7 @@ async function initializePage() {
     <a href="video.html?v=${v.id}">
         <div class="thumb-container">
             <img class="thumb-img"
-                 src="Thumbs/${v.id}.webp"
+                 data-src="Thumbs/${v.id}.webp"
                  alt="${v.id}"
                  loading="lazy">
 
@@ -904,16 +904,20 @@ function generatePagination(currentPage, totalPages, category) {
 
         if (!preview) return;
 
-        container.addEventListener('touchstart', function(e) {
-            e.preventDefault();
+        container.addEventListener('touchstart', function() {
 
-            // Reset all
+            // Hide all previews first
             document.querySelectorAll('.preview-img').forEach(p => {
                 p.style.display = "none";
             });
             document.querySelectorAll('.thumb-img').forEach(t => {
                 t.style.display = "block";
             });
+
+            // Load preview only now
+            if (!preview.src) {
+                preview.src = preview.dataset.src;
+            }
 
             thumb.style.display = "none";
             preview.style.display = "block";
@@ -924,11 +928,8 @@ function generatePagination(currentPage, totalPages, category) {
             thumb.style.display = "block";
         });
 
-        container.addEventListener('touchcancel', function() {
-            preview.style.display = "none";
-            thumb.style.display = "block";
-        });
     });
+        }
               }
 
 // ========== START EVERYTHING ==========
