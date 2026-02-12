@@ -3,13 +3,15 @@ const videos = [
     id: "V001",
     title: "",
     duration: "43:53",
-    categories: ["professional"]
+    categories: ["professional"],
+    preview: "https://candylink69.embed4me.vip/s_gEKNH3mF1jgnB_JmHmyw/x68/r8czn6n1/hduqgl/preview.webp"
   },
   {
     id: "V002",
     title: "",
     duration: "50:04",
-    categories: ["professional"]
+    categories: ["professional"],
+    preview: "https://candylink69.embed4me.vip/9asvksR8YOv_5deOJigESg/urp/fmglyzca/jwusob/preview.webp"
   },
   {
     id: "V003",
@@ -54,3 +56,4 @@ const videos = [
     categories: ["sister"]
   }
 ];
+
