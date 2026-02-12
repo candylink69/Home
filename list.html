@@ -193,7 +193,7 @@ h1 {
   object-fit: cover;
   transition: transform 0.3s ease;
 }
-  .preview-img {
+  .preview-video {
   position: absolute;
   top: 0;
   left: 0;
@@ -201,7 +201,7 @@ h1 {
   height: 100%;
   object-fit: cover;
   display: none;
-  pointer-events: none;   /* 🔥 THIS IS IMPORTANT */
+  pointer-events: none;
   }
 
 .thumb-container:hover img {
@@ -784,10 +784,14 @@ async function initializePage() {
                  loading="lazy">
 
             ${v.preview ? `
-                <img class="preview-img"
-                     data-src="${v.preview}"
-                     alt="preview">
-            ` : ''}
+    <video class="preview-video"
+           muted
+           loop
+           playsinline
+           preload="none"
+           data-src="${v.preview}">
+    </video>
+` : ''}
 
             ${v.duration ? `<div class="duration">${v.duration}</div>` : ''}
         </div>
@@ -895,20 +899,21 @@ function generatePagination(currentPage, totalPages, category) {
     }
     
     paginationContainer.innerHTML = paginationHTML;
-}
+  }
   function setupTouchPreview() {
     const containers = document.querySelectorAll('.thumb-container');
 
     containers.forEach(container => {
         const thumb = container.querySelector('.thumb-img');
-        const preview = container.querySelector('.preview-img');
+        const preview = container.querySelector('.preview-video');
 
         if (!preview) return;
 
         container.addEventListener('touchstart', function() {
 
-            document.querySelectorAll('.preview-img').forEach(p => {
-                p.style.display = "none";
+            document.querySelectorAll('.preview-video').forEach(v => {
+                v.pause();
+                v.style.display = "none";
             });
 
             document.querySelectorAll('.thumb-img').forEach(t => {
@@ -921,16 +926,17 @@ function generatePagination(currentPage, totalPages, category) {
 
             thumb.style.display = "none";
             preview.style.display = "block";
+            preview.play();
         });
 
         container.addEventListener('touchend', function() {
+            preview.pause();
             preview.style.display = "none";
             thumb.style.display = "block";
         });
 
     });
   }
-
 // ========== START EVERYTHING ==========
 document.addEventListener('DOMContentLoaded', initializePage);
 </script>
