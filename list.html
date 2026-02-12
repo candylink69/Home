@@ -778,13 +778,13 @@ async function initializePage() {
     <a href="video.html?v=${v.id}">
         <div class="thumb-container">
             <img class="thumb-img"
-                 data-src="Thumbs/${v.id}.webp"
+                 src="Thumbs/${v.id}.webp"
                  alt="${v.id}"
                  loading="lazy">
 
             ${v.preview ? `
                 <img class="preview-img"
-                     src="${v.preview}"
+                     data-src="${v.preview}"
                      alt="preview">
             ` : ''}
 
