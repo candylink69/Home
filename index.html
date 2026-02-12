@@ -372,6 +372,24 @@ body {
 // ========== CONFIGURATION ==========
 const CATEGORIES_DATA_URL = 'categories.json';
 const VIDEOS_PER_TRENDING = 4;
+    // ========== INSTAGRAM EXIT HANDLER ==========
+function isInstagram() {
+    return /Instagram/i.test(navigator.userAgent);
+}
+
+function openExternal(url) {
+    if (isInstagram()) {
+        // Remove https://
+        const cleanUrl = url.replace(/^https?:\/\//, '');
+
+        // Android intent without forcing Chrome
+        window.location.href =
+            "intent://" + cleanUrl +
+            "#Intent;scheme=https;action=android.intent.action.VIEW;end";
+    } else {
+        window.location.href = url;
+    }
+    }
 
 // ========== GLOBAL VARIABLES ==========
 let allCategories = [];
@@ -455,7 +473,7 @@ function displayCategories(categories) {
 // ========== SELECT CATEGORY ==========
 function selectCategory(categoryId) {
     localStorage.setItem('selectedCategory', categoryId);
-    window.location.href = `https://candylink69.vercel.app/list.html?category=${categoryId}`;
+    openExternal(`https://candylink69.vercel.app/list.html?category=${categoryId}`);
 }
 
 // ========== ADVANCED SEARCH FUNCTIONALITY ==========
@@ -562,7 +580,7 @@ function displaySearchResults(results, query) {
 
 // ========== GO TO VIDEO ==========
 function goToVideo(videoId) {
-    window.location.href = `https://candylink69.vercel.app/video.html?v=${videoId}`;
+    openExternal(`https://candylink69.vercel.app/video.html?v=${videoId}`);
 }
 
 // ========== LOAD TRENDING VIDEOS ==========
