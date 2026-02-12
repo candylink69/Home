@@ -193,6 +193,15 @@ h1 {
   object-fit: cover;
   transition: transform 0.3s ease;
 }
+  .preview-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+  }
 
 .thumb-container:hover img {
   transform: scale(1.05);
@@ -766,13 +775,21 @@ async function initializePage() {
             const categoryNames = getCategoryNames(v.categories);
             
             const videoHTML = `
-                <a href="video.html?v=${v.id}">
-                    <div class="thumb-container">
-                        <img src="Thumbs/${v.id}.webp" alt="${v.id}" 
-                             loading="lazy" 
-                             onload="this.classList.add('loaded')">
-                        ${v.duration ? `<div class="duration">${v.duration}</div>` : ''}
-                    </div>
+    <a href="video.html?v=${v.id}">
+        <div class="thumb-container">
+            <img class="thumb-img"
+                 src="Thumbs/${v.id}.webp"
+                 alt="${v.id}"
+                 loading="lazy">
+
+            ${v.preview ? `
+                <img class="preview-img"
+                     src="${v.preview}"
+                     alt="preview">
+            ` : ''}
+
+            ${v.duration ? `<div class="duration">${v.duration}</div>` : ''}
+        </div>
                     <div class="video-title ${alignClass}">
                         ${hasTitle ? `<span class="vid-id">${v.id}:</span> ${v.title}` : v.id}
                     </div>
@@ -810,6 +827,7 @@ async function initializePage() {
     
     // Generate pagination
     generatePagination(PAGE, totalPages, selectedCategory);
+    setupTouchPreview();
     
     // Clean URL (remove ?page=1 but keep category)
     if (PAGE === 1 && window.location.search.includes('page=1')) {
@@ -877,6 +895,41 @@ function generatePagination(currentPage, totalPages, category) {
     
     paginationContainer.innerHTML = paginationHTML;
 }
+  function setupTouchPreview() {
+    const containers = document.querySelectorAll('.thumb-container');
+
+    containers.forEach(container => {
+        const thumb = container.querySelector('.thumb-img');
+        const preview = container.querySelector('.preview-img');
+
+        if (!preview) return;
+
+        container.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+
+            // Reset all
+            document.querySelectorAll('.preview-img').forEach(p => {
+                p.style.display = "none";
+            });
+            document.querySelectorAll('.thumb-img').forEach(t => {
+                t.style.display = "block";
+            });
+
+            thumb.style.display = "none";
+            preview.style.display = "block";
+        });
+
+        container.addEventListener('touchend', function() {
+            preview.style.display = "none";
+            thumb.style.display = "block";
+        });
+
+        container.addEventListener('touchcancel', function() {
+            preview.style.display = "none";
+            thumb.style.display = "block";
+        });
+    });
+              }
 
 // ========== START EVERYTHING ==========
 document.addEventListener('DOMContentLoaded', initializePage);
