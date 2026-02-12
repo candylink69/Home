@@ -201,6 +201,7 @@ h1 {
   height: 100%;
   object-fit: cover;
   display: none;
+  pointer-events: none;   /* 🔥 THIS IS IMPORTANT */
   }
 
 .thumb-container:hover img {
@@ -906,15 +907,14 @@ function generatePagination(currentPage, totalPages, category) {
 
         container.addEventListener('touchstart', function() {
 
-            // Hide all previews first
             document.querySelectorAll('.preview-img').forEach(p => {
                 p.style.display = "none";
             });
+
             document.querySelectorAll('.thumb-img').forEach(t => {
                 t.style.display = "block";
             });
 
-            // Load preview only now
             if (!preview.src) {
                 preview.src = preview.dataset.src;
             }
@@ -929,8 +929,7 @@ function generatePagination(currentPage, totalPages, category) {
         });
 
     });
-        }
-              }
+  }
 
 // ========== START EVERYTHING ==========
 document.addEventListener('DOMContentLoaded', initializePage);
