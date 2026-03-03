@@ -26,13 +26,13 @@
   {
     "id": "fantasy-flesh",
     "name": "fantasy flesh",
-    "thumbnail": "",
+    "thumbnail": "Thumbs/FF001.webp",
     "description": ""
   },
   {
     "id": "free-use",
     "name": "free use",
     "thumbnail": "",
-    "description": ""
+    "description": "Thumbs/FU001.webp"
   }
 ]
