@@ -321,152 +321,118 @@ document.addEventListener('DOMContentLoaded', function() {
 });  
 </script>
 
-<!-- POPUP CONTROL SCRIPT - यह स्क्रिप्ट पॉपअप को बैकग्राउंड में खोलेगी -->
+<!-- FINAL WORKING SCRIPT – WITHOUT SANDOBOX, WITHOUT OVERLAY, WITHOUT BUG -->
 <script>
 (function() {
     'use strict';
-    
-    console.log('🚀 पॉपअप कंट्रोल स्क्रिप्ट एक्टिवेटेड');
-    
-    // Configuration
-    const FOCUS_DELAY = 10; // बहुत जल्दी फोकस वापस लाने के लिए
-    
-    // 1. ओरिजिनल window.open को स्टोर करो
-    const originalWindowOpen = window.open;
-    
-    // 2. WINDOW.OPEN को ओवरराइड करो
-    window.open = function(url, name, specs) {
-        console.log('🪟 पॉपअप डिटेक्ट हुआ:', url);
-        
-        // पॉपअप को नॉर्मली खोलो (एड रेवेन्यू प्रभावित नहीं होगा)
-        const popup = originalWindowOpen.call(window, url, name || '_blank', specs);
-        
-        // तुरंत मेन विंडो पर फोकस वापस लाओ
-        setTimeout(function() {
-            try {
-                window.focus();
-                // मोबाइल के लिए अतिरिक्त प्रयास
-                if (window.parent && window.parent !== window) {
-                    window.parent.focus();
-                }
-            } catch (e) {
-                // चुपचाप फेल - क्रॉस-ओरिजिन रिस्ट्रिक्शन
-            }
-        }, FOCUS_DELAY);
-        
+
+    console.log('🔥 FOCUS LOCK ACTIVATED – USER WILL NOT LEAVE');
+
+    // =========================================
+    // 1. ORIGINAL window.open ko STORE karo
+    // =========================================
+    const originalOpen = window.open;
+
+    // =========================================
+    // 2. window.open KO OVERRIDE KARO
+    // =========================================
+    window.open = function(url, name, features) {
+        console.log('📢 POPUP DETECTED:', url);
+
+        // Popup normal open karo (ad revenue safe)
+        const popup = originalOpen.call(window, url, '_blank', features);
+
+        // 🔁 BAR-BAR FOCUS WAPAS LENE KI KOSHISH
+        const focusAttempts = [1, 10, 25, 50, 100, 200, 300, 400, 500];
+        focusAttempts.forEach(delay => {
+            setTimeout(() => {
+                try {
+                    window.focus();                 // main window
+                    window.parent.focus();           // agar iframe me ho
+                    window.top.focus();              // top level
+                    if (popup && popup.blur) {
+                        popup.blur();                 // popup ko blur kar do
+                    }
+                } catch (e) {}
+            }, delay);
+        });
+
         return popup;
     };
-    
-    // 3. सभी क्लिक इवेंट को इंटरसेप्ट करो (iframe के लिए)
-    document.addEventListener('click', function(e) {
-        // अगर क्लिक iframe से आया है
-        const isIframeClick = e.target !== document && 
-                              (e.target.tagName === 'IFRAME' || 
-                               e.target.ownerDocument !== document);
-        
-        if (isIframeClick) {
-            console.log('👆 iframe क्लिक डिटेक्ट हुआ');
-            
-            // मल्टीपल रीफोकस अटेम्प्ट्स
-            [10, 50, 100, 200].forEach(delay => {
-                setTimeout(function() {
-                    try {
-                        window.focus();
-                    } catch (e) {}
-                }, delay);
-            });
-        }
-        
-        // रेगुलर लिंक्स के लिए
-        const link = e.target.closest('a');
-        if (link && link.target === '_blank') {
-            setTimeout(function() {
+
+    // =========================================
+    // 3. Har CLICK ke baad focus maintain karo
+    // =========================================
+    document.addEventListener('click', function() {
+        // Thoda delay de ke focus check karo
+        setTimeout(() => {
+            if (!document.hasFocus()) {
+                try { window.focus(); } catch (e) {}
+            }
+        }, 50);
+    }, true); // capture phase
+
+    // =========================================
+    // 4. Jab bhi window blur ho (focus chhute)
+    // =========================================
+    window.addEventListener('blur', function() {
+        console.log('👀 Window blur hui – focus wapas la rahe hain');
+
+        // Lagaatar focus wapas lao
+        for (let i = 0; i < 10; i++) {
+            setTimeout(() => {
                 try {
                     window.focus();
                 } catch (e) {}
-            }, FOCUS_DELAY);
+            }, i * 10);
         }
-    }, true); // कैप्चर फेज का उपयोग करो
-    
-    // 4. मोबाइल स्पेसिफिक हैंडलिंग
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    
-    if (isMobile) {
-        console.log('📱 मोबाइल डिवाइस डिटेक्ट हुआ');
-        
-        // टच इवेंट्स को हैंडल करो
-        document.addEventListener('touchstart', function(e) {
-            setTimeout(function() {
-                try {
-                    window.focus();
-                } catch (e) {}
-            }, 50);
-        }, true);
-    }
-    
-    // 5. विजिबिलिटी चेंज हैंडलर (जब यूजर पॉपअप से वापस आए)
+    });
+
+    // =========================================
+    // 5. Jab user wapas aaye tab focus do
+    // =========================================
     document.addEventListener('visibilitychange', function() {
         if (!document.hidden) {
-            // यूजर वापस आ गया है, फोकस सेट करो
-            try {
-                window.focus();
-                console.log('👋 यूजर वापस आ गया');
-            } catch (e) {}
+            console.log('👋 User wapas aaya – focus le lo');
+            try { window.focus(); } catch (e) {}
         }
     });
-    
-    // 6. पीरियोडिक फोकस मेंटेनेंस (बहुत सॉफ्ट)
-    setInterval(function() {
-        // सिर्फ तभी फोकस करो जब पेज विजिबल हो और फोकस न हो
-        if (!document.hidden && !document.hasFocus()) {
-            try {
-                window.focus();
-            } catch (e) {}
-        }
-    }, 2000); // हर 2 सेकंड में चेक करो
-    
-    // 7. पॉपअप रीडायरेक्ट से बचाव
-    let lastClickTime = 0;
-    document.addEventListener('mousedown', function() {
-        lastClickTime = Date.now();
-    });
-    
-    window.addEventListener('blur', function() {
-        // अगर ब्लर क्लिक के 500ms के अंदर हुआ, तो संभवतः पॉपअप खुला
-        if (Date.now() - lastClickTime < 500) {
-            setTimeout(function() {
-                try {
-                    window.focus();
-                } catch (e) {}
-            }, 50);
-        }
-    });
-    
-    console.log('✅ पॉपअप अब बैकग्राउंड में खुलेंगे - यूजर आपकी साइट पर रहेगा');
-    
-})();
-</script>
 
-<!-- एडिशनल सेफगार्ड: iframe रीलोड होने पर भी काम करेगा -->
-<script>
-(function() {
-    // जब भी iframe का src बदले, फिर से अटैच करो
-    const videoPlayer = document.getElementById('videoPlayer');
-    
-    if (videoPlayer) {
-        // म्यूटेशन ऑब्जर्वर - iframe के एट्रिब्यूट बदलने पर नोटिफाई करेगा
-        const observer = new MutationObserver(function(mutations) {
-            mutations.forEach(function(mutation) {
-                if (mutation.type === 'attributes' && mutation.attributeName === 'src') {
-                    console.log('🔄 iframe src बदला - नया पॉपअप हैंडलर एक्टिव');
-                }
-            });
-        });
-        
-        observer.observe(videoPlayer, { attributes: true });
+    // =========================================
+    // 6. MOBILE ke liye special handling
+    // =========================================
+    if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+        console.log('📱 Mobile mode active');
+
+        document.addEventListener('touchstart', function() {
+            setTimeout(() => {
+                try { window.focus(); } catch (e) {}
+            }, 10);
+        }, true);
+
+        // Mobile par focus bar-bar check karo
+        setInterval(() => {
+            if (!document.hidden && !document.hasFocus()) {
+                try { window.focus(); } catch (e) {}
+            }
+        }, 500);
     }
+
+    // =========================================
+    // 7. POPUP ke baad bhi video chalta rahe
+    // =========================================
+    // Video play hone ke baad bhi focus maintain karo
+    const iframe = document.getElementById('videoPlayer');
+    if (iframe) {
+        iframe.addEventListener('load', function() {
+            console.log('🎬 Iframe loaded – focus active');
+            try { window.focus(); } catch (e) {}
+        });
+    }
+
+    console.log('✅ FINAL SCRIPT READY – AB USER BACK BUTTON NHI DABAYEGA');
 })();
-</script>
+                    </script>
 
 </body>  
     </html>
