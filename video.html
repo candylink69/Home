@@ -1,575 +1,525 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-<title>CandyLink69 – Loading Video...</title>
-<style>
-body{
-    margin:0;
-    padding-bottom:60px;
-    background:#0b0b0b;
-    color:#fff;
-    font-family:Arial,sans-serif;
-    text-align:center;
-}
-.container{
-    max-width:900px;
-    margin:auto;
-    padding:8px;
-}
-
-/* 🔥 BLINKING ANIMATED TITLE 🔥 */
-.title{
-    font-size:20px;
-    font-weight:bold;
-    margin:8px 0 15px 0;
-    padding:12px;
-    border-radius:10px;
-    background:rgba(0,0,0,0.7);
-    border:3px solid;
-    text-shadow:0 0 10px currentColor;
-    animation:blinkColors 2s infinite alternate, pulseLight 1.5s infinite alternate;
-}
-
-@keyframes blinkColors {
-    0%   {color:#ff2d55; border-color:#ff2d55; box-shadow:0 0 20px #ff2d55;}
-    14%  {color:#ff5500; border-color:#ff5500; box-shadow:0 0 20px #ff5500;}
-    28%  {color:#ffaa00; border-color:#ffaa00; box-shadow:0 0 20px #ffaa00;}
-    42%  {color:#ffff00; border-color:#ffff00; box-shadow:0 0 20px #ffff00;}
-    57%  {color:#00ff88; border-color:#00ff88; box-shadow:0 0 20px #00ff88;}
-    71%  {color:#0088ff; border-color:#0088ff; box-shadow:0 0 20px #0088ff;}
-    85%  {color:#aa55ff; border-color:#aa55ff; box-shadow:0 0 20px #aa55ff;}
-    100% {color:#ff2d55; border-color:#ff2d55; box-shadow:0 0 20px #ff2d55;}
-}
-
-@keyframes pulseLight {
-    0%   {opacity:0.7;}
-    100% {opacity:1;}
-}
-
-.banner-space {
-    height: 50px;
-    margin: 10px 0;
-    background: transparent;
-}
-
-/* VIDEO CONTAINER WITH OVERLAY */
-.video-box{
-    position:relative;
-    width:100%;
-    padding-top:56.25%;
-    background:#000;
-    margin: 0 0 8px 0;
-    cursor: pointer;
-}
-
-.video-box iframe{
-    position:absolute;
-    inset:0;
-    width:100%;
-    height:100%;
-    border:none;
-    pointer-events: none; /* Initially disabled, enabled after 3rd click */
-}
-
-/* VIDEO OVERLAY */
-.video-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 10;
-    backdrop-filter: blur(4px);
-    transition: background 0.3s;
-    border: 2px solid #ff3300;
-    box-sizing: border-box;
-}
-
-/* PLAY BUTTON */
-.play-button {
-    width: 70px;
-    height: 70px;
-    background: #ff3300;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 15px;
-    box-shadow: 0 0 30px rgba(255, 51, 0, 0.8);
-    animation: pulse 1.5s infinite;
-}
-
-.play-button::after {
-    content: '▶';
-    font-size: 35px;
-    color: white;
-    margin-left: 5px;
-}
-
-@keyframes pulse {
-    0% { transform: scale(1); box-shadow: 0 0 30px rgba(255, 51, 0, 0.8); }
-    50% { transform: scale(1.1); box-shadow: 0 0 50px rgba(255, 51, 0, 1); }
-    100% { transform: scale(1); box-shadow: 0 0 30px rgba(255, 51, 0, 0.8); }
-}
-
-/* COUNTER TEXT */
-.counter-text {
-    font-size: 24px;
-    font-weight: bold;
-    color: white;
-    text-shadow: 0 0 10px #ff3300;
-    margin: 10px 0 5px 0;
-    background: rgba(0, 0, 0, 0.6);
-    padding: 8px 20px;
-    border-radius: 50px;
-    border: 2px solid #ff3300;
-}
-
-.instruction-text {
-    font-size: 16px;
-    color: #ffaa00;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-/* Overlay hidden state */
-.video-box.playing .video-overlay {
-    display: none;
-}
-
-.video-box.playing iframe {
-    pointer-events: auto;
-}
-
-/* 🔥 ULTRA COMPACT CTA */
-.danger-box{
-    margin:6px 0;
-    padding:4px 6px;
-    border-radius:6px;
-    background:#140000;
-    border:1px solid #ff3300;
-    display:inline-flex;
-    flex-direction:column;
-    align-items:center;
-    box-shadow:0 0 12px rgba(255,60,0,.6);
-}
-.danger-text{
-    font-size:13px;
-    font-weight:700;
-    white-space:nowrap;
-    line-height:1.1;
-    margin:1px 0;
-}
-.danger-btn{
-    margin-top:3px;
-    padding:4px 10px;
-    font-size:12px;
-    font-weight:bold;
-    background:#ff3300;
-    color:#fff;
-    border-radius:4px;
-    text-decoration:none;
-}
-
-/* Navigation */
-.nav-buttons{
-    margin:10px 0;
-    display:flex;
-    justify-content:center;
-    gap:10px;
-}
-.nav-btn{
-    background:#333;
-    color:#fff;
-    padding:6px 12px;
-    border-radius:4px;
-    text-decoration:none;
-    font-size:12px;
-}
-.nav-btn:hover{
-    background:#ff3300;
-}
-
-/* STICKY */
-#sticky{
-    position:fixed;
-    bottom:0;
-    left:0;
-    width:100%;
-    background:#000;
-    z-index:9999;
-    min-height:50px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
-
-/* Video info */
-.video-info{
-    margin:10px 0;
-    font-size:14px;
-    color:#ccc;
-    text-align:left;
-    max-width:800px;
-    margin-left:auto;
-    margin-right:auto;
-}
-.video-id{
-    color:#ff9900;
-    font-weight:bold;
-}
-</style>
-</head>
-<body>
-<div class="container">
-    <div class="title" id="mainTitle">🔥 CandyLink69 🔥</div>
-    
-    <div class="banner-space" id="future-banner"></div>
-    
-    <div id="ad-top"></div>
-    
-    <!-- VIDEO with OVERLAY -->
-    <div class="video-box" id="videoContainer">
-        <iframe id="videoPlayer" src="" allowfullscreen></iframe>
+<!DOCTYPE html>  <html lang="en">  
+<head>  
+<meta charset="UTF-8">  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">  
+<title>CandyLink69 – Loading Video...</title>  <style>  
+body{  
+    margin:0;  
+    padding-bottom:60px;  
+    background:#0b0b0b;  
+    color:#fff;  
+    font-family:Arial,sans-serif;  
+    text-align:center;  
+}  
+.container{  
+    max-width:900px;  
+    margin:auto;  
+    padding:8px;  
+}  
+  
+/* 🔥 BLINKING ANIMATED TITLE 🔥 */  
+.title{  
+    font-size:20px;  
+    font-weight:bold;  
+    margin:8px 0 15px 0; /* नीचे 15px space */  
+    padding:12px;  
+    border-radius:10px;  
+    background:rgba(0,0,0,0.7);  
+    border:3px solid;  
+    text-shadow:0 0 10px currentColor;  
+    animation:blinkColors 2s infinite alternate, pulseLight 1.5s infinite alternate;  
+}  
+  
+@keyframes blinkColors {  
+    0%   {color:#ff2d55; border-color:#ff2d55; box-shadow:0 0 20px #ff2d55;}  
+    14%  {color:#ff5500; border-color:#ff5500; box-shadow:0 0 20px #ff5500;}  
+    28%  {color:#ffaa00; border-color:#ffaa00; box-shadow:0 0 20px #ffaa00;}  
+    42%  {color:#ffff00; border-color:#ffff00; box-shadow:0 0 20px #ffff00;}  
+    57%  {color:#00ff88; border-color:#00ff88; box-shadow:0 0 20px #00ff88;}  
+    71%  {color:#0088ff; border-color:#0088ff; box-shadow:0 0 20px #0088ff;}  
+    85%  {color:#aa55ff; border-color:#aa55ff; box-shadow:0 0 20px #aa55ff;}  
+    100% {color:#ff2d55; border-color:#ff2d55; box-shadow:0 0 20px #ff2d55;}  
+}  
+  
+@keyframes pulseLight {  
+    0%   {opacity:0.7;}  
+    100% {opacity:1;}  
+}  
+  
+/* ✅ FUTURE BANNER SPACE (अभी खाली) */  
+.banner-space {  
+    height: 50px; /* 350×50 banner के लिए perfect */  
+    margin: 10px 0;  
+    background: transparent;  
+}  
+  
+.video-box{  
+    position:relative;  
+    width:100%;  
+    padding-top:56.25%;  
+    background:#000;  
+    margin: 0 0 8px 0; /* top margin removed क्योंकि banner-space है */  
+}  
+.video-box iframe{  
+    position:absolute;  
+    inset:0;  
+    width:100%;  
+    height:100%;  
+    border:none;  
+}  
+  
+/* 🔥 ULTRA COMPACT CTA */  
+.danger-box{  
+    margin:6px 0;  
+    padding:4px 6px;  
+    border-radius:6px;  
+    background:#140000;  
+    border:1px solid #ff3300;  
+    display:inline-flex;  
+    flex-direction:column;  
+    align-items:center;  
+    box-shadow:0 0 12px rgba(255,60,0,.6);  
+}  
+.danger-text{  
+    font-size:13px;  
+    font-weight:700;  
+    white-space:nowrap;  
+    line-height:1.1;  
+    margin:1px 0;  
+}  
+.danger-btn{  
+    margin-top:3px;  
+    padding:4px 10px;  
+    font-size:12px;  
+    font-weight:bold;  
+    background:#ff3300;  
+    color:#fff;  
+    border-radius:4px;  
+    text-decoration:none;  
+}  
+  
+/* Navigation */  
+.nav-buttons{  
+    margin:10px 0;  
+    display:flex;  
+    justify-content:center;  
+    gap:10px;  
+}  
+.nav-btn{  
+    background:#333;  
+    color:#fff;  
+    padding:6px 12px;  
+    border-radius:4px;  
+    text-decoration:none;  
+    font-size:12px;  
+}  
+.nav-btn:hover{  
+    background:#ff3300;  
+}  
+  
+/* STICKY */  
+#sticky{  
+    position:fixed;  
+    bottom:0;  
+    left:0;  
+    width:100%;  
+    background:#000;  
+    z-index:9999;  
+    min-height:50px;  
+    display:flex;  
+    justify-content:center;  
+    align-items:center;  
+}  
+  
+/* Video info */  
+.video-info{  
+    margin:10px 0;  
+    font-size:14px;  
+    color:#ccc;  
+    text-align:left;  
+    max-width:800px;  
+    margin-left:auto;  
+    margin-right:auto;  
+}  
+.video-id{  
+    color:#ff9900;  
+    font-weight:bold;  
+}  
+</style>  </head>  <body>  <div class="container">  <!-- FIXED BLINKING TITLE - Always CandyLink69 -->  <div class="title" id="mainTitle">🔥 CandyLink69 🔥</div>  <!-- ✅ FUTURE BANNER SPACE -->  <div class="banner-space" id="future-banner">  
+    <!-- अभी खाली - बाद में यहाँ banner आएगी -->  
+</div>  <!-- TOP AD -->  <div id="ad-top"></div>  <!-- VIDEO (Dynamic) -->  <div class="video-box">  
+<iframe id="videoPlayer" src="" allowfullscreen></iframe>  
+</div>  <!-- Video Info -->  <div class="video-info">  
+    <div>Video: <span class="video-id" id="currentVideoId">V001</span></div>  
+    <div id="videoDescription"></div>  
+</div>  <!-- Navigation -->  <div class="nav-buttons">  
+    <a class="nav-btn" href="index.html">« Back to Gallery</a>  
+    <a class="nav-btn" id="prevBtn" href="#" style="display:none">« Previous</a>  
+    <a class="nav-btn" id="nextBtn" href="#" style="display:none">Next »</a>  
+</div>  <!-- CTA (Same as yours) -->  <div class="danger-box">  
+<div class="danger-text">🥵 YOU WANT SOMETHING SPICY? 🥵</div>  
+<a class="danger-btn" href="https://www.effectivegatecpm.com/njp16fur?key=f0a7ec3b2fa8d91d821777018c8eec71" target="_blank">  
+CLICK HERE  
+</a>  
+</div>  <!-- NATIVE (Same as yours) -->  <div id="native-ad">  
+<script async data-cfasync="false"  
+src="https://pl28370520.effectivegatecpm.com/dceead676280d8758acad3c44709124b/invoke.js"></script>  
+<div id="container-dceead676280d8758acad3c44709124b"></div>  
+</div>  <!-- BOTTOM AD -->  <div id="ad-bottom"></div>  </div>  <!-- STICKY -->  <div id="sticky"></div>  <!-- SOCIAL BAR -->  <script async src="https://pl28370524.effectivegatecpm.com/3a/d6/0f/3ad60f18f18ad6833a8dd0aadd895e49.js"></script>  <!-- DYNAMIC VIDEO LOADER -->  <script>  
+// Get video ID from URL  
+const urlParams = new URLSearchParams(window.location.search);  
+const videoId = urlParams.get('v') || 'V001';  
+  
+// Load videos data  
+fetch('videos.json')  
+  .then(response => response.json())  
+  .then(videosData => {  
+    const video = videosData[videoId];  
+      
+    if (video) {  
+      // Update page content - BUT NOT THE MAIN TITLE  
+      document.title = `CandyLink69 – ${video.title || videoId}`;  
+      // Main title remains "CandyLink69" - no change needed  
+      document.getElementById('videoPlayer').src = video.embed;  
+      document.getElementById('currentVideoId').textContent = videoId;  
         
-        <!-- OVERLAY -->
-        <div class="video-overlay" id="videoOverlay">
-            <div class="play-button"></div>
-            <div class="counter-text" id="clickCounter">3</div>
-            <div class="instruction-text" id="instruction">Tap to start</div>
-        </div>
-    </div>
-    
-    <div class="video-info">
-        <div>Video: <span class="video-id" id="currentVideoId">V001</span></div>
-        <div id="videoDescription"></div>
-    </div>
-    
-    <div class="nav-buttons">
-        <a class="nav-btn" href="index.html">« Back to Gallery</a>
-        <a class="nav-btn" id="prevBtn" href="#" style="display:none">« Previous</a>
-        <a class="nav-btn" id="nextBtn" href="#" style="display:none">Next »</a>
-    </div>
-    
-    <div class="danger-box">
-        <div class="danger-text">🥵 YOU WANT SOMETHING SPICY? 🥵</div>
-        <a class="danger-btn" href="https://www.effectivegatecpm.com/njp16fur?key=f0a7ec3b2fa8d91d821777018c8eec71" target="_blank">CLICK HERE</a>
-    </div>
-    
-    <div id="native-ad">
-        <script async data-cfasync="false" src="https://pl28370520.effectivegatecpm.com/dceead676280d8758acad3c44709124b/invoke.js"></script>
-        <div id="container-dceead676280d8758acad3c44709124b"></div>
-    </div>
-    
-    <div id="ad-bottom"></div>
-</div>
-
-<div id="sticky"></div>
-
-<script async src="https://pl28370524.effectivegatecpm.com/3a/d6/0f/3ad60f18f18ad6833a8dd0aadd895e49.js"></script>
-
+      if (video.description) {  
+        document.getElementById('videoDescription').textContent = video.description;  
+      }  
+        
+      // Setup navigation  
+      const videoIds = Object.keys(videosData);  
+      const currentIndex = videoIds.indexOf(videoId);  
+        
+      // Previous button  
+      if (currentIndex > 0) {  
+        const prevBtn = document.getElementById('prevBtn');  
+        prevBtn.href = `video.html?v=${videoIds[currentIndex - 1]}`;  
+        prevBtn.style.display = 'inline-block';  
+      }  
+        
+      // Next button  
+      if (currentIndex < videoIds.length - 1) {  
+        const nextBtn = document.getElementById('nextBtn');  
+        nextBtn.href = `video.html?v=${videoIds[currentIndex + 1]}`;  
+        nextBtn.style.display = 'inline-block';  
+      }  
+        
+    } else {  
+      // Video not found  
+      document.getElementById('videoPlayer').outerHTML =   
+        '<div style="padding:50px;color:#ccc">This video is no longer available.</div>';  
+    }  
+  })  
+  .catch(error => {  
+    console.error('Error loading video:', error);  
+  });  
+  
+// AUTO REFRESH FOR ad-top AND sticky ONLY - MAX 3 TIMES  
+let refreshCount = 0;  
+const MAX_REFRESHES = 3;  
+let refreshInterval = null;  
+  
+function loadAd(id,key,w,h){  
+    let d=document.getElementById(id);  
+    if(!d) return;  
+      
+    d.innerHTML='';  
+    delete window.atOptions;  
+  
+    let s1=document.createElement('script');  
+    s1.innerHTML=`  
+    var atOptions={  
+        'key':'${key}',  
+        'format':'iframe',  
+        'height':${h},  
+        'width':${w},  
+        'params':{}  
+    };`;  
+    let s2=document.createElement('script');  
+    s2.src='https://www.highperformanceformat.com/'+key+'/invoke.js?x='+Math.random();  
+    s2.async=true;  
+  
+    d.appendChild(s1);  
+    d.appendChild(s2);  
+}  
+  
+// ✅ SIRF ad-top और sticky REFRESH करेगा  
+function refreshTopAndStickyAds(){  
+    // Check limit  
+    if (refreshCount >= MAX_REFRESHES) {  
+        if (refreshInterval) {  
+            clearInterval(refreshInterval);  
+            refreshInterval = null;  
+            console.log('✅ Auto refresh stopped after ' + MAX_REFRESHES + ' times');  
+        }  
+        return;  
+    }  
+      
+    console.log('🔄 Refreshing ad-top & sticky #' + (refreshCount + 1) + ' of ' + MAX_REFRESHES);  
+      
+    // ✅ SIRF ad-top और sticky REFRESH करो  
+    if(innerWidth<768){  
+        // Mobile  
+        loadAd('ad-top','28a19f677ddf30c65892eb4af1ddee10',320,50);  
+        loadAd('sticky','28a19f677ddf30c65892eb4af1ddee10',320,50);  
+    }else{  
+        // Desktop  
+        loadAd('ad-top','a7f6af07e7b981a82b1a2a982b13ba01',728,90);  
+        loadAd('sticky','28a19f677ddf30c65892eb4af1ddee10',320,50);  
+    }  
+      
+    refreshCount++;  
+      
+    // 3 बार होने के बाद stop  
+    if (refreshCount >= MAX_REFRESHES && refreshInterval) {  
+        clearInterval(refreshInterval);  
+        refreshInterval = null;  
+        console.log('✅ ad-top & sticky auto refresh COMPLETED (3/3)');  
+          
+        // ✅ YAHAN SE STATUS MESSAGE CODE COMPLETELY REMOVE KAR DIYA  
+        // Audience ko koi message show nahi hoga  
+    }  
+}  
+  
+// Page load पर सारे ads load करो  
+function loadAllAdsInitially(){  
+    // Mobile/Desktop check  
+    if(innerWidth<768){  
+        // Mobile  
+        // 1. ad-top (auto refresh होगा)  
+        loadAd('ad-top','28a19f677ddf30c65892eb4af1ddee10',320,50);  
+        // 2. ad-bottom (static - एक बार)  
+        loadAd('ad-bottom','1236280d3c879dfd9af37ab923f7cfb3',300,250);  
+        // 3. sticky (auto refresh होगा)  
+        loadAd('sticky','28a19f677ddf30c65892eb4af1ddee10',320,50);  
+    }else{  
+        // Desktop  
+        // 1. ad-top (auto refresh होगा)  
+        loadAd('ad-top','a7f6af07e7b981a82b1a2a982b13ba01',728,90);  
+        // 2. ad-bottom (static - एक बार)  
+        loadAd('ad-bottom','a7f6af07e7b981a82b1a2a982b13ba01',728,90);  
+        // 3. sticky (auto refresh होगा)  
+        loadAd('sticky','28a19f677ddf30c65892eb4af1ddee10',320,50);  
+    }  
+}  
+  
+// DOM Ready  
+document.addEventListener('DOMContentLoaded', function() {  
+    // ✅ पहली बार सारे ads load करो  
+    loadAllAdsInitially();  
+      
+    // ✅ ad-top और sticky के लिए auto refresh start करो (45 सेकंड में)  
+    refreshInterval = setInterval(refreshTopAndStickyAds, 45000);  
+      
+    // Page unload पर interval clear (safety)  
+    window.addEventListener('beforeunload', function() {  
+        if (refreshInterval) {  
+            clearInterval(refreshInterval);  
+        }  
+    });  
+});  
+  
+</script> 
+    <!-- POPUP CONTROL SCRIPT - Place right after your existing scripts or before closing </body> -->
 <script>
-// ========== VIDEO OVERLAY CONTROLLER ==========
-document.addEventListener('DOMContentLoaded', function() {
-    const videoContainer = document.getElementById('videoContainer');
-    const videoIframe = document.getElementById('videoPlayer');
-    const videoOverlay = document.getElementById('videoOverlay');
-    const clickCounter = document.getElementById('clickCounter');
-    const instruction = document.getElementById('instruction');
+(function() {
+    'use strict';
     
-    let clickCount = 0;
-    const maxClicks = 3;
+    // Configuration
+    const FOCUS_DELAY = 50; // ms delay before refocusing
+    const IFRAME_CHECK_INTERVAL = 2000; // Check for new iframe content
     
-    // Messages for each click
-    const messages = [
-        { counter: '1/3', text: 'Tap again to start video' },
-        { counter: '2/3', text: 'One more tap to play' },
-        { counter: '3/3', text: 'Starting...' }
-    ];
+    // Store original window.open
+    const originalWindowOpen = window.open;
     
-    // Function to simulate click on iframe
-    function simulateIframeClick() {
-        try {
-            // Method 1: Dispatch click event at iframe center
-            const rect = videoIframe.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-            
-            // Create and dispatch click event
-            const clickEvent = new MouseEvent('click', {
-                view: window,
-                bubbles: true,
-                cancelable: true,
-                clientX: centerX,
-                clientY: centerY
-            });
-            
-            // Try to send click to iframe contentDocument if accessible
+    // 1. OVERRIDE WINDOW.OPEN
+    window.open = function(url, name, specs) {
+        console.log('🪟 Popup intercepted:', url);
+        
+        // Open the popup normally (preserve ad revenue)
+        const popup = originalWindowOpen.call(window, url, name || '_blank', specs);
+        
+        // Immediately attempt to refocus main window
+        setTimeout(function() {
             try {
-                if (videoIframe.contentDocument) {
-                    const iframeBody = videoIframe.contentDocument.body;
-                    if (iframeBody) {
-                        iframeBody.dispatchEvent(clickEvent);
-                    }
+                window.focus();
+                // Also try to bring window to front
+                if (window.opener) {
+                    window.opener.focus();
+                }
+                // For mobile browsers
+                if (window.parent && window.parent !== window) {
+                    window.parent.focus();
                 }
             } catch (e) {
-                // Cross-origin error - fallback to iframe element click
-                console.log('Cross-origin iframe, using element click');
+                // Silently fail - cross-origin restrictions
             }
-            
-            // Always click the iframe element itself
-            videoIframe.dispatchEvent(clickEvent);
-            
-            // Also try to focus and send mouse events
-            videoIframe.focus();
-            
-            // Method 2: Create and dispatch mousedown + mouseup (more realistic)
-            const mouseDownEvent = new MouseEvent('mousedown', {
-                view: window,
-                bubbles: true,
-                cancelable: true,
-                clientX: centerX,
-                clientY: centerY
-            });
-            
-            const mouseUpEvent = new MouseEvent('mouseup', {
-                view: window,
-                bubbles: true,
-                cancelable: true,
-                clientX: centerX,
-                clientY: centerY
-            });
-            
-            videoIframe.dispatchEvent(mouseDownEvent);
-            videoIframe.dispatchEvent(mouseUpEvent);
-            
-        } catch (e) {
-            console.log('Click simulation error:', e);
-        }
-    }
-    
-    // Overlay click handler
-    videoOverlay.addEventListener('click', function(e) {
-        e.stopPropagation(); // Prevent event from reaching iframe yet
+        }, FOCUS_DELAY);
         
-        if (clickCount < maxClicks - 1) {
-            // First two clicks: Simulate iframe click, update counter, let popup open
-            clickCount++;
-            
-            // Update UI
-            clickCounter.textContent = messages[clickCount - 1].counter;
-            instruction.textContent = messages[clickCount - 1].text;
-            
-            // Simulate click on iframe (popup will open in background)
-            simulateIframeClick();
-            
-            // Visual feedback
-            videoOverlay.style.background = 'rgba(0, 0, 0, 0.8)';
-            setTimeout(() => {
-                videoOverlay.style.background = 'rgba(0, 0, 0, 0.7)';
-            }, 200);
-            
-        } else if (clickCount === maxClicks - 1) {
-            // Third click: Remove overlay and enable actual iframe interaction
-            clickCount++;
-            
-            // Update UI one last time
-            clickCounter.textContent = '3/3';
-            instruction.textContent = 'Starting...';
-            
-            // Short delay then remove overlay
-            setTimeout(() => {
-                videoContainer.classList.add('playing');
-                
-                // Now enable iframe to receive direct clicks
-                videoIframe.style.pointerEvents = 'auto';
-                
-                // Trigger final click on the actual play button area
-                simulateIframeClick();
-                
-                // Optional: Try to find and click video play button inside iframe
-                setTimeout(() => {
+        return popup;
+    };
+    
+    // 2. INTERCEPT ALL CLICK EVENTS (for _blank links)
+    document.addEventListener('click', function(e) {
+        // Find if click originated from or within iframe
+        const isIframeClick = e.target !== document && 
+                              (e.target.tagName === 'IFRAME' || 
+                               e.target.ownerDocument !== document);
+        
+        // Handle regular links
+        const link = e.target.closest('a');
+        if (link && link.target === '_blank') {
+            setTimeout(function() {
+                try {
+                    window.focus();
+                } catch (e) {}
+            }, FOCUS_DELAY);
+        }
+        
+        // Special handling for iframe interactions
+        if (isIframeClick) {
+            // Schedule multiple refocus attempts
+            for (let delay of [50, 150, 300]) {
+                setTimeout(function() {
                     try {
-                        if (videoIframe.contentDocument) {
-                            const playButton = videoIframe.contentDocument.querySelector('button[aria-label="Play"], .ytp-large-play-button, .vp-play, [class*="play"]');
-                            if (playButton) {
-                                playButton.click();
-                            }
-                        }
-                    } catch (e) {
-                        // Cross-orign, ignore
-                    }
-                }, 500);
+                        window.focus();
+                    } catch (e) {}
+                }, delay);
+            }
+        }
+    }, true); // Use capture phase to catch events before they reach iframe
+    
+    // 3. HANDLE IFRAME MESSAGE PASSING (if iframe supports postMessage)
+    function setupIframeMessaging() {
+        const iframe = document.getElementById('videoPlayer');
+        if (!iframe) return;
+        
+        try {
+            // Attempt to communicate with iframe
+            window.addEventListener('message', function(event) {
+                // Verify origin if needed
+                // if (event.origin !== 'https://trusted-domain.com') return;
                 
-            }, 300);
+                if (event.data && event.data.type === 'popupOpened') {
+                    // Iframe notified us about popup, refocus
+                    setTimeout(function() {
+                        try {
+                            window.focus();
+                        } catch (e) {}
+                    }, 20);
+                }
+            });
+        } catch (e) {
+            // Cross-origin restrictions - ignore
         }
-    });
+    }
     
-    // Handle case where user clicks near edges but overlay still catches
-    videoContainer.addEventListener('click', function(e) {
-        // If overlay is hidden (playing state), do nothing
-        if (videoContainer.classList.contains('playing')) {
-            return;
-        }
+    // 4. MOBILE-SPECIFIC HANDLING
+    function setupMobileHandling() {
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         
-        // If click target is overlay, it's already handled
-        // If click somehow bypassed overlay, trigger overlay click handler
-        if (!e.target.closest('.video-overlay')) {
-            // Manually trigger overlay click
-            const fakeEvent = { stopPropagation: () => {} };
-            videoOverlay.click.call(this, fakeEvent);
-        }
-    });
-    
-    // Reset overlay if video src changes (new video loaded)
-    const originalSrc = videoIframe.src;
-    Object.defineProperty(videoIframe, 'src', {
-        set: function(value) {
-            this.setAttribute('src', value);
-            // Reset overlay
-            clickCount = 0;
-            clickCounter.textContent = '3';
-            instruction.textContent = 'Tap to start';
-            videoContainer.classList.remove('playing');
-            videoIframe.style.pointerEvents = 'none';
-        },
-        get: function() {
-            return this.getAttribute('src');
-        }
-    });
-});
-
-// ========== EXISTING VIDEO LOADER CODE (unchanged) ==========
-const urlParams = new URLSearchParams(window.location.search);
-const videoId = urlParams.get('v') || 'V001';
-
-fetch('videos.json')
-    .then(response => response.json())
-    .then(videosData => {
-        const video = videosData[videoId];
+        if (!isMobile) return;
         
-        if (video) {
-            document.title = `CandyLink69 – ${video.title || videoId}`;
-            document.getElementById('videoPlayer').src = video.embed;
-            document.getElementById('currentVideoId').textContent = videoId;
-            
-            if (video.description) {
-                document.getElementById('videoDescription').textContent = video.description;
+        // For mobile, we need to be more aggressive
+        document.addEventListener('touchstart', function(e) {
+            // Pre-emptive focus maintenance
+            setTimeout(function() {
+                try {
+                    window.focus();
+                } catch (e) {}
+            }, 100);
+        }, true);
+        
+        // Handle visibility change (when user returns from popup)
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden) {
+                // User came back to our page, ensure focus
+                try {
+                    window.focus();
+                } catch (e) {}
             }
-            
-            const videoIds = Object.keys(videosData);
-            const currentIndex = videoIds.indexOf(videoId);
-            
-            if (currentIndex > 0) {
-                const prevBtn = document.getElementById('prevBtn');
-                prevBtn.href = `video.html?v=${videoIds[currentIndex - 1]}`;
-                prevBtn.style.display = 'inline-block';
-            }
-            
-            if (currentIndex < videoIds.length - 1) {
-                const nextBtn = document.getElementById('nextBtn');
-                nextBtn.href = `video.html?v=${videoIds[currentIndex + 1]}`;
-                nextBtn.style.display = 'inline-block';
-            }
-            
-        } else {
-            document.getElementById('videoPlayer').outerHTML = 
-                '<div style="padding:50px;color:#ccc">This video is no longer available.</div>';
+        });
+    }
+    
+    // 5. PERIODIC FOCUS MAINTENANCE (subtle, doesn't interrupt user)
+    let focusInterval = setInterval(function() {
+        // Only attempt if page is visible and user hasn't interacted recently
+        if (!document.hidden && !window.document.hasFocus()) {
+            try {
+                window.focus();
+            } catch (e) {}
         }
-    })
-    .catch(error => {
-        console.error('Error loading video:', error);
+    }, 5000); // Check every 5 seconds
+    
+    // 6. HANDLE NEW IFRAME CONTENT LOADS
+    function watchIframeChanges() {
+        const iframe = document.getElementById('videoPlayer');
+        if (!iframe) return;
+        
+        // When iframe src changes, reapply handlers
+        const originalSrc = iframe.src;
+        
+        setInterval(function() {
+            if (iframe.src !== originalSrc) {
+                // Iframe content changed, reapply our magic
+                console.log('🔄 Iframe content changed');
+                setupIframeMessaging();
+            }
+        }, IFRAME_CHECK_INTERVAL);
+    }
+    
+    // 7. PROTECT AGAINST POPUP REDIRECTS
+    document.addEventListener('beforeunload', function(e) {
+        // Prevent unwanted page unloads from popups
+        // Don't interfere with normal navigation
+        if (!e.target.href && !e.target.action) {
+            e.preventDefault();
+            e.returnValue = '';
+        }
     });
-
-// ========== AD CODE (unchanged) ==========
-let refreshCount = 0;
-const MAX_REFRESHES = 3;
-let refreshInterval = null;
-
-function loadAd(id,key,w,h){
-    let d=document.getElementById(id);
-    if(!d) return;
     
-    d.innerHTML='';
-    delete window.atOptions;
-
-    let s1=document.createElement('script');
-    s1.innerHTML=`
-    var atOptions={
-        'key':'${key}',
-        'format':'iframe',
-        'height':${h},
-        'width':${w},
-        'params':{}
-    };`;
-    let s2=document.createElement('script');
-    s2.src='https://www.highperformanceformat.com/'+key+'/invoke.js?x='+Math.random();
-    s2.async=true;
-
-    d.appendChild(s1);
-    d.appendChild(s2);
-}
-
-function refreshTopAndStickyAds(){
-    if (refreshCount >= MAX_REFRESHES) {
-        if (refreshInterval) {
-            clearInterval(refreshInterval);
-            refreshInterval = null;
-            console.log('✅ Auto refresh stopped after ' + MAX_REFRESHES + ' times');
-        }
-        return;
-    }
+    // 8. FOCUS ON PAGE LOAD
+    window.addEventListener('load', function() {
+        try {
+            window.focus();
+        } catch (e) {}
+        
+        setupIframeMessaging();
+        setupMobileHandling();
+        watchIframeChanges();
+    });
     
-    console.log('🔄 Refreshing ad-top & sticky #' + (refreshCount + 1) + ' of ' + MAX_REFRESHES);
-    
-    if(innerWidth<768){
-        loadAd('ad-top','28a19f677ddf30c65892eb4af1ddee10',320,50);
-        loadAd('sticky','28a19f677ddf30c65892eb4af1ddee10',320,50);
-    }else{
-        loadAd('ad-top','a7f6af07e7b981a82b1a2a982b13ba01',728,90);
-        loadAd('sticky','28a19f677ddf30c65892eb4af1ddee10',320,50);
-    }
-    
-    refreshCount++;
-    
-    if (refreshCount >= MAX_REFRESHES && refreshInterval) {
-        clearInterval(refreshInterval);
-        refreshInterval = null;
-        console.log('✅ ad-top & sticky auto refresh COMPLETED (3/3)');
-    }
-}
-
-function loadAllAdsInitially(){
-    if(innerWidth<768){
-        loadAd('ad-top','28a19f677ddf30c65892eb4af1ddee10',320,50);
-        loadAd('ad-bottom','1236280d3c879dfd9af37ab923f7cfb3',300,250);
-        loadAd('sticky','28a19f677ddf30c65892eb4af1ddee10',320,50);
-    }else{
-        loadAd('ad-top','a7f6af07e7b981a82b1a2a982b13ba01',728,90);
-        loadAd('ad-bottom','a7f6af07e7b981a82b1a2a982b13ba01',728,90);
-        loadAd('sticky','28a19f677ddf30c65892eb4af1ddee10',320,50);
-    }
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    loadAllAdsInitially();
-    
-    refreshInterval = setInterval(refreshTopAndStickyAds, 45000);
-    
+    // 9. CLEANUP ON PAGE UNLOAD
     window.addEventListener('beforeunload', function() {
-        if (refreshInterval) {
-            clearInterval(refreshInterval);
+        if (focusInterval) {
+            clearInterval(focusInterval);
         }
     });
-});
-
+    
+    // 10. FINAL SAFEGUARD - Multiple refocus attempts after any popup
+    const originalCreateElement = document.createElement;
+    document.createElement = function(tagName) {
+        const element = originalCreateElement.call(document, tagName);
+        
+        if (tagName.toLowerCase() === 'iframe') {
+            // Monitor iframe for popup attempts
+            setTimeout(function() {
+                try {
+                    if (element.contentWindow) {
+                        // Override popups inside iframe if possible
+                        // (may not work due to cross-origin)
+                    }
+                } catch (e) {}
+            }, 100);
+        }
+        
+        return element;
+    };
+    
+    console.log('✅ Popup control script activated - users will stay on page');
+    
+})();
 </script>
-</body>
-    </html>
+</body>  
+</html>  
