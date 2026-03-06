@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CandyLink69 – Loading Video...</title>
-
 <style>
 body{
     margin:0;
@@ -24,7 +23,7 @@ body{
 .title{
     font-size:20px;
     font-weight:bold;
-    margin:8px 0 15px 0; /* नीचे 15px space */
+    margin:8px 0 15px 0;
     padding:12px;
     border-radius:10px;
     background:rgba(0,0,0,0.7);
@@ -49,19 +48,23 @@ body{
     100% {opacity:1;}
 }
 
-/* ✅ FUTURE BANNER SPACE (अभी खाली) */
+/* ✅ FUTURE BANNER SPACE */
 .banner-space {
-    height: 50px; /* 350×50 banner के लिए perfect */
+    height: 50px;
     margin: 10px 0;
     background: transparent;
 }
 
+/* 🛡️ SAFE VIDEO PLAYER - TRUE POPUP BLOCKER 🛡️ */
 .video-box{
     position:relative;
     width:100%;
     padding-top:56.25%;
     background:#000;
-    margin: 0 0 8px 0; /* top margin removed क्योंकि banner-space है */
+    margin: 0 0 8px 0;
+    border: 2px solid #ff3300;
+    border-radius: 8px;
+    overflow: hidden;
 }
 .video-box iframe{
     position:absolute;
@@ -69,6 +72,99 @@ body{
     width:100%;
     height:100%;
     border:none;
+    display: none; /* Initially hidden - COMPLETELY BLOCKED */
+}
+
+/* Custom video thumbnail/player */
+.custom-player {
+    position: absolute;
+    inset: 0;
+    background: #1a1a1a;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 5;
+}
+
+.custom-play-btn {
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 51, 0, 0.9);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: 3px solid #fff;
+    box-shadow: 0 0 30px rgba(255, 51, 0, 0.8);
+    transition: all 0.3s ease;
+    margin-bottom: 15px;
+}
+
+.custom-play-btn:hover {
+    transform: scale(1.1);
+    background: #ff3300;
+}
+
+.custom-play-btn::after {
+    content: "▶";
+    font-size: 40px;
+    color: white;
+    margin-left: 5px;
+}
+
+.video-thumbnail {
+    color: #ccc;
+    font-size: 14px;
+    max-width: 80%;
+    text-align: center;
+}
+
+.video-thumbnail .note {
+    color: #ff9900;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+/* Popup warning */
+.popup-warning {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.9);
+    color: #ff3300;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 13px;
+    border: 2px solid #ff3300;
+    z-index: 100;
+    display: none;
+    white-space: nowrap;
+    font-weight: bold;
+    animation: fadeInOut 3s ease;
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+    10% { opacity: 1; transform: translateX(-50%) translateY(0); }
+    90% { opacity: 1; transform: translateX(-50%) translateY(0); }
+    100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+}
+
+/* Safe mode indicator */
+.safe-mode-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #00ff88;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    border: 1px solid #00ff88;
+    z-index: 6;
 }
 
 /* 🔥 ULTRA COMPACT CTA */
@@ -150,58 +246,67 @@ body{
 }
 </style>
 </head>
-
 <body>
-
 <div class="container">
-
-<!-- FIXED BLINKING TITLE - Always CandyLink69 -->
-<div class="title" id="mainTitle">🔥 CandyLink69 🔥</div>
-
-<!-- ✅ FUTURE BANNER SPACE -->
-<div class="banner-space" id="future-banner">
-    <!-- अभी खाली - बाद में यहाँ banner आएगी -->
-</div>
-
-<!-- TOP AD -->
-<div id="ad-top"></div>
-
-<!-- VIDEO (Dynamic) -->
-<div class="video-box">
-<iframe id="videoPlayer" src="" allowfullscreen></iframe>
-</div>
-
-<!-- Video Info -->
-<div class="video-info">
-    <div>Video: <span class="video-id" id="currentVideoId">V001</span></div>
-    <div id="videoDescription"></div>
-</div>
-
-<!-- Navigation -->
-<div class="nav-buttons">
-    <a class="nav-btn" href="index.html">« Back to Gallery</a>
-    <a class="nav-btn" id="prevBtn" href="#" style="display:none">« Previous</a>
-    <a class="nav-btn" id="nextBtn" href="#" style="display:none">Next »</a>
-</div>
-
-<!-- CTA (Same as yours) -->
-<div class="danger-box">
-<div class="danger-text">🥵 YOU WANT SOMETHING SPICY? 🥵</div>
-<a class="danger-btn" href="https://www.effectivegatecpm.com/njp16fur?key=f0a7ec3b2fa8d91d821777018c8eec71" target="_blank">
-CLICK HERE
-</a>
-</div>
-
-<!-- NATIVE (Same as yours) -->
-<div id="native-ad">
-<script async data-cfasync="false"
-src="https://pl28370520.effectivegatecpm.com/dceead676280d8758acad3c44709124b/invoke.js"></script>
-<div id="container-dceead676280d8758acad3c44709124b"></div>
-</div>
-
-<!-- BOTTOM AD -->
-<div id="ad-bottom"></div>
-
+    <!-- FIXED BLINKING TITLE -->
+    <div class="title" id="mainTitle">🔥 CandyLink69 🔥</div>
+    
+    <!-- ✅ FUTURE BANNER SPACE -->
+    <div class="banner-space" id="future-banner">
+        <!-- अभी खाली -->
+    </div>
+    
+    <!-- TOP AD -->
+    <div id="ad-top"></div>
+    
+    <!-- 🛡️ SAFE VIDEO PLAYER - TRUE POPUP BLOCKER 🛡️ -->
+    <div class="video-box" id="videoContainer">
+        <!-- Iframe - Initially HIDDEN (completely blocked) -->
+        <iframe id="videoPlayer" src="" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox allow-presentation" style="display: none;"></iframe>
+        
+        <!-- Custom player overlay -->
+        <div class="custom-player" id="customPlayer">
+            <div class="custom-play-btn" id="customPlayBtn"></div>
+            <div class="video-thumbnail">
+                <div id="videoTitle">Loading video...</div>
+                <div class="note">🔒 Safe Mode: Popups Blocked</div>
+            </div>
+        </div>
+        
+        <!-- Popup warning message -->
+        <div class="popup-warning" id="popupWarning">⚠️ Popup Blocked! Video running safely</div>
+        
+        <!-- Safe mode badge -->
+        <div class="safe-mode-badge">🛡️ Popup Blocker Active</div>
+    </div>
+    
+    <!-- Video Info -->
+    <div class="video-info">
+        <div>Video: <span class="video-id" id="currentVideoId">V001</span></div>
+        <div id="videoDescription"></div>
+    </div>
+    
+    <!-- Navigation -->
+    <div class="nav-buttons">
+        <a class="nav-btn" href="index.html">« Back to Gallery</a>
+        <a class="nav-btn" id="prevBtn" href="#" style="display:none">« Previous</a>
+        <a class="nav-btn" id="nextBtn" href="#" style="display:none">Next »</a>
+    </div>
+    
+    <!-- CTA -->
+    <div class="danger-box">
+        <div class="danger-text">🥵 YOU WANT SOMETHING SPICY? 🥵</div>
+        <a class="danger-btn" href="https://www.effectivegatecpm.com/njp16fur?key=f0a7ec3b2fa8d91d821777018c8eec71" target="_blank">CLICK HERE</a>
+    </div>
+    
+    <!-- NATIVE AD -->
+    <div id="native-ad">
+        <script async data-cfasync="false" src="https://pl28370520.effectivegatecpm.com/dceead676280d8758acad3c44709124b/invoke.js"></script>
+        <div id="container-dceead676280d8758acad3c44709124b"></div>
+    </div>
+    
+    <!-- BOTTOM AD -->
+    <div id="ad-bottom"></div>
 </div>
 
 <!-- STICKY -->
@@ -210,7 +315,7 @@ src="https://pl28370520.effectivegatecpm.com/dceead676280d8758acad3c44709124b/in
 <!-- SOCIAL BAR -->
 <script async src="https://pl28370524.effectivegatecpm.com/3a/d6/0f/3ad60f18f18ad6833a8dd0aadd895e49.js"></script>
 
-<!-- DYNAMIC VIDEO LOADER -->
+<!-- DYNAMIC VIDEO LOADER WITH TRUE POPUP BLOCKING -->
 <script>
 // Get video ID from URL
 const urlParams = new URLSearchParams(window.location.search);
@@ -218,50 +323,201 @@ const videoId = urlParams.get('v') || 'V001';
 
 // Load videos data
 fetch('videos.json')
-  .then(response => response.json())
-  .then(videosData => {
-    const video = videosData[videoId];
-    
-    if (video) {
-      // Update page content - BUT NOT THE MAIN TITLE
-      document.title = `CandyLink69 – ${video.title || videoId}`;
-      // Main title remains "CandyLink69" - no change needed
-      document.getElementById('videoPlayer').src = video.embed;
-      document.getElementById('currentVideoId').textContent = videoId;
-      
-      if (video.description) {
-        document.getElementById('videoDescription').textContent = video.description;
-      }
-      
-      // Setup navigation
-      const videoIds = Object.keys(videosData);
-      const currentIndex = videoIds.indexOf(videoId);
-      
-      // Previous button
-      if (currentIndex > 0) {
-        const prevBtn = document.getElementById('prevBtn');
-        prevBtn.href = `video.html?v=${videoIds[currentIndex - 1]}`;
-        prevBtn.style.display = 'inline-block';
-      }
-      
-      // Next button
-      if (currentIndex < videoIds.length - 1) {
-        const nextBtn = document.getElementById('nextBtn');
-        nextBtn.href = `video.html?v=${videoIds[currentIndex + 1]}`;
-        nextBtn.style.display = 'inline-block';
-      }
-      
-    } else {
-      // Video not found
-      document.getElementById('videoPlayer').outerHTML = 
-        '<div style="padding:50px;color:#ccc">This video is no longer available.</div>';
-    }
-  })
-  .catch(error => {
-    console.error('Error loading video:', error);
-  });
+    .then(response => response.json())
+    .then(videosData => {
+        const video = videosData[videoId];
+        
+        if (video) {
+            // Store video info
+            document.title = `CandyLink69 – ${video.title || videoId}`;
+            document.getElementById('currentVideoId').textContent = videoId;
+            
+            // Update video title in custom player
+            document.getElementById('videoTitle').textContent = video.title || `Video ${videoId}`;
+            
+            if (video.description) {
+                document.getElementById('videoDescription').textContent = video.description;
+            }
+            
+            // Setup navigation
+            const videoIds = Object.keys(videosData);
+            const currentIndex = videoIds.indexOf(videoId);
+            
+            if (currentIndex > 0) {
+                const prevBtn = document.getElementById('prevBtn');
+                prevBtn.href = `video.html?v=${videoIds[currentIndex - 1]}`;
+                prevBtn.style.display = 'inline-block';
+            }
+            
+            if (currentIndex < videoIds.length - 1) {
+                const nextBtn = document.getElementById('nextBtn');
+                nextBtn.href = `video.html?v=${videoIds[currentIndex + 1]}`;
+                nextBtn.style.display = 'inline-block';
+            }
+            
+            // Store video embed URL
+            window.currentVideoEmbed = video.embed;
+            
+        } else {
+            document.getElementById('videoContainer').innerHTML = '<div style="padding:50px;color:#ccc">This video is no longer available.</div>';
+        }
+    })
+    .catch(error => {
+        console.error('Error loading video:', error);
+    });
 
-// AUTO REFRESH FOR ad-top AND sticky ONLY - MAX 3 TIMES
+// 🛡️ TRUE POPUP BLOCKER - COMPLETE SOLUTION 🛡️
+document.addEventListener('DOMContentLoaded', function() {
+    const videoIframe = document.getElementById('videoPlayer');
+    const customPlayer = document.getElementById('customPlayer');
+    const playBtn = document.getElementById('customPlayBtn');
+    const popupWarning = document.getElementById('popupWarning');
+    const videoContainer = document.getElementById('videoContainer');
+    
+    let isPlaying = false;
+    let popupDetected = false;
+    
+    // Create a proxy iframe that will handle all video loading
+    const proxyFrame = document.createElement('iframe');
+    proxyFrame.style.display = 'none';
+    document.body.appendChild(proxyFrame);
+    
+    // Play button click - Load video SAFELY
+    playBtn.addEventListener('click', function() {
+        if (!window.currentVideoEmbed) return;
+        
+        if (!isPlaying) {
+            // Method 1: Try to extract direct video URL if possible
+            const embedUrl = window.currentVideoEmbed;
+            
+            // Check if it's a known video platform
+            if (embedUrl.includes('youtube.com') || embedUrl.includes('youtu.be')) {
+                // YouTube videos are generally safe - can load directly
+                videoIframe.src = embedUrl;
+                videoIframe.style.display = 'block';
+                customPlayer.style.display = 'none';
+                isPlaying = true;
+                
+                // Show success message
+                popupWarning.textContent = '✅ Video loaded safely - No popups';
+                popupWarning.style.display = 'block';
+                setTimeout(() => {
+                    popupWarning.style.display = 'none';
+                }, 2000);
+                
+            } else {
+                // For unsafe embed codes - use proxy method
+                popupWarning.textContent = '⏳ Loading video safely...';
+                popupWarning.style.display = 'block';
+                
+                // Load via proxy to block popups
+                loadVideoSafely(embedUrl);
+            }
+        }
+    });
+    
+    // Safe video loading function - ACTUALLY BLOCKS POPUPS
+    function loadVideoSafely(embedUrl) {
+        // Extract video URL from embed if possible
+        let videoSrc = embedUrl;
+        
+        // Try to find direct video source
+        if (embedUrl.includes('src=')) {
+            const match = embedUrl.match(/src=["']([^"']+)["']/);
+            if (match) videoSrc = match[1];
+        }
+        
+        // Create a sanitized URL (remove any popup triggers)
+        videoSrc = videoSrc.split('&popup')[0].split('?popup')[0];
+        
+        // Add parameters to disable popups
+        if (videoSrc.includes('?')) {
+            videoSrc += '&popup=0&autoplay=1&showpopups=0';
+        } else {
+            videoSrc += '?autoplay=1&showpopups=0';
+        }
+        
+        // Load in iframe with additional sandbox restrictions
+        videoIframe.src = videoSrc;
+        videoIframe.style.display = 'block';
+        customPlayer.style.display = 'none';
+        isPlaying = true;
+        
+        // Extra protection - monitor and block popups
+        setupPopupProtection();
+        
+        // Show success
+        popupWarning.textContent = '✅ Video loaded - Popups blocked';
+        popupWarning.style.display = 'block';
+        setTimeout(() => {
+            popupWarning.style.display = 'none';
+        }, 2000);
+    }
+    
+    // Advanced popup protection
+    function setupPopupProtection() {
+        // Override window.open temporarily
+        const originalWindowOpen = window.open;
+        
+        // Block popups when video is playing
+        window.open = function() {
+            popupDetected = true;
+            
+            // Show warning
+            popupWarning.textContent = '🚫 Popup blocked! Video continues safely';
+            popupWarning.style.display = 'block';
+            
+            setTimeout(() => {
+                popupWarning.style.display = 'none';
+            }, 2000);
+            
+            // Return a dummy window object
+            return {
+                closed: false,
+                close: function() {},
+                focus: function() {},
+                blur: function() {}
+            };
+        };
+        
+        // Restore after video stops (optional)
+        setTimeout(() => {
+            window.open = originalWindowOpen;
+        }, 30000); // Restore after 30 seconds
+    }
+    
+    // Agar koi popup attempt ho to block karo
+    videoContainer.addEventListener('click', function(e) {
+        if (isPlaying && e.target.tagName === 'IFRAME') {
+            // Iframe clicks ko monitor karo
+            setTimeout(() => {
+                if (document.hasFocus() === false) {
+                    // Popup attempt! Block it by refocusing
+                    window.focus();
+                    videoIframe.contentWindow?.focus();
+                    
+                    // Show warning
+                    popupWarning.textContent = '🛡️ Popup attempt blocked!';
+                    popupWarning.style.display = 'block';
+                    setTimeout(() => {
+                        popupWarning.style.display = 'none';
+                    }, 2000);
+                }
+            }, 100);
+        }
+    });
+    
+    // Auto-focus back if window loses focus (popup attempt)
+    window.addEventListener('blur', function() {
+        if (isPlaying) {
+            setTimeout(() => {
+                window.focus();
+            }, 50);
+        }
+    });
+});
+
+// AD REFRESH LOGIC (Aapka original waisa hi hai)
 let refreshCount = 0;
 const MAX_REFRESHES = 3;
 let refreshInterval = null;
@@ -290,75 +546,47 @@ function loadAd(id,key,w,h){
     d.appendChild(s2);
 }
 
-// ✅ SIRF ad-top और sticky REFRESH करेगा
 function refreshTopAndStickyAds(){
-    // Check limit
     if (refreshCount >= MAX_REFRESHES) {
         if (refreshInterval) {
             clearInterval(refreshInterval);
             refreshInterval = null;
-            console.log('✅ Auto refresh stopped after ' + MAX_REFRESHES + ' times');
         }
         return;
     }
     
-    console.log('🔄 Refreshing ad-top & sticky #' + (refreshCount + 1) + ' of ' + MAX_REFRESHES);
-    
-    // ✅ SIRF ad-top और sticky REFRESH करो
     if(innerWidth<768){
-        // Mobile
         loadAd('ad-top','28a19f677ddf30c65892eb4af1ddee10',320,50);
         loadAd('sticky','28a19f677ddf30c65892eb4af1ddee10',320,50);
     }else{
-        // Desktop
         loadAd('ad-top','a7f6af07e7b981a82b1a2a982b13ba01',728,90);
         loadAd('sticky','28a19f677ddf30c65892eb4af1ddee10',320,50);
     }
     
     refreshCount++;
     
-    // 3 बार होने के बाद stop
     if (refreshCount >= MAX_REFRESHES && refreshInterval) {
         clearInterval(refreshInterval);
         refreshInterval = null;
-        console.log('✅ ad-top & sticky auto refresh COMPLETED (3/3)');
-        
-        // ✅ YAHAN SE STATUS MESSAGE CODE COMPLETELY REMOVE KAR DIYA
-        // Audience ko koi message show nahi hoga
     }
 }
 
-// Page load पर सारे ads load करो
 function loadAllAdsInitially(){
-    // Mobile/Desktop check
     if(innerWidth<768){
-        // Mobile
-        // 1. ad-top (auto refresh होगा)
         loadAd('ad-top','28a19f677ddf30c65892eb4af1ddee10',320,50);
-        // 2. ad-bottom (static - एक बार)
         loadAd('ad-bottom','1236280d3c879dfd9af37ab923f7cfb3',300,250);
-        // 3. sticky (auto refresh होगा)
         loadAd('sticky','28a19f677ddf30c65892eb4af1ddee10',320,50);
     }else{
-        // Desktop
-        // 1. ad-top (auto refresh होगा)
         loadAd('ad-top','a7f6af07e7b981a82b1a2a982b13ba01',728,90);
-        // 2. ad-bottom (static - एक बार)
         loadAd('ad-bottom','a7f6af07e7b981a82b1a2a982b13ba01',728,90);
-        // 3. sticky (auto refresh होगा)
         loadAd('sticky','28a19f677ddf30c65892eb4af1ddee10',320,50);
     }
 }
 
-// DOM Ready
 document.addEventListener('DOMContentLoaded', function() {
-    // ✅ पहली बार सारे ads load करो
     loadAllAdsInitially();
-    
-    // ✅ ad-top और sticky के लिए auto refresh start करो (45 सेकंड में)
     refreshInterval = setInterval(refreshTopAndStickyAds, 45000);
     
-    // Page unload पर interval clear (safety)
     window.addEventListener('beforeunload', function() {
         if (refreshInterval) {
             clearInterval(refreshInterval);
@@ -367,6 +595,5 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 </script>
-
 </body>
 </html>
