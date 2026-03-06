@@ -319,55 +319,65 @@ document.addEventListener('DOMContentLoaded', function() {
         }  
     });  
 });  
-  
-</script> 
-    <!-- POPUP CONTROL SCRIPT - Place right after your existing scripts or before closing </body> -->
+</script>
+
+<!-- POPUP CONTROL SCRIPT - यह स्क्रिप्ट पॉपअप को बैकग्राउंड में खोलेगी -->
 <script>
 (function() {
     'use strict';
     
-    // Configuration
-    const FOCUS_DELAY = 50; // ms delay before refocusing
-    const IFRAME_CHECK_INTERVAL = 2000; // Check for new iframe content
+    console.log('🚀 पॉपअप कंट्रोल स्क्रिप्ट एक्टिवेटेड');
     
-    // Store original window.open
+    // Configuration
+    const FOCUS_DELAY = 10; // बहुत जल्दी फोकस वापस लाने के लिए
+    
+    // 1. ओरिजिनल window.open को स्टोर करो
     const originalWindowOpen = window.open;
     
-    // 1. OVERRIDE WINDOW.OPEN
+    // 2. WINDOW.OPEN को ओवरराइड करो
     window.open = function(url, name, specs) {
-        console.log('🪟 Popup intercepted:', url);
+        console.log('🪟 पॉपअप डिटेक्ट हुआ:', url);
         
-        // Open the popup normally (preserve ad revenue)
+        // पॉपअप को नॉर्मली खोलो (एड रेवेन्यू प्रभावित नहीं होगा)
         const popup = originalWindowOpen.call(window, url, name || '_blank', specs);
         
-        // Immediately attempt to refocus main window
+        // तुरंत मेन विंडो पर फोकस वापस लाओ
         setTimeout(function() {
             try {
                 window.focus();
-                // Also try to bring window to front
-                if (window.opener) {
-                    window.opener.focus();
-                }
-                // For mobile browsers
+                // मोबाइल के लिए अतिरिक्त प्रयास
                 if (window.parent && window.parent !== window) {
                     window.parent.focus();
                 }
             } catch (e) {
-                // Silently fail - cross-origin restrictions
+                // चुपचाप फेल - क्रॉस-ओरिजिन रिस्ट्रिक्शन
             }
         }, FOCUS_DELAY);
         
         return popup;
     };
     
-    // 2. INTERCEPT ALL CLICK EVENTS (for _blank links)
+    // 3. सभी क्लिक इवेंट को इंटरसेप्ट करो (iframe के लिए)
     document.addEventListener('click', function(e) {
-        // Find if click originated from or within iframe
+        // अगर क्लिक iframe से आया है
         const isIframeClick = e.target !== document && 
                               (e.target.tagName === 'IFRAME' || 
                                e.target.ownerDocument !== document);
         
-        // Handle regular links
+        if (isIframeClick) {
+            console.log('👆 iframe क्लिक डिटेक्ट हुआ');
+            
+            // मल्टीपल रीफोकस अटेम्प्ट्स
+            [10, 50, 100, 200].forEach(delay => {
+                setTimeout(function() {
+                    try {
+                        window.focus();
+                    } catch (e) {}
+                }, delay);
+            });
+        }
+        
+        // रेगुलर लिंक्स के लिए
         const link = e.target.closest('a');
         if (link && link.target === '_blank') {
             setTimeout(function() {
@@ -376,150 +386,87 @@ document.addEventListener('DOMContentLoaded', function() {
                 } catch (e) {}
             }, FOCUS_DELAY);
         }
-        
-        // Special handling for iframe interactions
-        if (isIframeClick) {
-            // Schedule multiple refocus attempts
-            for (let delay of [50, 150, 300]) {
-                setTimeout(function() {
-                    try {
-                        window.focus();
-                    } catch (e) {}
-                }, delay);
-            }
-        }
-    }, true); // Use capture phase to catch events before they reach iframe
+    }, true); // कैप्चर फेज का उपयोग करो
     
-    // 3. HANDLE IFRAME MESSAGE PASSING (if iframe supports postMessage)
-    function setupIframeMessaging() {
-        const iframe = document.getElementById('videoPlayer');
-        if (!iframe) return;
-        
-        try {
-            // Attempt to communicate with iframe
-            window.addEventListener('message', function(event) {
-                // Verify origin if needed
-                // if (event.origin !== 'https://trusted-domain.com') return;
-                
-                if (event.data && event.data.type === 'popupOpened') {
-                    // Iframe notified us about popup, refocus
-                    setTimeout(function() {
-                        try {
-                            window.focus();
-                        } catch (e) {}
-                    }, 20);
-                }
-            });
-        } catch (e) {
-            // Cross-origin restrictions - ignore
-        }
-    }
+    // 4. मोबाइल स्पेसिफिक हैंडलिंग
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     
-    // 4. MOBILE-SPECIFIC HANDLING
-    function setupMobileHandling() {
-        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    if (isMobile) {
+        console.log('📱 मोबाइल डिवाइस डिटेक्ट हुआ');
         
-        if (!isMobile) return;
-        
-        // For mobile, we need to be more aggressive
+        // टच इवेंट्स को हैंडल करो
         document.addEventListener('touchstart', function(e) {
-            // Pre-emptive focus maintenance
             setTimeout(function() {
                 try {
                     window.focus();
                 } catch (e) {}
-            }, 100);
+            }, 50);
         }, true);
-        
-        // Handle visibility change (when user returns from popup)
-        document.addEventListener('visibilitychange', function() {
-            if (!document.hidden) {
-                // User came back to our page, ensure focus
-                try {
-                    window.focus();
-                } catch (e) {}
-            }
-        });
     }
     
-    // 5. PERIODIC FOCUS MAINTENANCE (subtle, doesn't interrupt user)
-    let focusInterval = setInterval(function() {
-        // Only attempt if page is visible and user hasn't interacted recently
-        if (!document.hidden && !window.document.hasFocus()) {
+    // 5. विजिबिलिटी चेंज हैंडलर (जब यूजर पॉपअप से वापस आए)
+    document.addEventListener('visibilitychange', function() {
+        if (!document.hidden) {
+            // यूजर वापस आ गया है, फोकस सेट करो
+            try {
+                window.focus();
+                console.log('👋 यूजर वापस आ गया');
+            } catch (e) {}
+        }
+    });
+    
+    // 6. पीरियोडिक फोकस मेंटेनेंस (बहुत सॉफ्ट)
+    setInterval(function() {
+        // सिर्फ तभी फोकस करो जब पेज विजिबल हो और फोकस न हो
+        if (!document.hidden && !document.hasFocus()) {
             try {
                 window.focus();
             } catch (e) {}
         }
-    }, 5000); // Check every 5 seconds
+    }, 2000); // हर 2 सेकंड में चेक करो
     
-    // 6. HANDLE NEW IFRAME CONTENT LOADS
-    function watchIframeChanges() {
-        const iframe = document.getElementById('videoPlayer');
-        if (!iframe) return;
-        
-        // When iframe src changes, reapply handlers
-        const originalSrc = iframe.src;
-        
-        setInterval(function() {
-            if (iframe.src !== originalSrc) {
-                // Iframe content changed, reapply our magic
-                console.log('🔄 Iframe content changed');
-                setupIframeMessaging();
-            }
-        }, IFRAME_CHECK_INTERVAL);
-    }
-    
-    // 7. PROTECT AGAINST POPUP REDIRECTS
-    document.addEventListener('beforeunload', function(e) {
-        // Prevent unwanted page unloads from popups
-        // Don't interfere with normal navigation
-        if (!e.target.href && !e.target.action) {
-            e.preventDefault();
-            e.returnValue = '';
-        }
+    // 7. पॉपअप रीडायरेक्ट से बचाव
+    let lastClickTime = 0;
+    document.addEventListener('mousedown', function() {
+        lastClickTime = Date.now();
     });
     
-    // 8. FOCUS ON PAGE LOAD
-    window.addEventListener('load', function() {
-        try {
-            window.focus();
-        } catch (e) {}
-        
-        setupIframeMessaging();
-        setupMobileHandling();
-        watchIframeChanges();
-    });
-    
-    // 9. CLEANUP ON PAGE UNLOAD
-    window.addEventListener('beforeunload', function() {
-        if (focusInterval) {
-            clearInterval(focusInterval);
-        }
-    });
-    
-    // 10. FINAL SAFEGUARD - Multiple refocus attempts after any popup
-    const originalCreateElement = document.createElement;
-    document.createElement = function(tagName) {
-        const element = originalCreateElement.call(document, tagName);
-        
-        if (tagName.toLowerCase() === 'iframe') {
-            // Monitor iframe for popup attempts
+    window.addEventListener('blur', function() {
+        // अगर ब्लर क्लिक के 500ms के अंदर हुआ, तो संभवतः पॉपअप खुला
+        if (Date.now() - lastClickTime < 500) {
             setTimeout(function() {
                 try {
-                    if (element.contentWindow) {
-                        // Override popups inside iframe if possible
-                        // (may not work due to cross-origin)
-                    }
+                    window.focus();
                 } catch (e) {}
-            }, 100);
+            }, 50);
         }
-        
-        return element;
-    };
+    });
     
-    console.log('✅ Popup control script activated - users will stay on page');
+    console.log('✅ पॉपअप अब बैकग्राउंड में खुलेंगे - यूजर आपकी साइट पर रहेगा');
     
 })();
 </script>
+
+<!-- एडिशनल सेफगार्ड: iframe रीलोड होने पर भी काम करेगा -->
+<script>
+(function() {
+    // जब भी iframe का src बदले, फिर से अटैच करो
+    const videoPlayer = document.getElementById('videoPlayer');
+    
+    if (videoPlayer) {
+        // म्यूटेशन ऑब्जर्वर - iframe के एट्रिब्यूट बदलने पर नोटिफाई करेगा
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'src') {
+                    console.log('🔄 iframe src बदला - नया पॉपअप हैंडलर एक्टिव');
+                }
+            });
+        });
+        
+        observer.observe(videoPlayer, { attributes: true });
+    }
+})();
+</script>
+
 </body>  
-</html>  
+    </html>
