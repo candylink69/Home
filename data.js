@@ -124,6 +124,13 @@ const videos = [
     duration: "02:49:30",
     categories: ["HM"],
     preview: "https://candylink69.embed4me.vip/d1jZJK_19LFM0bCyGDP0mQ/is9/puo3likr/vip1n8/preview.webp"
+  },
+  {
+    id: "Movie002",
+    title: "Playing D&D games",
+    duration: "01:56:14",
+    categories: ["Full-Movies"],
+    preview: "https://candylink69.embed4me.vip/NGTrfhTy2Mz0zLAPTH6uwA/js/9dr5ku6k/pcwk3g/preview.webp"
   }
 ];
 
