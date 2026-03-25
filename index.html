@@ -593,7 +593,9 @@ function loadTrendingVideos() {
     container.innerHTML = '';
 
     // Show first few videos as trending
-    const trendingVideos = videos.slice(0, Math.min(VIDEOS_PER_TRENDING, videos.length));
+    const TRENDING_IDS = ["HM001", "Movie001", "Movie002", "S003"];
+
+const trendingVideos = videos.filter(v => TRENDING_IDS.includes(v.id));
     
     trendingVideos.forEach(video => {
         const trendingItem = `
