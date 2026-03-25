@@ -6,6 +6,12 @@
     "description": ""
   },
   {
+    "id": "Full-Movies",
+    "name": "Full Movies",
+    "thumbnail": "Thumbs/Movie001.webp",
+    "description": ""
+  },
+  {
     "id": "indian",
     "name": "Indian",
     "thumbnail": "Thumbs/Indian.webp",
@@ -51,12 +57,6 @@
     "id": "FM",
     "name": "Friend's Mom",
     "thumbnail": "Thumbs/FM001.webp",
-    "description": ""
-  },
-  {
-    "id": "Full-Movies",
-    "name": "Full Movies",
-    "thumbnail": "Thumbs/Movie001.webp",
     "description": ""
   }
 ]
