@@ -95,15 +95,14 @@ body {
 .search-video-title { color: #ccc; font-size: 12px; margin-top: 3px;}
 .search-video-cats { color: #888; font-size: 11px; margin-top: 3px;}
 
-/* categories grid */
+/* categories grid - 2 columns */
 .categories-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 15px;
     margin: 20px 0;
     padding: 0 10px;
 }
-
 .category-card {
     background: rgba(255,255,255,0.05);
     border-radius: 15px;
@@ -113,38 +112,17 @@ body {
     cursor: pointer;
     position: relative;
 }
-
-.category-card:hover {
-    border-color: #ff3300;
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(255,51,0,0.3);
-}
-
+.category-card:hover { border-color: #ff3300; transform: translateY(-5px); box-shadow: 0 10px 20px rgba(255,51,0,0.3);}
 .category-thumb {
     width: 100%;
-    height: 180px;
+    height: auto; /* natural height, no forced 16:9 */
+    aspect-ratio: auto; /* maintain original image ratio */
     object-fit: cover;
+    display: block;
+    background: #1a1a1a;
 }
-
-.category-name {
-    padding: 15px;
-    font-size: 18px;
-    font-weight: bold;
-    color: #ffcc00;
-    background: rgba(0,0,0,0.8);
-}
-
-.video-count {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: rgba(255,51,0,0.9);
-    color: white;
-    padding: 4px 8px;
-    border-radius: 12px;
-    font-size: 12px;
-    font-weight: bold;
-    }
+.category-name { padding: 15px; font-size: 18px; font-weight: bold; color: #ffcc00; background: rgba(0,0,0,0.8);}
+.video-count { position: absolute; top: 10px; right: 10px; background: rgba(255,51,0,0.9); color: white; padding: 4px 8px; border-radius: 12px; font-size: 12px; font-weight: bold;}
 
 /* trending section */
 .section-title {
@@ -340,6 +318,10 @@ body {
     .section-title {
         font-size: 20px;
     }
+    /* categories: 1 column on mobile */
+    .categories-grid {
+        grid-template-columns: 1fr;
+    }
 }
 </style>
 </head>
@@ -468,7 +450,6 @@ function setupPreviewHandlers() {
     container.addEventListener('mouseover', (e) => {
         const card = e.target.closest('.latest-card');
         if (!card) return;
-        // On hover, start preview
         startPreview(card);
     });
     
@@ -484,21 +465,16 @@ function setupPreviewHandlers() {
         const card = e.target.closest('.latest-card');
         if (!card) return;
         startPreview(card);
-        // Do not prevent default to allow scrolling, but stop propagation to avoid conflict
     }, { passive: true });
     
     container.addEventListener('touchend', (e) => {
         const card = e.target.closest('.latest-card');
         if (card && currentActivePreview === card) {
-            // small delay to let the video be visible, then stop
             setTimeout(() => {
                 if (currentActivePreview === card) stopPreview();
             }, 100);
         }
     });
-    
-    // Prevent click from triggering preview (click already handled by card navigation)
-    // The card's click will open video, which is separate.
 }
 
 // ========== RENDER LATEST VIDEOS ==========
@@ -550,7 +526,6 @@ function renderLatestPage(page) {
         if (videoId) {
             card.addEventListener('click', (e) => {
                 e.stopPropagation();
-                // stop any preview before navigating
                 stopPreview();
                 goToVideo(videoId);
             });
@@ -656,9 +631,9 @@ function displayCategories(categories) {
     const container = document.getElementById('categoriesContainer');
     container.innerHTML = '';
     categories.forEach(cat => {
-                const cnt = videos ? videos.filter(v => v.categories && v.categories.includes(cat.id)).length : 0;
+        const cnt = videos ? videos.filter(v => v.categories && v.categories.includes(cat.id)).length : 0;
         container.innerHTML += `<div class="category-card" onclick="selectCategory('${cat.id}')">
-            <img src="${cat.thumbnail}" alt="${cat.name}" class="category-thumb" loading="lazy" onerror="this.src='https://via.placeholder.com/280x180?text=No+Image'">
+        <img src="${cat.thumbnail}" alt="${cat.name}" class="category-thumb" loading="lazy" onerror="this.src='https://via.placeholder.com/280x180?text=No+Image'">
             <div class="video-count">${cnt} videos</div>
             <div class="category-name">${cat.name}</div>
         </div>`;
@@ -734,7 +709,7 @@ function setupSearch() {
     });
 }
 
-// ========== ADS SYSTEM (original) ==========
+// ========== ADS SYSTEM ==========
 let refreshCount = 0;
 const MAX_REFRESHES = 3;
 let lastActivity = Date.now();
@@ -804,7 +779,7 @@ document.addEventListener('DOMContentLoaded', function() {
             loadTrendingVideos();
             setupSearch();
             renderLatestPage(0);
-            setupPreviewHandlers();   // setup preview on hover/touch
+            setupPreviewHandlers();
             loadAllAds();
             setTimeout(() => { if(Date.now() - lastActivity < 30000) trySmartRefresh(); }, 45000);
         } else {
@@ -814,7 +789,6 @@ document.addEventListener('DOMContentLoaded', function() {
     checkVideosAndInit();
 });
 
-// expose globals for onclick
 window.selectCategory = selectCategory;
 window.goToVideo = goToVideo;
 window.openExternal = openExternal;
