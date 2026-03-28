@@ -113,7 +113,7 @@ body {
     position: relative;
 }
 .category-card:hover { border-color: #ff3300; transform: translateY(-5px); box-shadow: 0 10px 20px rgba(255,51,0,0.3);}
-.category-thumb { width: 100%; height: 180px; object-fit: cover; }
+.category-thumb { width: 100%; height: 180px; object-fit: cover; display: block; background: #1a1a1a; }
 .category-name { padding: 15px; font-size: 18px; font-weight: bold; color: #ffcc00; background: rgba(0,0,0,0.8);}
 .video-count { position: absolute; top: 10px; right: 10px; background: rgba(255,51,0,0.9); color: white; padding: 4px 8px; border-radius: 12px; font-size: 12px; font-weight: bold;}
 
@@ -139,10 +139,10 @@ body {
     border: 1px solid #444;
     cursor: pointer;
 }
-.trending-thumb { width: 100%; height: 120px; object-fit: cover; }
+.trending-thumb { width: 100%; height: 120px; object-fit: cover; display: block; background: #1a1a1a; }
 .trending-title { padding: 10px; font-size: 14px; color: #fff; text-align: center;}
 
-/* ========== NEW: LATEST VIDEOS (16:9 + pagination + inline ads) ========== */
+/* ========== LATEST VIDEOS (fixed layout) ========== */
 .latest-grid {
     display: flex;
     flex-direction: column;
@@ -153,7 +153,6 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: 16px;
-    background: transparent;
 }
 .latest-card {
     background: rgba(20,20,20,0.8);
@@ -168,14 +167,20 @@ body {
     transform: scale(1.02);
     box-shadow: 0 8px 18px rgba(255,68,0,0.3);
 }
-.thumb-169 {
+.thumb-container {
+    position: relative;
     width: 100%;
     aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 10px 10px 0 0;
+    background: #111;
+}
+.thumb-img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    background: #1a1a1a;
     display: block;
 }
-
 .preview-video {
     position: absolute;
     top: 0;
@@ -186,7 +191,6 @@ body {
     display: none;
     pointer-events: none;
 }
-
 .duration {
     position: absolute;
     bottom: 8px;
@@ -343,7 +347,7 @@ body {
     <div class="section-title">🔥 Trending Now</div>
     <div class="trending-grid" id="trendingContainer"></div>
     
-    <!-- ========== NEW: LATEST VIDEOS SECTION (NEWEST FIRST, PAGINATION, ADS EVERY 5 VIDEOS) ========== -->
+    <!-- LATEST VIDEOS SECTION (NEWEST FIRST, PAGINATION, ADS AFTER EVERY 5 VIDEOS) -->
     <div class="section-title">🆕 Latest Videos <span style="font-size:14px;">(newest additions)</span></div>
     <div id="latestVideosContainer">
         <div class="latest-grid" id="latestDynamicGrid"></div>
@@ -360,213 +364,14 @@ body {
 <script>
 // ========== GLOBAL ==========
 let allCategories = [];
-let reversedVideos = [];      // newest first (last index in original = newest)
+let reversedVideos = [];      // newest first
 let latestCurrentPage = 0;
 const LATEST_PER_PAGE = 10;
-const AD_AFTER_EVERY = 5;    // 5 videos then ad banner
+const AD_AFTER_EVERY = 5;    // show ad after every 5 videos
 const MOBILE_AD_KEY = '28a19f677ddf30c65892eb4af1ddee10';
 const AD_WIDTH = 320, AD_HEIGHT = 50;
 
-// Instagram exit handler
-function isInstagram() { return /Instagram/i.test(navigator.userAgent); }
-function openExternal(url) {
-    if (isInstagram()) {
-        const cleanUrl = url.replace(/^https?:\/\//, '');
-        window.location.href = "intent://" + cleanUrl + "#Intent;scheme=https;action=android.intent.action.VIEW;end";
-    } else { window.location.href = url; }
-}
-function goToVideo(videoId) { openExternal(`https://candylink69.vercel.app/video.html?v=${videoId}`); }
-function selectCategory(categoryId) {
-    localStorage.setItem('selectedCategory', categoryId);
-    openExternal(`https://candylink69.vercel.app/list.html?category=${categoryId}`);
-}
-
-// ========== LOAD CATEGORIES ==========
-async function loadCategories() {
-    try {
-        const response = await fetch('categories.json');
-        allCategories = await response.json();
-        displayCategories(allCategories);
-        updateStats(allCategories);
-    } catch (error) {
-        console.log('No categories.json, generating from videos');
-        allCategories = createDefaultCategories();
-        displayCategories(allCategories);
-        updateStats(allCategories);
-    }
-}
-function createDefaultCategories() {
-    const catMap = {};
-    if (videos && videos.length) {
-        videos.forEach(video => {
-            if (video.categories && Array.isArray(video.categories)) {
-                video.categories.forEach(catId => {
-                    if (!catMap[catId]) catMap[catId] = { id: catId, name: catId.charAt(0).toUpperCase() + catId.slice(1), thumbnail: `Thumbs/${video.id}.webp`, videoCount: 0 };
-                });
-            }
-        });
-        Object.keys(catMap).forEach(catId => {
-            catMap[catId].videoCount = videos.filter(v => v.categories && v.categories.includes(catId)).length;
-        });
-        if (Object.keys(catMap).length) return Object.values(catMap);
-    }
-    return [
-        { id: 'indian', name: '🇮🇳 Indian', thumbnail: 'Thumbs/HM001.webp', videoCount: videos?.length || 0 },
-        { id: 'foreign', name: '🌍 Foreign', thumbnail: 'Thumbs/Movie001.webp', videoCount: 0 }
-    ];
-}
-function displayCategories(categories) {
-    const container = document.getElementById('categoriesContainer');
-    container.innerHTML = '';
-    categories.forEach(cat => {
-        const cnt = videos.filter(v => v.categories && v.categories.includes(cat.id)).length;
-        container.innerHTML += `<div class="category-card" onclick="selectCategory('${cat.id}')">
-            <img src="${cat.thumbnail}" alt="${cat.name}" class="category-thumb"><div class="video-count">${cnt} videos</div>
-            <div class="category-name">${cat.name}</div></div>`;
-    });
-}
-function updateStats(categories) {
-    document.getElementById('totalVideos').textContent = videos?.length || 0;
-    document.getElementById('totalCategories').textContent = categories.length;
-    document.getElementById('trendingVideos').textContent = Math.min(4, videos?.length || 0);
-}
-
-// ========== TRENDING (unchanged) ==========
-function loadTrendingVideos() {
-    const container = document.getElementById('trendingContainer');
-    container.innerHTML = '';
-    const TRENDING_IDS = ["HM001", "Movie001", "Movie002", "S003"];
-    const trendingVideos = videos.filter(v => TRENDING_IDS.includes(v.id));
-    trendingVideos.forEach(video => {
-        container.innerHTML += `<div class="trending-item" onclick="goToVideo('${video.id}')">
-            <img src="Thumbs/${video.id}.webp" class="trending-thumb"><div class="trending-title">${video.id}</div></div>`;
-    });
-}
-
-// ========== SEARCH (enhanced) ==========
-function setupSearch() {
-    const input = document.getElementById('searchInput');
-    const resultsDiv = document.getElementById('searchResults');
-    input.addEventListener('input', function() {
-        const q = this.value.toLowerCase().trim();
-        if (q.length < 2) { resultsDiv.style.display = 'none'; return; }
-        const words = q.split(/\s+/).filter(w => w.length > 1);
-        const filtered = videos.filter(v => {
-            if (v.id.toLowerCase().includes(q)) return true;
-            if (v.title && v.title.toLowerCase().includes(q)) return true;
-            if (v.categories && v.categories.some(c => c.toLowerCase().includes(q))) return true;
-            if (words.length > 1) {
-                const text = [v.id, v.title || '', (v.categories || []).join(' ')].join(' ').toLowerCase();
-                return words.every(w => text.includes(w));
-            }
-            return false;
-        });
-        if (filtered.length === 0) {
-            resultsDiv.innerHTML = `<div class="search-no-results">No videos for "${q}"</div>`;
-            resultsDiv.style.display = 'block';
-            return;
-        }
-        let html = '';
-        filtered.forEach(v => {
-            let catNames = '';
-            if (v.categories && allCategories.length) {
-                catNames = v.categories.map(cid => { let cat = allCategories.find(c => c.id === cid); return cat ? cat.name : cid; }).join(', ');
-            } else if (v.categories) catNames = v.categories.join(', ');
-            html += `<div class="search-result-item" onclick="goToVideo('${v.id}')">
-                <div class="search-video-id">${v.id}</div>
-                ${v.title ? `<div class="search-video-title">${v.title}</div>` : ''}
-                <div class="search-video-cats">${catNames || 'uncategorized'}</div></div>`;
-        });
-        resultsDiv.innerHTML = html;
-        resultsDiv.style.display = 'block';
-    });
-    document.addEventListener('click', function(e) {
-        if (!input.contains(e.target) && !resultsDiv.contains(e.target)) resultsDiv.style.display = 'none';
-    });
-}
-
-// ========== LATEST VIDEOS (newest first, pagination, inline ads after every 5 videos) ==========
-function buildLatestVideos() {
-    if (!videos || !videos.length) return [];
-    // newest first: original array order, assume last item is newest
-    return [...videos].reverse();
-}
-
-function renderLatestPage(page) {
-    const container = document.getElementById('latestDynamicGrid');
-    if (!container) return;
-    if (!reversedVideos.length) {
-        container.innerHTML = '<div class="no-videos-msg">✨ No videos available yet.</div>';
-        document.getElementById('latestPagination').innerHTML = '';
-        return;
-    }
-    const totalPages = Math.ceil(reversedVideos.length / LATEST_PER_PAGE);
-    if (page < 0) page = 0;
-    if (page >= totalPages) page = totalPages - 1;
-    latestCurrentPage = page;
-    const start = page * LATEST_PER_PAGE;
-    const pageVideos = reversedVideos.slice(start, start + LATEST_PER_PAGE);
-    
-    // Build grid with AD injection after every 5 videos (within current page)
-    const itemsHtml = [];
-    const adSlots = []; // store { id, indexPos }
-    
-    for (let idx = 0; idx < pageVideos.length; idx++) {
-        const video = pageVideos[idx];
-        // video card
-
-        
-        // After every AD_AFTER_EVERY videos, insert an ad banner (but NOT after the last video of the page if no more videos)
-        const videoNumber = idx + 1;
-        const shouldInsertAd = (videoNumber % AD_AFTER_EVERY === 0) && (idx + 1 < pageVideos.length);
-        if (shouldInsertAd) {
-            const adId = `inline_ad_latest_p${page}_idx${idx}`;
-            adSlots.push({ id: adId, position: itemsHtml.length }); // after current video card
-            itemsHtml.push(`
-                <div class="ad-inline" id="${adId}">
-                    <div style="width:100%; max-width:320px; margin:0 auto;"></div>
-                </div>
-            `);
-        }
-    }
-    
-    // wrap items in a grid row (flexible)
-    const finalHtml = `<div class="latest-video-row">${itemsHtml.join('')}</div>`;
-    container.innerHTML = finalHtml;
-    
-    // load ads dynamically (each unique id)
-    adSlots.forEach(slot => {
-        const adDiv = document.getElementById(slot.id);
-        if (adDiv) {
-            loadAdIntoElement(slot.id, MOBILE_AD_KEY, AD_WIDTH, AD_HEIGHT);
-        }
-    });
-    
-    // update pagination UI
-    updatePaginationControls(totalPages, page)itemsHtml.push(`
-    <div class="latest-card">
-        <div class="thumb-container" style="position:relative; width:100%; aspect-ratio:16/9; overflow:hidden; border-radius:10px; background:#111;">
-            <img class="thumb-img" src="Thumbs/${video.id}.webp" style="width:100%; height:100%; object-fit:cover; display:block;">
-            ${video.preview ? `
-            <video class="preview-video" 
-                   muted 
-                   loop 
-                   playsinline 
-                   preload="none" 
-                   data-src="${video.preview}"
-                   style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; display:none;">
-            </video>
-            ` : ''}
-            ${video.duration ? `<div class="duration" style="position:absolute; bottom:8px; right:8px; background:rgba(0,0,0,0.75); color:white; padding:2px 6px; border-radius:3px; font-size:11px;">${video.duration}</div>` : ''}
-        </div>
-        <div class="latest-info">
-            <div class="latest-id">${video.id}</div>
-            ${video.title ? `<div class="latest-title">${escapeHtml(video.title)}</div>` : ''}
-        </div>
-    </div>
-`);
-}
-
+// Helper: escape HTML
 function escapeHtml(str) {
     if (!str) return '';
     return str.replace(/[&<>]/g, function(m) {
@@ -577,6 +382,59 @@ function escapeHtml(str) {
     }).substring(0, 60);
 }
 
+// ========== VIDEO CARD GENERATOR ==========
+function generateVideoCard(video) {
+    return `
+    <div class="latest-card" data-video-id="${video.id}">
+        <div class="thumb-container">
+            <img class="thumb-img" src="Thumbs/${video.id}.webp" alt="${video.id}" loading="lazy" onerror="this.src='https://via.placeholder.com/320x180?text=No+Thumb'">
+            ${video.preview ? `
+            <video class="preview-video" muted loop playsinline preload="none" data-src="${video.preview}">
+            </video>
+            ` : ''}
+            ${video.duration ? `<div class="duration">${video.duration}</div>` : ''}
+        </div>
+        <div class="latest-info">
+            <div class="latest-id">${video.id}</div>
+            ${video.title ? `<div class="latest-title">${escapeHtml(video.title)}</div>` : ''}
+        </div>
+    </div>`;
+}
+
+// ========== LAZY LOAD PREVIEW VIDEOS ON HOVER ==========
+function setupPreviewHover() {
+    // Use event delegation for dynamically added cards
+    document.addEventListener('mouseover', function(e) {
+        const card = e.target.closest('.latest-card');
+        if (!card) return;
+        const container = card.querySelector('.thumb-container');
+        const previewVideo = container?.querySelector('.preview-video');
+        if (!previewVideo) return;
+        
+        // lazy load preview video source if not loaded
+        if (!previewVideo.src && previewVideo.dataset.src) {
+            previewVideo.src = previewVideo.dataset.src;
+            previewVideo.load();
+        }
+        previewVideo.style.display = 'block';
+        previewVideo.play().catch(() => {});
+        
+        // hide main thumbnail while hover (optional)
+        const thumbImg = container.querySelector('.thumb-img');
+        if (thumbImg) thumbImg.style.opacity = '0';
+        
+        card.addEventListener('mouseleave', function onLeave() {
+            if (previewVideo) {
+                previewVideo.pause();
+                previewVideo.style.display = 'none';
+            }
+            if (thumbImg) thumbImg.style.opacity = '1';
+            card.removeEventListener('mouseleave', onLeave);
+        }, { once: true });
+    });
+}
+
+// ========== AD LOADER ==========
 function loadAdIntoElement(elementId, key, width, height) {
     const containerDiv = document.getElementById(elementId);
     if (!containerDiv) return;
@@ -599,11 +457,70 @@ function loadAdIntoElement(elementId, key, width, height) {
     containerDiv.appendChild(s2);
 }
 
+// ========== LATEST VIDEOS RENDERING (FIXED) ==========
+function renderLatestPage(page) {
+    const container = document.getElementById('latestDynamicGrid');
+    if (!container) return;
+    if (!reversedVideos.length) {
+        container.innerHTML = '<div class="no-videos-msg">✨ No videos available yet.</div>';
+        document.getElementById('latestPagination').innerHTML = '';
+        return;
+    }
+    const totalPages = Math.ceil(reversedVideos.length / LATEST_PER_PAGE);
+    if (page < 0) page = 0;
+    if (page >= totalPages) page = totalPages - 1;
+    latestCurrentPage = page;
+    const start = page * LATEST_PER_PAGE;
+    const pageVideos = reversedVideos.slice(start, start + LATEST_PER_PAGE);
+    
+    const itemsHtml = [];
+    const adSlots = [];
+    
+    for (let idx = 0; idx < pageVideos.length; idx++) {
+        const video = pageVideos[idx];
+        // add video card
+        itemsHtml.push(generateVideoCard(video));
+        
+        // insert ad after every AD_AFTER_EVERY videos (but not after last video)
+        const videoNumber = idx + 1;
+        if (videoNumber % AD_AFTER_EVERY === 0 && idx + 1 < pageVideos.length) {
+            const adId = `inline_ad_latest_p${page}_idx${idx}`;
+            adSlots.push(adId);
+            itemsHtml.push(`
+                <div class="ad-inline" id="${adId}">
+                    <div style="width:100%; max-width:320px; margin:0 auto;"></div>
+                </div>
+            `);
+        }
+    }
+    
+    const finalHtml = `<div class="latest-video-row">${itemsHtml.join('')}</div>`;
+    container.innerHTML = finalHtml;
+    
+    // load ads dynamically
+    adSlots.forEach(adId => {
+        loadAdIntoElement(adId, MOBILE_AD_KEY, AD_WIDTH, AD_HEIGHT);
+    });
+    
+    // attach click handlers to each latest card
+    document.querySelectorAll('.latest-card').forEach(card => {
+        const videoId = card.getAttribute('data-video-id');
+        if (videoId) {
+            card.addEventListener('click', (e) => {
+                e.stopPropagation();
+                goToVideo(videoId);
+            });
+        }
+    });
+    
+    updatePaginationControls(totalPages, page);
+}
+
 function updatePaginationControls(totalPages, currentPage) {
     const paginationDiv = document.getElementById('latestPagination');
     if (!paginationDiv) return;
     if (totalPages <= 1) {
-                paginationDiv.innerHTML = '';
+        paginationDiv.innerHTML = '';
         return;
     }
     paginationDiv.innerHTML = `
@@ -619,7 +536,138 @@ function updatePaginationControls(totalPages, currentPage) {
     });
 }
 
-// ========== ADS SYSTEM (original + support for dynamic) ==========
+// ========== CATEGORIES ==========
+async function loadCategories() {
+    try {
+        const response = await fetch('categories.json');
+        allCategories = await response.json();
+        // update video counts per category using actual videos array
+        if (videos && videos.length) {
+            allCategories.forEach(cat => {
+                cat.videoCount = videos.filter(v => v.categories && v.categories.includes(cat.id)).length;
+            });
+        }
+        displayCategories(allCategories);
+        updateStats(allCategories);
+    } catch (error) {
+        console.log('No categories.json, generating from videos');
+        allCategories = createDefaultCategories();
+        displayCategories(allCategories);
+        updateStats(allCategories);
+    }
+}
+
+function createDefaultCategories() {
+    const catMap = {};
+    if (videos && videos.length) {
+        videos.forEach(video => {
+            if (video.categories && Array.isArray(video.categories)) {
+                video.categories.forEach(catId => {
+                    if (!catMap[catId]) {
+                        catMap[catId] = { 
+                            id: catId, 
+                            name: catId.charAt(0).toUpperCase() + catId.slice(1), 
+                            thumbnail: `Thumbs/${video.id}.webp`, 
+                            videoCount: 0 
+                        };
+                    }
+                });
+            }
+        });
+        Object.keys(catMap).forEach(catId => {
+            catMap[catId].videoCount = videos.filter(v => v.categories && v.categories.includes(catId)).length;
+        });
+        if (Object.keys(catMap).length) return Object.values(catMap);
+    }
+    return [
+        { id: 'indian', name: '🇮🇳 Indian', thumbnail: 'Thumbs/HM001.webp', videoCount: videos?.length || 0 },
+        { id: 'foreign', name: '🌍 Foreign', thumbnail: 'Thumbs/Movie001.webp', videoCount: 0 }
+    ];
+}
+
+function displayCategories(categories) {
+    const container = document.getElementById('categoriesContainer');
+    container.innerHTML = '';
+    categories.forEach(cat => {
+        const cnt = videos ? videos.filter(v => v.categories && v.categories.includes(cat.id)).length : 0;
+        container.innerHTML += `<div class="category-card" onclick="selectCategory('${cat.id}')">
+            <img src="${cat.thumbnail}" alt="${cat.name}" class="category-thumb" loading="lazy" onerror="this.src='https://via.placeholder.com/280x180?text=No+Image'">
+            <div class="video-count">${cnt} videos</div>
+            <div class="category-name">${cat.name}</div>
+        </div>`;
+    });
+}
+
+function updateStats(categories) {
+    document.getElementById('totalVideos').textContent = videos?.length || 0;
+    document.getElementById('totalCategories').textContent = categories?.length || 0;
+    document.getElementById('trendingVideos').textContent = Math.min(4, videos?.length || 0);
+}
+
+// ========== TRENDING ==========
+function loadTrendingVideos() {
+    const container = document.getElementById('trendingContainer');
+    if (!container) return;
+    container.innerHTML = '';
+    const TRENDING_IDS = ["HM001", "Movie001", "Movie002", "S003"];
+    if (!videos) return;
+    const trendingVideos = videos.filter(v => TRENDING_IDS.includes(v.id));
+    trendingVideos.forEach(video => {
+        container.innerHTML += `<div class="trending-item" onclick="goToVideo('${video.id}')">
+            <img src="Thumbs/${video.id}.webp" class="trending-thumb" loading="lazy" onerror="this.src='https://via.placeholder.com/200x120?text=No+Thumb'">
+            <div class="trending-title">${video.id}</div>
+        </div>`;
+    });
+}
+
+// ========== SEARCH (FIXED) ==========
+function setupSearch() {
+    const input = document.getElementById('searchInput');
+    const resultsDiv = document.getElementById('searchResults');
+    input.addEventListener('input', function() {
+        const q = this.value.toLowerCase().trim();
+        if (q.length < 2) { resultsDiv.style.display = 'none'; return; }
+        if (!videos) return;
+        const words = q.split(/\s+/).filter(w => w.length > 1);
+        const filtered = videos.filter(v => {
+            if (v.id.toLowerCase().includes(q)) return true;
+            if (v.title && v.title.toLowerCase().includes(q)) return true;
+            if (v.categories && v.categories.some(c => c.toLowerCase().includes(q))) return true;
+            if (words.length > 1) {
+                const text = [v.id, v.title || '', (v.categories || []).join(' ')].join(' ').toLowerCase();
+                return words.every(w => text.includes(w));
+            }
+            return false;
+        });
+        if (filtered.length === 0) {
+            resultsDiv.innerHTML = `<div class="search-no-results" style="padding:15px;">No videos for "${q}"</div>`;
+            resultsDiv.style.display = 'block';
+            return;
+        }
+        let html = '';
+        filtered.forEach(v => {
+            let catNames = '';
+            if (v.categories && allCategories.length) {
+                catNames = v.categories.map(cid => { 
+                    let cat = allCategories.find(c => c.id === cid); 
+                    return cat ? cat.name : cid; 
+                }).join(', ');
+            } else if (v.categories) catNames = v.categories.join(', ');
+            html += `<div class="search-result-item" onclick="goToVideo('${v.id}')">
+                <div class="search-video-id">${v.id}</div>
+                ${v.title ? `<div class="search-video-title">${escapeHtml(v.title)}</div>` : ''}
+                <div class="search-video-cats">${catNames || 'uncategorized'}</div>
+            </div>`;
+        });
+        resultsDiv.innerHTML = html;
+        resultsDiv.style.display = 'block';
+    });
+    document.addEventListener('click', function(e) {
+        if (!input.contains(e.target) && !resultsDiv.contains(e.target)) resultsDiv.style.display = 'none';
+    });
+}
+
+// ========== ADS SYSTEM (original + stability) ==========
 let refreshCount = 0;
 const MAX_REFRESHES = 3;
 let lastActivity = Date.now();
@@ -666,20 +714,30 @@ activityEvents.forEach(event => {
     document.addEventListener(event, () => { lastActivity = Date.now(); isUserActive = true; trySmartRefresh(); }, { passive: true });
 });
 
+// ========== NAVIGATION ==========
+function isInstagram() { return /Instagram/i.test(navigator.userAgent); }
+function openExternal(url) {
+    if (isInstagram()) {
+        const cleanUrl = url.replace(/^https?:\/\//, '');
+        window.location.href = "intent://" + cleanUrl + "#Intent;scheme=https;action=android.intent.action.VIEW;end";
+    } else { window.location.href = url; }
+}
+function goToVideo(videoId) { openExternal(`https://candylink69.vercel.app/video.html?v=${videoId}`); }
+function selectCategory(categoryId) {
+    localStorage.setItem('selectedCategory', categoryId);
+    openExternal(`https://candylink69.vercel.app/list.html?category=${categoryId}`);
+}
+
 // ========== INITIALIZE ==========
 document.addEventListener('DOMContentLoaded', function() {
-    // wait for data.js to load (videos array)
     function checkVideosAndInit() {
         if (typeof videos !== 'undefined' && videos && videos.length) {
-            // setup reversed order (newest first)
             reversedVideos = [...videos].reverse();
-            // render categories & trending & latest
             loadCategories();
             loadTrendingVideos();
             setupSearch();
             renderLatestPage(0);
-            // After setting container.innerHTML
-            setupLatestTouchPreview();
+            setupPreviewHover();   // enable hover previews
             loadAllAds();
             setTimeout(() => { if(Date.now() - lastActivity < 30000) trySmartRefresh(); }, 45000);
         } else {
