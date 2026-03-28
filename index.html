@@ -175,6 +175,46 @@ body {
     background: #1a1a1a;
     display: block;
 }
+    .thumb-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 10px;
+    background: #111;
+    cursor: pointer;
+}
+
+.thumb-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.preview-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+    pointer-events: none;
+}
+
+.duration {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    background: rgba(0, 0, 0, 0.75);
+    color: white;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: bold;
+    z-index: 2;
+}
 .latest-info {
     padding: 12px;
     text-align: left;
@@ -490,15 +530,7 @@ function renderLatestPage(page) {
     for (let idx = 0; idx < pageVideos.length; idx++) {
         const video = pageVideos[idx];
         // video card
-        itemsHtml.push(`
-            <div class="latest-card" onclick="goToVideo('${video.id}')">
-                <img class="thumb-169" src="Thumbs/${video.id}.webp" alt="${video.id}" loading="lazy" onerror="this.src='Thumbs/placeholder.webp'">
-                <div class="latest-info">
-                    <div class="latest-id">${video.id}</div>
-                    ${video.title ? `<div class="latest-title">${escapeHtml(video.title)}</div>` : ''}
-                </div>
-            </div>
-        `);
+
         
         // After every AD_AFTER_EVERY videos, insert an ad banner (but NOT after the last video of the page if no more videos)
         const videoNumber = idx + 1;
@@ -527,7 +559,28 @@ function renderLatestPage(page) {
     });
     
     // update pagination UI
-    updatePaginationControls(totalPages, page);
+    updatePaginationControls(totalPages, page)itemsHtml.push(`
+    <div class="latest-card">
+        <div class="thumb-container" style="position:relative; width:100%; aspect-ratio:16/9; overflow:hidden; border-radius:10px; background:#111;">
+            <img class="thumb-img" src="Thumbs/${video.id}.webp" style="width:100%; height:100%; object-fit:cover; display:block;">
+            ${video.preview ? `
+            <video class="preview-video" 
+                   muted 
+                   loop 
+                   playsinline 
+                   preload="none" 
+                   data-src="${video.preview}"
+                   style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; display:none;">
+            </video>
+            ` : ''}
+            ${video.duration ? `<div class="duration" style="position:absolute; bottom:8px; right:8px; background:rgba(0,0,0,0.75); color:white; padding:2px 6px; border-radius:3px; font-size:11px;">${video.duration}</div>` : ''}
+        </div>
+        <div class="latest-info">
+            <div class="latest-id">${video.id}</div>
+            ${video.title ? `<div class="latest-title">${escapeHtml(video.title)}</div>` : ''}
+        </div>
+    </div>
+`);
 }
 
 function escapeHtml(str) {
@@ -641,6 +694,8 @@ document.addEventListener('DOMContentLoaded', function() {
             loadTrendingVideos();
             setupSearch();
             renderLatestPage(0);
+            // After setting container.innerHTML
+            setupLatestTouchPreview();
             loadAllAds();
             setTimeout(() => { if(Date.now() - lastActivity < 30000) trySmartRefresh(); }, 45000);
         } else {
