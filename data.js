@@ -169,7 +169,7 @@ const videos = [
   },
   {
     id: "I004",
-    title: "Hot Punjabi Girl Full Hard Fucking Video With Blowjob",
+    title: "Hot Indian Girl Full Hard Fucking Video With Blowjob",
     duration: "06:37",
     categories: ["I"],
     preview: ""
@@ -218,7 +218,7 @@ const videos = [
   },
   {
     id: "I0011",
-    title: "Punjabi couple having sex in hotel",
+    title: "Couple having sex in hotel",
     duration: "03:10",
     categories: ["I"],
     preview: ""
