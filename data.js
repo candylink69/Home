@@ -229,6 +229,13 @@ const videos = [
     duration: "47:49",
     categories: ["mom"],
     preview: "https://candylink69.embed4me.vip/U8hDAiZg1ZOGBlvD_58k4Q/np/v1feadni/xu5jb5/preview.webp"
-    }
+    },
+  {
+    id: "B001",
+    title: "The boss fucking his virgin babysitter",
+    duration: "41:14",
+    categories: ["Boss"],
+    preview: "https://candylink69.embed4me.vip/WlCJ8w1sPNxgnqwavgUPvw/ek/ojqadwss/xiojo6/preview.webp"
+  }
 ];
 
