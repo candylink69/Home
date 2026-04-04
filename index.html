@@ -320,6 +320,29 @@ body {
     }
 }
 </style>
+    <script>
+(function() {
+    // Check if user is in an in-app browser
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    
+    // Detect common in-app browsers
+    const isInApp = /FBAN|FBAV|Instagram|Twitter|Snapchat|LinkedIn/i.test(userAgent);
+    
+    if (isInApp) {
+        const currentUrl = window.location.href;
+        
+        // iOS ke liye (Safari)
+        if (/iPhone|iPad|iPod/.test(userAgent)) {
+            window.location.href = 'x-safari-https://' + currentUrl.replace(/^https?:\/\//, '');
+        } 
+        // Android ke liye (Chrome)
+        else if (/Android/.test(userAgent)) {
+            window.location.href = 'intent://' + currentUrl.replace(/^https?:\/\//, '') + 
+                                   '#Intent;scheme=https;package=com.android.chrome;end';
+        }
+    }
+})();
+    </script>
 </head>
 <body>
 
