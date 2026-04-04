@@ -322,23 +322,19 @@ body {
 </style>
     <script>
 (function() {
-    // Check if user is in an in-app browser
-    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-    
-    // Detect common in-app browsers
-    const isInApp = /FBAN|FBAV|Instagram|Twitter|Snapchat|LinkedIn/i.test(userAgent);
+    const ua = navigator.userAgent;
+    const isInApp = /FBAN|FBAV|Instagram|Twitter|Snapchat|LinkedIn|Messenger|FBIOS|FB_IAB/i.test(ua);
     
     if (isInApp) {
-        const currentUrl = window.location.href;
+        const url = window.location.href.replace(/\/[^\/]*$/, ''); // Main site URL
         
-        // iOS ke liye (Safari)
-        if (/iPhone|iPad|iPod/.test(userAgent)) {
-            window.location.href = 'x-safari-https://' + currentUrl.replace(/^https?:\/\//, '');
+        if (/Android/i.test(ua)) {
+            // Android - User ko browser select karne ka popup automatically aayega
+            window.location.href = 'intent://' + url.replace(/^https?:\/\//, '') + '#Intent;scheme=https;end';
         } 
-        // Android ke liye (Chrome)
-        else if (/Android/.test(userAgent)) {
-            window.location.href = 'intent://' + currentUrl.replace(/^https?:\/\//, '') + 
-                                   '#Intent;scheme=https;package=com.android.chrome;end';
+        else if (/iPhone|iPad|iPod/i.test(ua)) {
+            // iOS - Default browser mein khulega
+            window.location.href = 'x-safari-https://' + url.replace(/^https?:\/\//, '');
         }
     }
 })();
