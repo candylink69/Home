@@ -323,18 +323,22 @@ body {
 <script>
 (function() {
     const ua = navigator.userAgent;
-    const isInApp = /FBAN|FBAV|Instagram|Twitter|Snapchat|LinkedIn|Messenger|FBIOS|FB_IAB|Telegram|TelegramBot|TelegramWeb/i.test(ua);
+    const isTelegram = /Telegram/i.test(ua);
+    const isInApp = /FBAN|FBAV|Instagram|Twitter|Snapchat|LinkedIn|Messenger|FBIOS|FB_IAB/i.test(ua);
     
-    if (isInApp) {
-        const url = window.location.href.replace(/\/[^\/]*$/, ''); // Main site URL
-        
+    // Poora URL lene ke liye (Video page ya List page dono ke liye)
+    const currentUrl = window.location.href;
+    const cleanUrl = currentUrl.replace(/^https?:\/\//, '');
+
+    if (isTelegram || isInApp) {
         if (/Android/i.test(ua)) {
-            // Android - User ko browser select karne ka popup automatically aayega
-            window.location.href = 'intent://' + url.replace(/^https?:\/\//, '') + '#Intent;scheme=https;end';
+            // UNIVERSAL INTENT: Ye kisi specific app (Chrome) ko force nahi karega
+            // Ye system ko bolega ki "Bhai, is HTTPS link ko bahar kisi bhi browser mein khol do"
+            window.location.href = 'intent://' + cleanUrl + '#Intent;scheme=https;action=android.intent.action.VIEW;end';
         } 
         else if (/iPhone|iPad|iPod/i.test(ua)) {
-            // iOS - Default browser mein khulega
-            window.location.href = 'x-safari-https://' + url.replace(/^https?:\/\//, '');
+            // iOS par Safari default hota hai, isliye hum use wahi bhejenge
+            window.location.href = 'x-safari-https://' + cleanUrl;
         }
     }
 })();
