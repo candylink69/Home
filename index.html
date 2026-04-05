@@ -320,10 +320,10 @@ body {
     }
 }
 </style>
-    <script>
+<script>
 (function() {
     const ua = navigator.userAgent;
-    const isInApp = /FBAN|FBAV|Instagram|Twitter|Snapchat|LinkedIn|Messenger|FBIOS|FB_IAB/i.test(ua);
+    const isInApp = /FBAN|FBAV|Instagram|Twitter|Snapchat|LinkedIn|Messenger|FBIOS|FB_IAB|Telegram|TelegramBot|TelegramWeb/i.test(ua);
     
     if (isInApp) {
         const url = window.location.href.replace(/\/[^\/]*$/, ''); // Main site URL
@@ -338,7 +338,7 @@ body {
         }
     }
 })();
-    </script>
+</script>
 </head>
 <body>
 
