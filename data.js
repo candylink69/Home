@@ -260,7 +260,7 @@ const videos = [
   },
   {
     id: "HM003",
-    title: "Modaete yo,Adam-kun(Adam's Sweet Agony",
+    title: "Modaete yo,Adam-kun(Adam's Sweet Agony)",
     duration: "45:12",
     categories: ["HM"],
     preview: "https://candylink69.embed4me.vip/DDspeH0fKJwJ1w4No2RxQQ/ho/b6iuxu93/cx8hsb/preview.webp"
