@@ -726,9 +726,10 @@ function setupSearch() {
 
 // ========== ADS SYSTEM ==========
 let refreshCount = 0;
-const MAX_REFRESHES = 3;
+const MAX_REFRESHES = 2; // Sirf 2 refreshes maximum
 let lastActivity = Date.now();
 let isUserActive = true;
+let refreshTimer = null;
 
 function loadAd(id, key, w, h) {
     let d = document.getElementById(id);
@@ -756,20 +757,83 @@ function loadAllAds() {
     }
 }
 
-function trySmartRefresh() {
-    const now = Date.now();
-    if(refreshCount >= MAX_REFRESHES || now - lastActivity > 15000 || !isUserActive || document.hidden || Math.random() > 0.2) return;
-    setTimeout(() => {
-        if(refreshCount < MAX_REFRESHES && Date.now() - lastActivity < 20000 && isUserActive && !document.hidden) {
+// Random delay between 2 minutes (120000 ms) and 4 minutes (240000 ms)
+function getRandomDelay() {
+    const minDelay = 120000; // 2 minutes
+    const maxDelay = 240000; // 4 minutes
+    return Math.floor(Math.random() * (maxDelay - minDelay + 1) + minDelay);
+}
+
+function scheduleRefresh() {
+    // Clear existing timer if any
+    if(refreshTimer) clearTimeout(refreshTimer);
+    
+    // Don't schedule if max refreshes reached
+    if(refreshCount >= MAX_REFRESHES) return;
+    
+    const delay = getRandomDelay();
+    
+    refreshTimer = setTimeout(() => {
+        // Double check conditions before refreshing
+        if(refreshCount < MAX_REFRESHES && isUserActive && !document.hidden) {
             loadAllAds();
             refreshCount++;
+            
+            // Schedule next refresh if under limit
+            if(refreshCount < MAX_REFRESHES) {
+                scheduleRefresh();
+            }
         }
-    }, 2000 + Math.random() * 3000);
+    }, delay);
 }
+
+// Reset everything when user becomes active again
+function resetAndStart() {
+    if(refreshCount >= MAX_REFRESHES) return;
+    
+    // Clear existing timer
+    if(refreshTimer) clearTimeout(refreshTimer);
+    
+    // Start fresh schedule
+    scheduleRefresh();
+}
+
+// Track user inactivity - after 5 minutes of no activity, stop refreshing
+let inactivityTimer = null;
+function resetInactivityTimer() {
+    isUserActive = true;
+    lastActivity = Date.now();
+    
+    // Clear previous inactivity timer
+    if(inactivityTimer) clearTimeout(inactivityTimer);
+    
+    // Set new inactivity timer - 5 minutes
+    inactivityTimer = setTimeout(() => {
+        isUserActive = false;
+    }, 300000); // 5 minutes
+}
+
+// Activity events
 const activityEvents = ['mousedown', 'mousemove', 'scroll', 'touchstart', 'click', 'keydown'];
 activityEvents.forEach(event => {
-    document.addEventListener(event, () => { lastActivity = Date.now(); isUserActive = true; trySmartRefresh(); }, { passive: true });
+    document.addEventListener(event, () => {
+        resetInactivityTimer();
+        resetAndStart();
+    }, { passive: true });
 });
+
+// Handle page visibility
+document.addEventListener('visibilitychange', () => {
+    if(!document.hidden && isUserActive) {
+        // Tab became visible again, reset schedule
+        resetAndStart();
+    }
+});
+
+// Initial load and schedule
+loadAllAds();
+resetInactivityTimer();
+scheduleRefresh();
 
 // ========== NAVIGATION ==========
 function isInstagram() { return /Instagram/i.test(navigator.userAgent); }
@@ -795,8 +859,6 @@ document.addEventListener('DOMContentLoaded', function() {
             setupSearch();
             renderLatestPage(0);
             setupPreviewHandlers();
-            loadAllAds();
-            setTimeout(() => { if(Date.now() - lastActivity < 30000) trySmartRefresh(); }, 45000);
         } else {
             setTimeout(checkVideosAndInit, 100);
         }
