@@ -314,22 +314,19 @@ body{
 <!-- SOCIAL BAR (script) -->
 <script src="https://pl28370524.effectivegatecpm.com/3a/d6/0f/3ad60f18f18ad6833a8dd0aadd895e49.js"></script>
 
-<!-- DYNAMIC VIDEO LOADER + AUTO REFRESH FOR ad-top & sticky (MAX 3 TIMES) -->
+<!-- DYNAMIC VIDEO LOADER + SAFE AUTO REFRESH (Random 2-4 min, Max 2 refreshes) -->
 <script>
-    // Get video ID from URL parameter
+    // ==================== VIDEO LOADER ====================
     const urlParams = new URLSearchParams(window.location.search);
     const videoId = urlParams.get('v') || 'V001';
 
-    // Load videos.json and inject video content
     fetch('videos.json')
         .then(response => response.json())
         .then(videosData => {
             const video = videosData[videoId];
 
             if (video) {
-                // Update page title (browser tab)
                 document.title = `CandyLink69 – ${video.title || videoId}`;
-                // Main blinking title stays "CandyLink69" — unchanged.
                 document.getElementById('videoPlayer').src = video.embed;
                 document.getElementById('currentVideoId').textContent = videoId;
 
@@ -337,27 +334,22 @@ body{
                     document.getElementById('videoDescription').textContent = video.description;
                 }
 
-                // Setup Previous/Next navigation
                 const videoIds = Object.keys(videosData);
                 const currentIndex = videoIds.indexOf(videoId);
 
-                // Previous button
                 if (currentIndex > 0) {
                     const prevBtn = document.getElementById('prevBtn');
                     prevBtn.href = `video.html?v=${videoIds[currentIndex - 1]}`;
                     prevBtn.style.display = 'inline-block';
                 }
 
-                // Next button
                 if (currentIndex < videoIds.length - 1) {
                     const nextBtn = document.getElementById('nextBtn');
                     nextBtn.href = `video.html?v=${videoIds[currentIndex + 1]}`;
                     nextBtn.style.display = 'inline-block';
                 }
             } else {
-                // Video not found
-                const videoBox = document.querySelector('.video-box');
-                videoBox.innerHTML = '<div style="padding:50px;color:#ccc; text-align:center">❌ This video is no longer available.</div>';
+                document.querySelector('.video-box').innerHTML = '<div style="padding:50px;color:#ccc; text-align:center">❌ This video is no longer available.</div>';
             }
         })
         .catch(error => {
@@ -365,12 +357,11 @@ body{
             document.querySelector('.video-box').innerHTML = '<div style="padding:50px;color:#ff8888">⚠️ Failed to load video data.</div>';
         });
 
-    // ---------- AD LOADER FUNCTION (generic) ----------
+    // ==================== AD LOADER FUNCTION ====================
     function loadAd(containerId, key, width, height) {
         const container = document.getElementById(containerId);
         if (!container) return;
 
-        // Clear previous content to avoid stacking
         container.innerHTML = '';
         delete window.atOptions;
 
@@ -392,86 +383,151 @@ body{
         container.appendChild(script2);
     }
 
-    // ----- AUTO REFRESH FOR ad-top & sticky ONLY (max 3 times, 45s interval) -----
+    // ==================== SAFE AUTO REFRESH SYSTEM ====================
     let refreshCount = 0;
-    const MAX_REFRESHES = 3;
-    let refreshInterval = null;
+    const MAX_REFRESHES = 2;        // Sirf 2 baar refresh (as per your requirement)
+    let refreshTimer = null;
+    let isUserActive = true;
+    let lastActivity = Date.now();
+    let inactivityTimer = null;
 
+    // Random delay between 2 minutes (120000ms) and 4 minutes (240000ms)
+    function getRandomDelay() {
+        const minDelay = 120000;  // 2 minutes
+        const maxDelay = 240000;  // 4 minutes
+        return Math.floor(Math.random() * (maxDelay - minDelay + 1) + minDelay);
+    }
+
+    // Refresh only ad-top and sticky
     function refreshTopAndStickyAds() {
+        // Check conditions before refreshing
         if (refreshCount >= MAX_REFRESHES) {
-            if (refreshInterval) {
-                clearInterval(refreshInterval);
-                refreshInterval = null;
-                console.log('✅ Auto-refresh finished (3/3) for ad-top & sticky');
+            if (refreshTimer) {
+                clearTimeout(refreshTimer);
+                refreshTimer = null;
             }
             return;
         }
 
-        console.log(`🔄 Refreshing ad-top & sticky #${refreshCount + 1} of ${MAX_REFRESHES}`);
+        // ONLY refresh if user is active AND tab is visible
+        if (!isUserActive || document.hidden) {
+            // Reschedule for later when user becomes active
+            if (refreshCount < MAX_REFRESHES) {
+                scheduleRefresh();
+            }
+            return;
+        }
 
         const isMobile = window.innerWidth < 768;
 
-        // Refresh ad-top (now located below title)
+        // Refresh ad-top
         if (isMobile) {
             loadAd('ad-top', '28a19f677ddf30c65892eb4af1ddee10', 320, 50);
         } else {
             loadAd('ad-top', 'a7f6af07e7b981a82b1a2a982b13ba01', 728, 90);
         }
 
-        // Refresh sticky (mobile/desktop both use 320x50)
+        // Refresh sticky
         loadAd('sticky', '28a19f677ddf30c65892eb4af1ddee10', 320, 50);
 
         refreshCount++;
 
-        if (refreshCount >= MAX_REFRESHES && refreshInterval) {
-            clearInterval(refreshInterval);
-            refreshInterval = null;
-            console.log('✅ Auto-refresh completed after 3 cycles (ad-top & sticky)');
-            // No status message displayed to audience as requested.
+        // Schedule next refresh if under limit
+        if (refreshCount < MAX_REFRESHES) {
+            scheduleRefresh();
         }
     }
 
-    // Load all ads initially (first load, then start refresh cycle)
+    function scheduleRefresh() {
+        if (refreshTimer) {
+            clearTimeout(refreshTimer);
+        }
+        if (refreshCount >= MAX_REFRESHES) {
+            return;
+        }
+
+        const delay = getRandomDelay();
+        refreshTimer = setTimeout(function() {
+            refreshTopAndStickyAds();
+        }, delay);
+    }
+
+    // Reset user activity tracking
+    function resetUserActivity() {
+        isUserActive = true;
+        lastActivity = Date.now();
+        
+        // Reset inactivity timer
+        if (inactivityTimer) {
+            clearTimeout(inactivityTimer);
+        }
+        
+        // After 5 minutes of no activity, mark user as inactive
+        inactivityTimer = setTimeout(function() {
+            isUserActive = false;
+        }, 300000); // 5 minutes
+    }
+
+    // Load initial ads (ad-top, ad-bottom, sticky)
     function loadInitialAds() {
         const isMobile = window.innerWidth < 768;
 
-        // 1. ad-top (now positioned below title)
+        // ad-top
         if (isMobile) {
             loadAd('ad-top', '28a19f677ddf30c65892eb4af1ddee10', 320, 50);
         } else {
             loadAd('ad-top', 'a7f6af07e7b981a82b1a2a982b13ba01', 728, 90);
         }
 
-        // 2. ad-bottom (static, loaded once)
+        // ad-bottom (static - loaded once)
         if (isMobile) {
             loadAd('ad-bottom', '1236280d3c879dfd9af37ab923f7cfb3', 300, 250);
         } else {
             loadAd('ad-bottom', 'a7f6af07e7b981a82b1a2a982b13ba01', 728, 90);
         }
 
-        // 3. sticky (footer)
+        // sticky
         loadAd('sticky', '28a19f677ddf30c65892eb4af1ddee10', 320, 50);
     }
 
-    // Initialize everything when DOM ready
-    document.addEventListener('DOMContentLoaded', function () {
-        loadInitialAds();
-
-        // Start auto-refresh timer for ad-top and sticky (45 seconds)
-        refreshInterval = setInterval(refreshTopAndStickyAds, 45000);
-
-        // Clean up interval on page unload
-        window.addEventListener('beforeunload', function () {
-            if (refreshInterval) {
-                clearInterval(refreshInterval);
+    // ==================== EVENT LISTENERS ====================
+    const activityEvents = ['mousedown', 'mousemove', 'scroll', 'touchstart', 'click', 'keydown'];
+    activityEvents.forEach(function(event) {
+        document.addEventListener(event, function() {
+            resetUserActivity();
+            // If refreshes are still pending, make sure schedule is active
+            if (refreshCount < MAX_REFRESHES && !refreshTimer) {
+                scheduleRefresh();
             }
-        });
+        }, { passive: true });
     });
 
-    // Optional: small resize handler to maintain ad consistency (no refresh, just layout)
-    window.addEventListener('resize', function () {
-        // we don't force reload on resize, but ensures that any future reload respects dimensions
+    // Handle page visibility (tab switching)
+    document.addEventListener('visibilitychange', function() {
+        if (!document.hidden && isUserActive) {
+            // Tab became visible again - reschedule if needed
+            if (refreshCount < MAX_REFRESHES && !refreshTimer) {
+                scheduleRefresh();
+            }
+        }
+    });
+
+    // ==================== INITIALIZATION ====================
+    document.addEventListener('DOMContentLoaded', function() {
+        loadInitialAds();
+        resetUserActivity();
+        scheduleRefresh();  // First refresh will happen randomly between 2-4 minutes
+    });
+
+    // Cleanup on page unload
+    window.addEventListener('beforeunload', function() {
+        if (refreshTimer) {
+            clearTimeout(refreshTimer);
+        }
+        if (inactivityTimer) {
+            clearTimeout(inactivityTimer);
+        }
     });
 </script>
 </body>
-                     </html>
+</html>
