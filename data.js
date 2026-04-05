@@ -257,6 +257,13 @@ const videos = [
     duration: "1:55:45",
     categories: ["Full-Movies"],
     preview: "https://candylink69.embed4me.vip/1A9sA0A3xTi3H8PUspCrFg/mik/xieomuss/mowlqx/preview.webp"
+  },
+  {
+    id: "HM003",
+    title: "Modaete yo,Adam-kun(Adam's Sweet Agony",
+    duration: "45:12",
+    categories: ["HM"],
+    preview: "https://candylink69.embed4me.vip/DDspeH0fKJwJ1w4No2RxQQ/ho/b6iuxu93/cx8hsb/preview.webp"
   }
 ];
 
