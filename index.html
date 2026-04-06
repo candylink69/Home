@@ -670,7 +670,7 @@ function loadTrendingVideos() {
     const container = document.getElementById('trendingContainer');
     if (!container) return;
     container.innerHTML = '';
-    const TRENDING_IDS = ["HM001", "Movie001", "Movie002", "S003"];
+    const TRENDING_IDS = ["HM001", "Movie004", "HM002", "D001"];
     if (!videos) return;
     const trendingVideos = videos.filter(v => TRENDING_IDS.includes(v.id));
     trendingVideos.forEach(video => {
