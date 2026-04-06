@@ -115,8 +115,8 @@ body {
 .category-card:hover { border-color: #ff3300; transform: translateY(-5px); box-shadow: 0 10px 20px rgba(255,51,0,0.3);}
 .category-thumb {
     width: 100%;
-    height: auto; /* natural height, no forced 16:9 */
-    aspect-ratio: auto; /* maintain original image ratio */
+    height: auto;
+    aspect-ratio: auto;
     object-fit: cover;
     display: block;
     background: #1a1a1a;
@@ -145,9 +145,52 @@ body {
     overflow: hidden;
     border: 1px solid #444;
     cursor: pointer;
+    transition: 0.2s;
+}
+.trending-item:hover {
+    border-color: #ff6600;
+    transform: translateY(-3px);
 }
 .trending-thumb { width: 100%; height: 120px; object-fit: cover; display: block; background: #1a1a1a; }
 .trending-title { padding: 10px; font-size: 14px; color: #fff; text-align: center;}
+
+/* Native Ad Card - Blends with trending items (16:9 like videos) */
+.native-trending-card {
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #444;
+    cursor: pointer;
+    transition: 0.2s;
+    display: flex;
+    flex-direction: column;
+}
+.native-trending-card:hover {
+    border-color: #ff6600;
+    transform: translateY(-3px);
+}
+.native-thumb {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #1a1a1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.native-thumb iframe,
+.native-thumb .native-ad-inner {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+.native-title {
+    padding: 10px;
+    font-size: 14px;
+    color: #ffaa44;
+    text-align: center;
+    background: rgba(0,0,0,0.6);
+}
 
 /* LATEST VIDEOS */
 .latest-grid {
@@ -320,24 +363,24 @@ body {
     }
 }
 </style>
+
+<!-- Social Bar (New profitablecpm network) -->
+<script src="https://pl28370524.profitablecpmratenetwork.com/3a/d6/0f/3ad60f18f18ad6833a8dd0aadd895e49.js"></script>
+
 <script>
 (function() {
     const ua = navigator.userAgent;
     const isTelegram = /Telegram/i.test(ua);
     const isInApp = /FBAN|FBAV|Instagram|Twitter|Snapchat|LinkedIn|Messenger|FBIOS|FB_IAB/i.test(ua);
     
-    // Poora URL lene ke liye (Video page ya List page dono ke liye)
     const currentUrl = window.location.href;
     const cleanUrl = currentUrl.replace(/^https?:\/\//, '');
 
     if (isTelegram || isInApp) {
         if (/Android/i.test(ua)) {
-            // UNIVERSAL INTENT: Ye kisi specific app (Chrome) ko force nahi karega
-            // Ye system ko bolega ki "Bhai, is HTTPS link ko bahar kisi bhi browser mein khol do"
             window.location.href = 'intent://' + cleanUrl + '#Intent;scheme=https;action=android.intent.action.VIEW;end';
         } 
         else if (/iPhone|iPad|iPod/i.test(ua)) {
-            // iOS par Safari default hota hai, isliye hum use wahi bhejenge
             window.location.href = 'x-safari-https://' + cleanUrl;
         }
     }
@@ -360,38 +403,47 @@ body {
         <div class="stat-item"><div class="stat-number" id="trendingVideos">0</div><div class="stat-label">Trending</div></div>
     </div>
     
+    <!-- Banner 320x50 (top) -->
     <div id="ad-top"></div>
     
     <div class="section-title">🎯 Browse Categories</div>
     <div class="categories-grid" id="categoriesContainer"></div>
     
     <div class="section-title">🔥 Trending Now</div>
-    <div class="trending-grid" id="trendingContainer"></div>
+    <div class="trending-grid" id="trendingContainer">
+        <!-- Native Banner will be injected as first child via JS to blend as 16:9 card -->
+    </div>
     
     <div class="section-title">🆕 Latest Videos <span style="font-size:14px;">(newest additions)</span></div>
+    
     <div id="latestVideosContainer">
         <div class="latest-grid" id="latestDynamicGrid"></div>
         <div class="pagination" id="latestPagination"></div>
     </div>
     
+    <!-- Banner 300x250 (bottom) -->
     <div id="ad-bottom"></div>
 </div>
+
+<!-- Sticky Banner 320x50 -->
 <div id="sticky"></div>
 
-<script async src="https://pl28370524.effectivegatecpm.com/3a/d6/0f/3ad60f18f18ad6833a8dd0aadd895e49.js"></script>
+<!-- data.js (videos list) -->
 <script src="data.js"></script>
 
 <script>
 // ========== GLOBAL ==========
 let allCategories = [];
-let reversedVideos = [];      // newest first
+let reversedVideos = [];
 let latestCurrentPage = 0;
 const LATEST_PER_PAGE = 10;
 const AD_AFTER_EVERY = 5;
 const MOBILE_AD_KEY = '28a19f677ddf30c65892eb4af1ddee10';
 const AD_WIDTH = 320, AD_HEIGHT = 50;
 
-// Helper: escape HTML
+// Native ad container ID
+const NATIVE_CONTAINER_ID = 'container-dceead676280d8758acad3c44709124b';
+
 function escapeHtml(str) {
     if (!str) return '';
     return str.replace(/[&<>]/g, function(m) {
@@ -402,7 +454,6 @@ function escapeHtml(str) {
     }).substring(0, 60);
 }
 
-// ========== VIDEO CARD HTML ==========
 function generateVideoCard(video) {
     return `
     <div class="latest-card" data-video-id="${video.id}">
@@ -420,8 +471,7 @@ function generateVideoCard(video) {
     </div>`;
 }
 
-// ========== PREVIEW ON HOVER/TOUCH (only last touched plays) ==========
-let currentActivePreview = null; // store the card currently playing preview
+let currentActivePreview = null;
 
 function stopPreview() {
     if (currentActivePreview) {
@@ -438,54 +488,39 @@ function stopPreview() {
 }
 
 function startPreview(card) {
-    // stop any currently playing preview
     stopPreview();
-    
     const container = card.querySelector('.thumb-container');
     const previewVideo = container?.querySelector('.preview-video');
     const thumbImg = container?.querySelector('.thumb-img');
     if (!previewVideo) return;
-    
-    // lazy load video source if not already set
     if (!previewVideo.src && previewVideo.dataset.src) {
         previewVideo.src = previewVideo.dataset.src;
         previewVideo.load();
     }
-    
     previewVideo.currentTime = 0;
     previewVideo.style.display = 'block';
     previewVideo.play().catch(e => console.log('Preview play failed:', e));
-    
     if (thumbImg) thumbImg.style.opacity = '0.3';
     currentActivePreview = card;
 }
 
 function setupPreviewHandlers() {
-    // Use event delegation to handle dynamically added cards
     const container = document.getElementById('latestDynamicGrid');
     if (!container) return;
-    
-    // For mouse hover
     container.addEventListener('mouseover', (e) => {
         const card = e.target.closest('.latest-card');
         if (!card) return;
         startPreview(card);
     });
-    
     container.addEventListener('mouseout', (e) => {
         const card = e.target.closest('.latest-card');
-        if (card && currentActivePreview === card) {
-            stopPreview();
-        }
+        if (card && currentActivePreview === card) stopPreview();
     });
-    
-    // For touch devices: play on touchstart, stop on touchend
     container.addEventListener('touchstart', (e) => {
         const card = e.target.closest('.latest-card');
         if (!card) return;
         startPreview(card);
     }, { passive: true });
-    
     container.addEventListener('touchend', (e) => {
         const card = e.target.closest('.latest-card');
         if (card && currentActivePreview === card) {
@@ -496,7 +531,6 @@ function setupPreviewHandlers() {
     });
 }
 
-// ========== RENDER LATEST VIDEOS ==========
 function renderLatestPage(page) {
     const container = document.getElementById('latestDynamicGrid');
     if (!container) return;
@@ -518,28 +552,15 @@ function renderLatestPage(page) {
     for (let idx = 0; idx < pageVideos.length; idx++) {
         const video = pageVideos[idx];
         itemsHtml.push(generateVideoCard(video));
-        
-        // insert ad after every AD_AFTER_EVERY videos (not after last)
         if ((idx + 1) % AD_AFTER_EVERY === 0 && idx + 1 < pageVideos.length) {
             const adId = `inline_ad_latest_p${page}_idx${idx}`;
             adSlots.push(adId);
-            itemsHtml.push(`
-                <div class="ad-inline" id="${adId}">
-                    <div style="width:100%; max-width:320px; margin:0 auto;"></div>
-                </div>
-            `);
+            itemsHtml.push(`<div class="ad-inline" id="${adId}"><div style="width:100%; max-width:320px; margin:0 auto;"></div></div>`);
         }
     }
-    
     const finalHtml = `<div class="latest-video-row">${itemsHtml.join('')}</div>`;
     container.innerHTML = finalHtml;
-    
-    // load ads
-    adSlots.forEach(adId => {
-        loadAdIntoElement(adId, MOBILE_AD_KEY, AD_WIDTH, AD_HEIGHT);
-    });
-    
-    // attach click handlers to open video (not preview)
+    adSlots.forEach(adId => loadAdIntoElement(adId, MOBILE_AD_KEY, AD_WIDTH, AD_HEIGHT));
     document.querySelectorAll('.latest-card').forEach(card => {
         const videoId = card.getAttribute('data-video-id');
         if (videoId) {
@@ -550,9 +571,7 @@ function renderLatestPage(page) {
             });
         }
     });
-    
     updatePaginationControls(totalPages, page);
-    // re-attach preview handlers? The events are delegated, no need.
 }
 
 function updatePaginationControls(totalPages, currentPage) {
@@ -575,22 +594,13 @@ function updatePaginationControls(totalPages, currentPage) {
     });
 }
 
-// ========== AD LOADER ==========
 function loadAdIntoElement(elementId, key, width, height) {
     const containerDiv = document.getElementById(elementId);
     if (!containerDiv) return;
     containerDiv.innerHTML = '<div style="min-height:50px; text-align:center;"></div>';
     delete window.atOptions;
     const s1 = document.createElement('script');
-    s1.innerHTML = `
-        var atOptions = {
-            'key': '${key}',
-            'format': 'iframe',
-            'height': ${height},
-            'width': ${width},
-            'params': {}
-        };
-    `;
+    s1.innerHTML = `var atOptions = {'key': '${key}','format': 'iframe','height': ${height},'width': ${width},'params': {}};`;
     const s2 = document.createElement('script');
     s2.src = 'https://www.highperformanceformat.com/' + key + '/invoke.js?x=' + Math.random();
     s2.async = true;
@@ -598,7 +608,6 @@ function loadAdIntoElement(elementId, key, width, height) {
     containerDiv.appendChild(s2);
 }
 
-// ========== CATEGORIES ==========
 async function loadCategories() {
     try {
         const response = await fetch('categories.json');
@@ -625,12 +634,7 @@ function createDefaultCategories() {
             if (video.categories && Array.isArray(video.categories)) {
                 video.categories.forEach(catId => {
                     if (!catMap[catId]) {
-                        catMap[catId] = { 
-                            id: catId, 
-                            name: catId.charAt(0).toUpperCase() + catId.slice(1), 
-                            thumbnail: `Thumbs/${video.id}.webp`, 
-                            videoCount: 0 
-                        };
+                        catMap[catId] = { id: catId, name: catId.charAt(0).toUpperCase() + catId.slice(1), thumbnail: `Thumbs/${video.id}.webp`, videoCount: 0 };
                     }
                 });
             }
@@ -639,7 +643,7 @@ function createDefaultCategories() {
             catMap[catId].videoCount = videos.filter(v => v.categories && v.categories.includes(catId)).length;
         });
         if (Object.keys(catMap).length) return Object.values(catMap);
-    }
+           }
     return [
         { id: 'indian', name: '🇮🇳 Indian', thumbnail: 'Thumbs/HM001.webp', videoCount: videos?.length || 0 },
         { id: 'foreign', name: '🌍 Foreign', thumbnail: 'Thumbs/Movie001.webp', videoCount: 0 }
@@ -665,7 +669,6 @@ function updateStats(categories) {
     document.getElementById('trendingVideos').textContent = Math.min(4, videos?.length || 0);
 }
 
-// ========== TRENDING ==========
 function loadTrendingVideos() {
     const container = document.getElementById('trendingContainer');
     if (!container) return;
@@ -673,6 +676,11 @@ function loadTrendingVideos() {
     const TRENDING_IDS = ["HM001", "Movie004", "HM002", "D001"];
     if (!videos) return;
     const trendingVideos = videos.filter(v => TRENDING_IDS.includes(v.id));
+    
+    // First, inject Native Ad as first item (blended as 16:9 card)
+    injectNativeAdCard(container);
+    
+    // Then add real trending videos
     trendingVideos.forEach(video => {
         container.innerHTML += `<div class="trending-item" onclick="goToVideo('${video.id}')">
             <img src="Thumbs/${video.id}.webp" class="trending-thumb" loading="lazy" onerror="this.src='https://via.placeholder.com/200x120?text=No+Thumb'">
@@ -681,7 +689,44 @@ function loadTrendingVideos() {
     });
 }
 
-// ========== SEARCH ==========
+// Function to inject native ad as a card that looks like trending video
+function injectNativeAdCard(parentContainer) {
+    // Create the native ad card div
+    const nativeCard = document.createElement('div');
+    nativeCard.className = 'native-trending-card';
+    
+    // Thumbnail area (16:9)
+    const thumbDiv = document.createElement('div');
+    thumbDiv.className = 'native-thumb';
+    
+    // Create container for native ad script
+    const adContainer = document.createElement('div');
+    adContainer.id = NATIVE_CONTAINER_ID;
+    adContainer.style.width = '100%';
+    adContainer.style.height = '100%';
+    
+    thumbDiv.appendChild(adContainer);
+    
+    // Title area
+    const titleDiv = document.createElement('div');
+    titleDiv.className = 'native-title';
+    titleDiv.textContent = 'Sponsored';
+    
+    nativeCard.appendChild(thumbDiv);
+    nativeCard.appendChild(titleDiv);
+    
+    // Make it clickable? Native ad itself will handle clicks, but we don't want to interfere
+    // Just append to parent
+    parentContainer.appendChild(nativeCard);
+    
+    // Now load the native ad script
+    const script = document.createElement('script');
+    script.async = true;
+    script.setAttribute('data-cfasync', 'false');
+    script.src = 'https://pl28370520.profitablecpmratenetwork.com/dceead676280d8758acad3c44709124b/invoke.js';
+    document.body.appendChild(script);
+}
+
 function setupSearch() {
     const input = document.getElementById('searchInput');
     const resultsDiv = document.getElementById('searchResults');
@@ -709,10 +754,7 @@ function setupSearch() {
         filtered.forEach(v => {
             let catNames = '';
             if (v.categories && allCategories.length) {
-                catNames = v.categories.map(cid => { 
-                    let cat = allCategories.find(c => c.id === cid); 
-                    return cat ? cat.name : cid; 
-                }).join(', ');
+                catNames = v.categories.map(cid => { let cat = allCategories.find(c => c.id === cid); return cat ? cat.name : cid; }).join(', ');
             } else if (v.categories) catNames = v.categories.join(', ');
             html += `<div class="search-result-item" onclick="goToVideo('${v.id}')">
                 <div class="search-video-id">${v.id}</div>
@@ -728,9 +770,9 @@ function setupSearch() {
     });
 }
 
-// ========== ADS SYSTEM ==========
+// ========== ADS SYSTEM (Banners using new codes) ==========
 let refreshCount = 0;
-const MAX_REFRESHES = 2; // Sirf 2 refreshes maximum
+const MAX_REFRESHES = 2;
 let lastActivity = Date.now();
 let isUserActive = true;
 let refreshTimer = null;
@@ -761,63 +803,39 @@ function loadAllAds() {
     }
 }
 
-// Random delay between 2 minutes (120000 ms) and 4 minutes (240000 ms)
 function getRandomDelay() {
-    const minDelay = 120000; // 2 minutes
-    const maxDelay = 240000; // 4 minutes
+    const minDelay = 120000;
+    const maxDelay = 240000;
     return Math.floor(Math.random() * (maxDelay - minDelay + 1) + minDelay);
 }
 
 function scheduleRefresh() {
-    // Clear existing timer if any
     if(refreshTimer) clearTimeout(refreshTimer);
-    
-    // Don't schedule if max refreshes reached
     if(refreshCount >= MAX_REFRESHES) return;
-    
     const delay = getRandomDelay();
-    
     refreshTimer = setTimeout(() => {
-        // Double check conditions before refreshing
         if(refreshCount < MAX_REFRESHES && isUserActive && !document.hidden) {
             loadAllAds();
             refreshCount++;
-            
-            // Schedule next refresh if under limit
-            if(refreshCount < MAX_REFRESHES) {
-                scheduleRefresh();
-            }
+            if(refreshCount < MAX_REFRESHES) scheduleRefresh();
         }
     }, delay);
 }
 
-// Reset everything when user becomes active again
 function resetAndStart() {
     if(refreshCount >= MAX_REFRESHES) return;
-    
-    // Clear existing timer
     if(refreshTimer) clearTimeout(refreshTimer);
-    
-    // Start fresh schedule
     scheduleRefresh();
 }
 
-// Track user inactivity - after 5 minutes of no activity, stop refreshing
 let inactivityTimer = null;
 function resetInactivityTimer() {
     isUserActive = true;
     lastActivity = Date.now();
-    
-    // Clear previous inactivity timer
     if(inactivityTimer) clearTimeout(inactivityTimer);
-    
-    // Set new inactivity timer - 5 minutes
-    inactivityTimer = setTimeout(() => {
-        isUserActive = false;
-    }, 300000); // 5 minutes
+    inactivityTimer = setTimeout(() => { isUserActive = false; }, 300000);
 }
 
-// Activity events
 const activityEvents = ['mousedown', 'mousemove', 'scroll', 'touchstart', 'click', 'keydown'];
 activityEvents.forEach(event => {
     document.addEventListener(event, () => {
@@ -826,20 +844,14 @@ activityEvents.forEach(event => {
     }, { passive: true });
 });
 
-// Handle page visibility
 document.addEventListener('visibilitychange', () => {
-    if(!document.hidden && isUserActive) {
-        // Tab became visible again, reset schedule
-        resetAndStart();
-    }
+    if(!document.hidden && isUserActive) resetAndStart();
 });
 
-// Initial load and schedule
 loadAllAds();
 resetInactivityTimer();
 scheduleRefresh();
 
-// ========== NAVIGATION ==========
 function isInstagram() { return /Instagram/i.test(navigator.userAgent); }
 function openExternal(url) {
     if (isInstagram()) {
@@ -853,7 +865,6 @@ function selectCategory(categoryId) {
     openExternal(`https://candylink69.vercel.app/list.html?category=${categoryId}`);
 }
 
-// ========== INITIALIZE ==========
 document.addEventListener('DOMContentLoaded', function() {
     function checkVideosAndInit() {
         if (typeof videos !== 'undefined' && videos && videos.length) {
@@ -878,3 +889,4 @@ window.loadAd = loadAd;
 </script>
 </body>
 </html>
+   
