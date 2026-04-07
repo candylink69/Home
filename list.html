@@ -161,7 +161,6 @@ h1 {
 }
 
 /* Responsive grid */
-
 @media (min-width: 768px) {
   .grid {
     grid-template-columns: 1fr 1fr;   /* 🔥 Desktop = 2 column */
@@ -370,31 +369,47 @@ h1 {
   <div id="searchResults"></div>
 </div>
 
-<!-- 🔝 TOP SMART LINK -->
-<a class="smart" href="https://www.effectivegatecpm.com/njp16fur?key=f0a7ec3b2fa8d91d821777018c8eec71" target="_blank">
+<!-- 🔝 TOP SMART LINK (UPDATED) -->
+<a class="smart" href="https://www.profitablecpmratenetwork.com/njp16fur?key=f0a7ec3b2fa8d91d821777018c8eec71" target="_blank">
   🔥 Watch More Exclusive Content 🔥
 </a>
 
+<!-- 🆕 NATIVE BANNER (NEW ADDITION) -->
+<div class="ad-box">
+  <script async="async" data-cfasync="false" src="https://pl28370520.profitablecpmratenetwork.com/dceead676280d8758acad3c44709124b/invoke.js"></script>
+  <div id="container-dceead676280d8758acad3c44709124b"></div>
+</div>
+
 <div class="grid" id="videoList"></div>
 
-<!-- 🔽 BOTTOM ADS (2 banners) -->
+<!-- 🔽 BOTTOM ADS (2 banners - updated) -->
 <div class="ad-box">
-  <!-- Desktop 728x90 -->
+  <!-- Desktop 728x90 (UPDATED) -->
   <div class="ad-desktop">
     <script>
-      atOptions={'key':'a7f6af07e7b981a82b1a2a982b13ba01','format':'iframe','height':90,'width':728,'params':{}};
+      atOptions = {
+        'key' : 'a7f6af07e7b981a82b1a2a982b13ba01',
+        'format' : 'iframe',
+        'height' : 90,
+        'width' : 728,
+        'params' : {}
+      };
     </script>
-    <script async
-      src="https://www.highperformanceformat.com/a7f6af07e7b981a82b1a2a982b13ba01/invoke.js"></script>
+    <script async src="https://www.highperformanceformat.com/a7f6af07e7b981a82b1a2a982b13ba01/invoke.js"></script>
   </div>
 
-  <!-- All devices 300x250 -->
+  <!-- Mobile 300x250 (UPDATED) -->
   <div class="ad-mobile">
     <script>
-      atOptions={'key':'1236280d3c879dfd9af37ab923f7cfb3','format':'iframe','height':250,'width':300,'params':{}};
+      atOptions = {
+        'key' : '1236280d3c879dfd9af37ab923f7cfb3',
+        'format' : 'iframe',
+        'height' : 250,
+        'width' : 300,
+        'params' : {}
+      };
     </script>
-    <script async
-      src="https://www.highperformanceformat.com/1236280d3c879dfd9af37ab923f7cfb3/invoke.js"></script>
+    <script async src="https://www.highperformanceformat.com/1236280d3c879dfd9af37ab923f7cfb3/invoke.js"></script>
   </div>
 </div>
 
@@ -403,18 +418,22 @@ h1 {
 </div>
 </div>
 
-<!-- 📌 STICKY MOBILE 320x50 -->
+<!-- 📌 STICKY MOBILE 320x50 (UPDATED) -->
 <div class="sticky">
   <script>
-    atOptions={'key':'28a19f677ddf30c65892eb4af1ddee10','format':'iframe','height':50,'width':320,'params':{}};
+    atOptions = {
+      'key' : '28a19f677ddf30c65892eb4af1ddee10',
+      'format' : 'iframe',
+      'height' : 50,
+      'width' : 320,
+      'params' : {}
+    };
   </script>
-  <script async
-    src="https://www.highperformanceformat.com/28a19f677ddf30c65892eb4af1ddee10/invoke.js"></script>
+  <script async src="https://www.highperformanceformat.com/28a19f677ddf30c65892eb4af1ddee10/invoke.js"></script>
 </div>
 
-<!-- SOCIAL BAR (site-wide) -->
-<script async
-  src="https://pl28370524.effectivegatecpm.com/3a/d6/0f/3ad60f18f18ad6833a8dd0aadd895e49.js"></script>
+<!-- 🆕 SOCIAL BAR (UPDATED - new domain, no extra fix) -->
+<script async src="https://pl28370524.profitablecpmratenetwork.com/3a/d6/0f/3ad60f18f18ad6833a8dd0aadd895e49.js"></script>
 
 <script src="data.js"></script>
 <script>
@@ -603,18 +622,18 @@ function getCategoryNames(categoryIds) {
     }).join(', ');
 }
 
-// ========== EXISTING PAGINATION CODE (UPDATED) ==========
-// ⭐⭐ SMART AD REFRESH SYSTEM ⭐⭐
+// ========== EXISTING PAGINATION CODE (UPDATED ADS IN GRID) ==========
+// ⭐⭐ SMART AD REFRESH SYSTEM (keys unchanged but same) ⭐⭐
 (function() {
   'use strict';
   
-  // Ad loading function
+  // Ad loading function (updated with new atOptions format)
   function loadAd(id, key, w, h) {
     let d = document.getElementById(id);
     if(!d) return;
     d.innerHTML = '';
-    delete window.atOptions;
-
+    
+    // Create script for atOptions
     let s1 = document.createElement('script');
     s1.innerHTML = `
     var atOptions = {
@@ -632,7 +651,7 @@ function getCategoryNames(categoryIds) {
     d.appendChild(s2);
   }
 
-  // Load all ads function
+  // Load all ads function (using new keys)
   function loadAllAds() {
     if(window.innerWidth < 768) {
       loadAd('ad-top', '28a19f677ddf30c65892eb4af1ddee10', 320, 50);
@@ -712,12 +731,18 @@ function getCategoryNames(categoryIds) {
     }, 45000);
   });
 
-  // Gallery specific - ads in grid
+  // Gallery specific - ads in grid (updated with new keys)
   function loadGridAd() {
     if(window.innerWidth < 768) {
-      loadAd('ad-mobile', '28a19f677ddf30c65892eb4af1ddee10', 320, 50);
+      // 320x50
+      let d = document.createElement('div');
+      d.innerHTML = '<script>atOptions={\'key\':\'28a19f677ddf30c65892eb4af1ddee10\',\'format\':\'iframe\',\'height\':50,\'width\':320,\'params\':{}};<\/script><script async src="https://www.highperformanceformat.com/28a19f677ddf30c65892eb4af1ddee10/invoke.js"><\/script>';
+      document.currentScript.parentNode.insertBefore(d, document.currentScript);
     } else {
-      loadAd('ad-desktop', '1236280d3c879dfd9af37ab923f7cfb3', 300, 250);
+      // 300x250
+      let d = document.createElement('div');
+      d.innerHTML = '<script>atOptions={\'key\':\'1236280d3c879dfd9af37ab923f7cfb3\',\'format\':\'iframe\',\'height\':250,\'width\':300,\'params\':{}};<\/script><script async src="https://www.highperformanceformat.com/1236280d3c879dfd9af37ab923f7cfb3/invoke.js"><\/script>';
+      document.currentScript.parentNode.insertBefore(d, document.currentScript);
     }
   }
 
@@ -813,19 +838,31 @@ async function initializePage() {
             
             c.insertAdjacentHTML('beforeend', videoHTML);
             
-            // Insert ad after every 5 videos
+            // Insert ad after every 5 videos (updated with new codes)
             if((i+1)%5===0 && (i+1) < currentVideos.length){
                 c.insertAdjacentHTML('beforeend', `
                     <div class="ad-box">
                         <div class="ad-mobile">
                             <script>
-                                atOptions={'key':'28a19f677ddf30c65892eb4af1ddee10','format':'iframe','height':50,'width':320,'params':{}};
+                                atOptions = {
+                                    'key' : '28a19f677ddf30c65892eb4af1ddee10',
+                                    'format' : 'iframe',
+                                    'height' : 50,
+                                    'width' : 320,
+                                    'params' : {}
+                                };
                             <\/script>
                             <script src="https://www.highperformanceformat.com/28a19f677ddf30c65892eb4af1ddee10/invoke.js"><\/script>
                         </div>
                         <div class="ad-desktop">
                             <script>
-                                atOptions={'key':'1236280d3c879dfd9af37ab923f7cfb3','format':'iframe','height':250,'width':300,'params':{}};
+                                atOptions = {
+                                    'key' : '1236280d3c879dfd9af37ab923f7cfb3',
+                                    'format' : 'iframe',
+                                    'height' : 250,
+                                    'width' : 300,
+                                    'params' : {}
+                                };
                             <\/script>
                             <script src="https://www.highperformanceformat.com/1236280d3c879dfd9af37ab923f7cfb3/invoke.js"><\/script>
                         </div>
