@@ -271,6 +271,13 @@ const videos = [
     duration: "54:21",
     categories: ["D"],
     preview: "https://candylink69.embed4me.vip/LvA-2E0OEtas8su_LNIZoQ/sc/r8c1npnq/3m3pvs/preview.webp"
+  },
+  {
+    id: "O001",
+    title: "The waitress fucks the chef, a coworker, and a customer in the restaurant.",
+    duration: "40:10",
+    categories: ["O"],
+    preview: "https://candylink69.embed4me.vip/NVWgnzzFHOXhtdFzeTEhfA/mik/wybszpq5/nfqpvo/preview.webp"
   }
 ];
 
