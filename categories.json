@@ -36,6 +36,12 @@
     "description": ""
   },
   {
+    "id": "O",
+    "name": "Outdoor",
+    "thumbnail": "Thumbs/O001.webp",
+    "description": ""
+  },
+  {
     "id": "FM",
     "name": "Friend's Mom(FM)",
     "thumbnail": "Thumbs/FM001.webp",
