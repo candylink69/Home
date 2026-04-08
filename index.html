@@ -5,8 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>CandyLink69 – Categories + Latest</title>
 
+<!-- Font Awesome for 3D social icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 <style>
-/* === BASE THEME === */
+/* === BASE THEME (unchanged except added social icons style) === */
 * {
     box-sizing: border-box;
 }
@@ -94,6 +97,44 @@ body {
 .search-video-id { color: #ff9900; font-weight: bold; font-size: 14px; }
 .search-video-title { color: #ccc; font-size: 12px; margin-top: 3px;}
 .search-video-cats { color: #888; font-size: 11px; margin-top: 3px;}
+
+/* 3D Social Icons (new) */
+.social-3d {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}
+.social-btn {
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #222;
+    color: white;
+    text-align: center;
+    line-height: 60px;
+    font-size: 32px;
+    transition: all 0.2s ease;
+    box-shadow: 0 8px 0 rgba(0,0,0,0.3), 0 3px 8px rgba(0,0,0,0.2);
+    transform: translateY(-2px);
+    text-decoration: none;
+}
+.social-btn:active {
+    transform: translateY(4px);
+    box-shadow: 0 4px 0 rgba(0,0,0,0.3);
+}
+.social-btn.instagram { background: radial-gradient(circle at 30% 110%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); box-shadow: 0 8px 0 #b12a5e; }
+.social-btn.telegram { background: #0088cc; box-shadow: 0 8px 0 #005f8a; }
+.social-btn.facebook { background: #1877f2; box-shadow: 0 8px 0 #0e5ab5; }
+.social-btn:hover {
+    transform: translateY(-4px);
+    filter: brightness(1.05);
+}
+.social-btn i {
+    vertical-align: middle;
+}
 
 /* categories grid - 2 columns */
 .categories-grid {
@@ -364,8 +405,8 @@ body {
 }
 </style>
 
-<!-- Social Bar (New profitablecpm network) -->
-<script src="https://pl28370524.profitablecpmratenetwork.com/3a/d6/0f/3ad60f18f18ad6833a8dd0aadd895e49.js"></script>
+<!-- Social Bar (updated to new domain) -->
+<script src="https://encyclopediainsoluble.com/3a/d6/0f/3ad60f18f18ad6833a8dd0aadd895e49.js"></script>
 
 <script>
 (function() {
@@ -396,6 +437,13 @@ body {
         <input type="text" class="search-box" id="searchInput" placeholder="Search videos by ID, title or keywords..." autocomplete="off">
         <div id="searchResults"></div>
     </div>
+
+    <!-- 🆕 3D SOCIAL ICONS (below search bar) -->
+    <div class="social-3d">
+        <a href="https://www.instagram.com/candylink_official" target="_blank" class="social-btn instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://t.me/candylink6" target="_blank" class="social-btn telegram"><i class="fab fa-telegram-plane"></i></a>
+        <a href="https://www.facebook.com/Candylinkhub" target="_blank" class="social-btn facebook"><i class="fab fa-facebook-f"></i></a>
+    </div>
     
     <div class="stats-bar">
         <div class="stat-item"><div class="stat-number" id="totalVideos">0</div><div class="stat-label">Total Videos</div></div>
@@ -403,7 +451,7 @@ body {
         <div class="stat-item"><div class="stat-number" id="trendingVideos">0</div><div class="stat-label">Trending</div></div>
     </div>
     
-    <!-- Banner 320x50 (top) -->
+    <!-- Banner 320x50 (top) - will be loaded via new domain -->
     <div id="ad-top"></div>
     
     <div class="section-title">🎯 Browse Categories</div>
@@ -421,8 +469,15 @@ body {
         <div class="pagination" id="latestPagination"></div>
     </div>
     
-    <!-- Banner 300x250 (bottom) -->
+    <!-- Banner 300x250 (bottom) - will be loaded via new domain -->
     <div id="ad-bottom"></div>
+
+    <!-- 🆕 BOTTOM SOCIAL ICONS (above sticky ad, so not hidden) -->
+    <div class="social-3d">
+        <a href="https://www.instagram.com/candylink_official" target="_blank" class="social-btn instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://t.me/candylink6" target="_blank" class="social-btn telegram"><i class="fab fa-telegram-plane"></i></a>
+        <a href="https://www.facebook.com/Candylinkhub" target="_blank" class="social-btn facebook"><i class="fab fa-facebook-f"></i></a>
+    </div>
 </div>
 
 <!-- Sticky Banner 320x50 -->
@@ -594,6 +649,7 @@ function updatePaginationControls(totalPages, currentPage) {
     });
 }
 
+// UPDATED: new domain encyclopediainsoluble.com
 function loadAdIntoElement(elementId, key, width, height) {
     const containerDiv = document.getElementById(elementId);
     if (!containerDiv) return;
@@ -602,7 +658,7 @@ function loadAdIntoElement(elementId, key, width, height) {
     const s1 = document.createElement('script');
     s1.innerHTML = `var atOptions = {'key': '${key}','format': 'iframe','height': ${height},'width': ${width},'params': {}};`;
     const s2 = document.createElement('script');
-    s2.src = 'https://www.highperformanceformat.com/' + key + '/invoke.js?x=' + Math.random();
+    s2.src = 'https://encyclopediainsoluble.com/' + key + '/invoke.js?x=' + Math.random();
     s2.async = true;
     containerDiv.appendChild(s1);
     containerDiv.appendChild(s2);
@@ -677,7 +733,7 @@ function loadTrendingVideos() {
     if (!videos) return;
     const trendingVideos = videos.filter(v => TRENDING_IDS.includes(v.id));
     
-    // First, inject Native Ad as first item (blended as 16:9 card)
+    // First, inject Native Ad as first item (blended as 16:9 card) - using new domain
     injectNativeAdCard(container);
     
     // Then add real trending videos
@@ -689,41 +745,28 @@ function loadTrendingVideos() {
     });
 }
 
-// Function to inject native ad as a card that looks like trending video
+// UPDATED: Native ad with new domain
 function injectNativeAdCard(parentContainer) {
-    // Create the native ad card div
     const nativeCard = document.createElement('div');
     nativeCard.className = 'native-trending-card';
-    
-    // Thumbnail area (16:9)
     const thumbDiv = document.createElement('div');
     thumbDiv.className = 'native-thumb';
-    
-    // Create container for native ad script
     const adContainer = document.createElement('div');
     adContainer.id = NATIVE_CONTAINER_ID;
     adContainer.style.width = '100%';
     adContainer.style.height = '100%';
-    
     thumbDiv.appendChild(adContainer);
-    
-    // Title area
     const titleDiv = document.createElement('div');
     titleDiv.className = 'native-title';
     titleDiv.textContent = 'Sponsored';
-    
     nativeCard.appendChild(thumbDiv);
     nativeCard.appendChild(titleDiv);
-    
-    // Make it clickable? Native ad itself will handle clicks, but we don't want to interfere
-    // Just append to parent
     parentContainer.appendChild(nativeCard);
     
-    // Now load the native ad script
     const script = document.createElement('script');
     script.async = true;
     script.setAttribute('data-cfasync', 'false');
-    script.src = 'https://pl28370520.profitablecpmratenetwork.com/dceead676280d8758acad3c44709124b/invoke.js';
+    script.src = 'https://encyclopediainsoluble.com/dceead676280d8758acad3c44709124b/invoke.js';
     document.body.appendChild(script);
 }
 
@@ -770,7 +813,7 @@ function setupSearch() {
     });
 }
 
-// ========== ADS SYSTEM (Banners using new codes) ==========
+// ========== ADS SYSTEM (UPDATED to new domain encyclopediainsoluble.com) ==========
 let refreshCount = 0;
 const MAX_REFRESHES = 2;
 let lastActivity = Date.now();
@@ -785,7 +828,7 @@ function loadAd(id, key, w, h) {
     let s1 = document.createElement('script');
     s1.innerHTML = `var atOptions = {'key': '${key}','format': 'iframe','height': ${h},'width': ${w},'params': {}};`;
     let s2 = document.createElement('script');
-    s2.src = 'https://www.highperformanceformat.com/' + key + '/invoke.js?x=' + Math.random();
+    s2.src = 'https://encyclopediainsoluble.com/' + key + '/invoke.js?x=' + Math.random();
     s2.async = true;
     d.appendChild(s1);
     d.appendChild(s2);
@@ -889,4 +932,3 @@ window.loadAd = loadAd;
 </script>
 </body>
 </html>
-   
