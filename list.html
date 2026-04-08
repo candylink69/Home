@@ -5,9 +5,11 @@
 <title>CandyLink69 – Videos</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<!-- Font Awesome for social icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 <style>
-/* === SAME CSS AS BEFORE WITH ADDITIONS === */
-/* NO HORIZONTAL SCROLL ANYWHERE */
+/* === SAME CSS (NO HORIZONTAL SCROLL, FLAMING BORDER, ETC.) === */
 body, html {
   margin: 0;
   padding: 0;
@@ -18,8 +20,6 @@ body, html {
   background: #000;
   color: #fff;
 }
-
-/* Flaming wrapper */
 .wrapper {
   margin: 10px;
   padding: 12px;
@@ -31,12 +31,10 @@ body, html {
   max-width: 100%;
   box-sizing: border-box;
 }
-
 @keyframes flame {
   0% { filter: hue-rotate(0); }
   100% { filter: hue-rotate(360deg); }
 }
-
 h1 {
   text-align: center;
   margin: 10px 0 15px;
@@ -44,15 +42,37 @@ h1 {
   font-size: 22px;
   word-wrap: break-word;
 }
-
-/* NEW: Search Bar for List Page */
+/* Social icons row */
+.social-row {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin: 15px 0;
+  flex-wrap: wrap;
+}
+.social-icon {
+  color: white;
+  font-size: 28px;
+  transition: transform 0.2s, color 0.2s;
+  text-decoration: none;
+}
+.social-icon:hover { transform: scale(1.1); }
+.social-icon.instagram:hover { color: #E4405F; }
+.social-icon.telegram:hover { color: #26A5E4; }
+.social-icon.facebook:hover { color: #1877F2; }
+.join-text {
+  text-align: center;
+  font-size: 14px;
+  color: #ffcc00;
+  margin-bottom: 5px;
+}
+/* Search Bar */
 .search-container {
   margin: 10px auto;
   max-width: 700px;
   padding: 0 10px;
   position: relative;
 }
-
 .search-box {
   width: 100%;
   padding: 12px 50px;
@@ -67,15 +87,8 @@ h1 {
   background-repeat: no-repeat;
   background-position: 20px center;
 }
-
-.search-box::placeholder {
-  color: #aaa;
-}
-
-.search-box:focus {
-  box-shadow: 0 0 15px rgba(255,51,0,0.7);
-}
-
+.search-box::placeholder { color: #aaa; }
+.search-box:focus { box-shadow: 0 0 15px rgba(255,51,0,0.7); }
 #searchResults {
   position: absolute;
   top: 100%;
@@ -90,37 +103,16 @@ h1 {
   box-shadow: 0 10px 30px rgba(0,0,0,0.5);
   display: none;
 }
-
 .search-result-item {
   padding: 10px 15px;
   border-bottom: 1px solid #333;
   cursor: pointer;
-  text-align: left;
   transition: background 0.2s;
 }
-
-.search-result-item:hover {
-  background: rgba(255,51,0,0.1);
-}
-
-.search-video-id {
-  color: #ff9900;
-  font-weight: bold;
-  font-size: 14px;
-}
-
-.search-video-title {
-  color: #ccc;
-  font-size: 12px;
-  margin-top: 3px;
-}
-
-.search-no-results {
-  padding: 20px;
-  color: #999;
-  text-align: center;
-}
-
+.search-result-item:hover { background: rgba(255,51,0,0.1); }
+.search-video-id { color: #ff9900; font-weight: bold; font-size: 14px; }
+.search-video-title { color: #ccc; font-size: 12px; margin-top: 3px; }
+.search-no-results { padding: 20px; color: #999; text-align: center; }
 /* Category info */
 .category-info {
   text-align: center;
@@ -130,12 +122,7 @@ h1 {
   border-radius: 8px;
   font-size: 16px;
 }
-
-.category-name {
-  color: #ff9900;
-  font-weight: bold;
-}
-
+.category-name { color: #ff9900; font-weight: bold; }
 .back-link {
   display: inline-block;
   margin-top: 8px;
@@ -146,43 +133,28 @@ h1 {
   border-radius: 4px;
   font-size: 14px;
 }
-
-.back-link:hover {
-  background: #ff3300;
-}
-
-/* Grid - Mobile 1 column default */
+.back-link:hover { background: #ff3300; }
+/* Grid */
 .grid {
   display: grid;
-  grid-template-columns: 1fr;  /* 🔥 Mobile = 1 column */
+  grid-template-columns: 1fr;
   gap: 15px;
   width: 100%;
   box-sizing: border-box;
 }
-
-/* Responsive grid */
 @media (min-width: 768px) {
-  .grid {
-    grid-template-columns: 1fr 1fr;   /* 🔥 Desktop = 2 column */
-  }
+  .grid { grid-template-columns: 1fr 1fr; }
 }
-
-.grid a {
-  text-decoration: none;
-  display: block;
-}
-
-/* THUMBNAIL CONTAINER - FIXED 16:9 */
+.grid a { text-decoration: none; display: block; }
 .thumb-container {
   position: relative;
   width: 100%;
-  padding-top: 56.25%; /* 16:9 aspect ratio */
+  padding-top: 56.25%;
   overflow: hidden;
   border-radius: 10px;
   background: #111;
   margin-bottom: 5px;
 }
-
 .thumb-container img {
   position: absolute;
   top: 0;
@@ -192,7 +164,7 @@ h1 {
   object-fit: cover;
   transition: transform 0.3s ease;
 }
-  .preview-video {
+.preview-video {
   position: absolute;
   top: 0;
   left: 0;
@@ -201,18 +173,13 @@ h1 {
   object-fit: cover;
   display: none;
   pointer-events: none;
-  }
-
-.thumb-container:hover img {
-  transform: scale(1.05);
 }
-
-/* Duration overlay */
+.thumb-container:hover img { transform: scale(1.05); }
 .duration {
   position: absolute;
   bottom: 8px;
   right: 8px;
-  background: rgba(0, 0, 0, 0.75);
+  background: rgba(0,0,0,0.75);
   color: white;
   padding: 2px 6px;
   border-radius: 3px;
@@ -220,8 +187,6 @@ h1 {
   font-weight: bold;
   z-index: 2;
 }
-
-/* Video title styling */
 .video-title {
   margin-top: 5px;
   font-size: 12px;
@@ -232,25 +197,9 @@ h1 {
   line-height: 1.3;
   word-break: break-word;
 }
-
-.video-title.center {
-  justify-content: center;
-  text-align: center;
-}
-
-.video-title.left {
-  justify-content: flex-start;
-  text-align: left;
-  padding-left: 5px;
-}
-
-.vid-id {
-  color: #ff9900;
-  margin-right: 3px;
-  font-weight: bold;
-}
-
-/* Category tags under video title */
+.video-title.center { justify-content: center; text-align: center; }
+.video-title.left { justify-content: flex-start; text-align: left; padding-left: 5px; }
+.vid-id { color: #ff9900; margin-right: 3px; font-weight: bold; }
 .video-categories {
   font-size: 10px;
   color: #888;
@@ -259,18 +208,16 @@ h1 {
   flex-wrap: wrap;
   gap: 4px;
 }
-
 .category-tag {
-  background: rgba(255, 51, 0, 0.2);
+  background: rgba(255,51,0,0.2);
   padding: 2px 6px;
   border-radius: 10px;
-  border: 1px solid rgba(255, 51, 0, 0.5);
+  border: 1px solid rgba(255,51,0,0.5);
 }
-
-/* Ads */
+/* Ad boxes */
 .ad-box {
   grid-column: 1 / -1;
-  margin: 15px 0;
+  margin: 20px 0;
   padding: 10px;
   background: #111;
   border-radius: 8px;
@@ -278,30 +225,27 @@ h1 {
   width: 100%;
   box-sizing: border-box;
 }
-
 .ad-desktop { display: none; }
 .ad-mobile { display: block; }
-
 @media (min-width: 768px) {
   .ad-desktop { display: block; }
   .ad-mobile { display: none; }
 }
-
-/* Smart link CTA */
+/* Smart link */
 .smart {
   display: block;
   text-align: center;
-  margin: 10px 0 18px;
+  margin: 15px 0;
   background: #ff0033;
   color: #fff;
-  padding: 10px;
+  padding: 12px;
   border-radius: 8px;
   text-decoration: none;
   font-weight: bold;
   width: 100%;
   box-sizing: border-box;
 }
-
+.smart:hover { background: #cc0022; }
 /* Pagination */
 .pagination {
   display: flex;
@@ -310,7 +254,6 @@ h1 {
   margin: 20px 0 5px;
   flex-wrap: wrap;
 }
-
 .pagination a {
   background: #ff0033;
   color: #fff;
@@ -318,15 +261,13 @@ h1 {
   border-radius: 6px;
   text-decoration: none;
 }
-
 .pagination span {
   background: #666;
   color: #fff;
   padding: 8px 12px;
   border-radius: 6px;
 }
-
-/* Sticky mobile */
+/* Sticky mobile 320x50 */
 .sticky {
   position: fixed;
   left: 0;
@@ -339,86 +280,98 @@ h1 {
   width: 100%;
   box-sizing: border-box;
 }
-
 @media (min-width: 768px) {
   .sticky { display: none; }
 }
 </style>
+
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="manifest" href="/site.webmanifest">
 </head>
-
 <body>
 
 <div class="wrapper">
 
-<!-- 🔝 CATEGORY INFO -->
-<div class="category-info" id="categoryInfo">
-  <div>Showing videos in: <span class="category-name" id="currentCategory">All Categories</span></div>
-  <a href="index.html" class="back-link">← Back to Categories</a>
-</div>
-
-<h1 id="pageTitle">🔥 CandyLink69 Exclusive Videos 🔥</h1>
-
-<!-- 🔍 SEARCH BAR FOR LIST PAGE -->
-<div class="search-container">
-  <input type="text" class="search-box" id="searchInput" 
-         placeholder="🔍 Search videos in this category..." autocomplete="off">
-  <div id="searchResults"></div>
-</div>
-
-<!-- 🔝 TOP SMART LINK (UPDATED) -->
-<a class="smart" href="https://www.profitablecpmratenetwork.com/njp16fur?key=f0a7ec3b2fa8d91d821777018c8eec71" target="_blank">
-  🔥 Watch More Exclusive Content 🔥
-</a>
-
-<!-- 🆕 NATIVE BANNER (NEW ADDITION) -->
-<div class="ad-box">
-  <script async="async" data-cfasync="false" src="https://pl28370520.profitablecpmratenetwork.com/dceead676280d8758acad3c44709124b/invoke.js"></script>
-  <div id="container-dceead676280d8758acad3c44709124b"></div>
-</div>
-
-<div class="grid" id="videoList"></div>
-
-<!-- 🔽 BOTTOM ADS (2 banners - updated) -->
-<div class="ad-box">
-  <!-- Desktop 728x90 (UPDATED) -->
-  <div class="ad-desktop">
-    <script>
-      atOptions = {
-        'key' : 'a7f6af07e7b981a82b1a2a982b13ba01',
-        'format' : 'iframe',
-        'height' : 90,
-        'width' : 728,
-        'params' : {}
-      };
-    </script>
-    <script async src="https://www.highperformanceformat.com/a7f6af07e7b981a82b1a2a982b13ba01/invoke.js"></script>
+  <!-- 🔝 TOP SOCIAL ICONS -->
+  <div class="join-text">For the latest updates, you can Join with us on these platforms.</div>
+  <div class="social-row">
+    <a href="https://www.instagram.com/candylink_official" target="_blank" class="social-icon instagram"><i class="fab fa-instagram"></i></a>
+    <a href="https://t.me/candylink6" target="_blank" class="social-icon telegram"><i class="fab fa-telegram-plane"></i></a>
+    <a href="https://www.facebook.com/Candylinkhub" target="_blank" class="social-icon facebook"><i class="fab fa-facebook-f"></i></a>
   </div>
 
-  <!-- Mobile 300x250 (UPDATED) -->
-  <div class="ad-mobile">
-    <script>
-      atOptions = {
-        'key' : '1236280d3c879dfd9af37ab923f7cfb3',
-        'format' : 'iframe',
-        'height' : 250,
-        'width' : 300,
-        'params' : {}
-      };
-    </script>
-    <script async src="https://www.highperformanceformat.com/1236280d3c879dfd9af37ab923f7cfb3/invoke.js"></script>
+  <!-- CATEGORY INFO -->
+  <div class="category-info" id="categoryInfo">
+    <div>Showing videos in: <span class="category-name" id="currentCategory">All Categories</span></div>
+    <a href="index.html" class="back-link">← Back to Categories</a>
   </div>
-</div>
 
-<div class="pagination" id="paginationContainer">
-  <!-- Auto-generated pagination -->
-</div>
-</div>
+  <h1 id="pageTitle">🔥 CandyLink69 Exclusive Videos 🔥</h1>
 
-<!-- 📌 STICKY MOBILE 320x50 (UPDATED) -->
+  <!-- SEARCH BAR -->
+  <div class="search-container">
+    <input type="text" class="search-box" id="searchInput" placeholder="🔍 Search videos in this category..." autocomplete="off">
+    <div id="searchResults"></div>
+  </div>
+
+  <!-- SMARTLINK (UPDATED) -->
+  <a class="smart" href="https://encyclopediainsoluble.com/njp16fur?key=f0a7ec3b2fa8d91d821777018c8eec71" target="_blank">
+    🔥 Watch More Exclusive Content 🔥
+  </a>
+
+  <!-- 🟢 NATIVE BANNER (MAIN EARNING SOURCE) - KEEP AS IS -->
+  <div class="ad-box">
+    <script async="async" data-cfasync="false" src="https://encyclopediainsoluble.com/dceead676280d8758acad3c44709124b/invoke.js"></script>
+    <div id="container-dceead676280d8758acad3c44709124b"></div>
+  </div>
+
+  <!-- VIDEO GRID -->
+  <div class="grid" id="videoList"></div>
+
+  <!-- 📌 BOTTOM AD BOX (DESKTOP 728x90 / MOBILE 300x250) - SIRF EK BANNER -->
+  <div class="ad-box">
+    <div class="ad-desktop">
+      <script>
+        atOptions = {
+          'key' : 'a7f6af07e7b981a82b1a2a982b13ba01',
+          'format' : 'iframe',
+          'height' : 90,
+          'width' : 728,
+          'params' : {}
+        };
+      </script>
+      <script async src="https://encyclopediainsoluble.com/a7f6af07e7b981a82b1a2a982b13ba01/invoke.js"></script>
+    </div>
+    <div class="ad-mobile">
+      <script>
+        atOptions = {
+          'key' : '1236280d3c879dfd9af37ab923f7cfb3',
+          'format' : 'iframe',
+          'height' : 250,
+          'width' : 300,
+          'params' : {}
+        };
+      </script>
+      <script async src="https://encyclopediainsoluble.com/1236280d3c879dfd9af37ab923f7cfb3/invoke.js"></script>
+    </div>
+  </div>
+
+  <!-- PAGINATION -->
+  <div class="pagination" id="paginationContainer"></div>
+
+  <!-- 🔽 BOTTOM SOCIAL ICONS (SAME AS TOP) -->
+  <div class="join-text">Join us on social media for updates</div>
+  <div class="social-row">
+    <a href="https://www.instagram.com/candylink_official" target="_blank" class="social-icon instagram"><i class="fab fa-instagram"></i></a>
+    <a href="https://t.me/candylink6" target="_blank" class="social-icon telegram"><i class="fab fa-telegram-plane"></i></a>
+    <a href="https://www.facebook.com/Candylinkhub" target="_blank" class="social-icon facebook"><i class="fab fa-facebook-f"></i></a>
+  </div>
+
+</div> <!-- end wrapper -->
+
+<!-- STICKY MOBILE 320x50 (UPDATED) -->
 <div class="sticky">
   <script>
     atOptions = {
@@ -429,22 +382,21 @@ h1 {
       'params' : {}
     };
   </script>
-  <script async src="https://www.highperformanceformat.com/28a19f677ddf30c65892eb4af1ddee10/invoke.js"></script>
+  <script async src="https://encyclopediainsoluble.com/28a19f677ddf30c65892eb4af1ddee10/invoke.js"></script>
 </div>
 
-<!-- 🆕 SOCIAL BAR (UPDATED - new domain, no extra fix) -->
-<script async src="https://pl28370524.profitablecpmratenetwork.com/3a/d6/0f/3ad60f18f18ad6833a8dd0aadd895e49.js"></script>
+<!-- SOCIAL BAR SCRIPT (UPDATED) - FLOATING NOTIFICATION, NO EXTRA FIX -->
+<script async src="https://encyclopediainsoluble.com/3a/d6/0f/3ad60f18f18ad6833a8dd0aadd895e49.js"></script>
 
 <script src="data.js"></script>
 <script>
-// ========== CONFIGURATION ==========
+// ========== CONFIGURATION (SAME AS BEFORE) ==========
 const PER_PAGE = 20;
 let allCategories = [];
 let selectedCategory = null;
 let categoryName = "All Categories";
 let filteredVideos = [];
 
-// ========== LOAD CATEGORIES DATA ==========
 async function loadCategoriesData() {
     try {
         const response = await fetch('categories.json');
@@ -455,114 +407,68 @@ async function loadCategoriesData() {
     }
 }
 
-// ========== GET SELECTED CATEGORY ==========
 function getSelectedCategory() {
     const urlParams = new URLSearchParams(window.location.search);
     const urlCategory = urlParams.get('category');
     const storageCategory = localStorage.getItem('selectedCategory');
-    
     return urlCategory || storageCategory;
 }
 
-// ========== SETUP CATEGORY INFO ==========
 function setupCategoryInfo(categoryId) {
     selectedCategory = categoryId;
-    
     if (!selectedCategory) {
         document.getElementById('categoryInfo').style.display = 'none';
         categoryName = "All Categories";
         return;
     }
-    
-    // Find category name
     const category = allCategories.find(cat => cat.id === selectedCategory);
     categoryName = category ? category.name : selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1);
-    
-    // Update display
     document.getElementById('currentCategory').textContent = categoryName;
     document.title = `${categoryName} Videos - CandyLink69`;
     document.getElementById('pageTitle').textContent = `🔥 ${categoryName} Videos 🔥`;
 }
 
-// ========== FILTER VIDEOS BY CATEGORY ==========
 function filterVideosByCategory() {
     selectedCategory = getSelectedCategory();
     setupCategoryInfo(selectedCategory);
-    
     if (!selectedCategory) {
-        // No category selected, show all videos
         filteredVideos = [...videos];
         return;
     }
-    
-    // Filter videos (MULTIPLE CATEGORIES SUPPORT)
-    filteredVideos = videos.filter(video => {
-        return video.categories && video.categories.includes(selectedCategory);
-    });
-    
-    // Update search placeholder
-    document.getElementById('searchInput').placeholder = 
-        `🔍 Search ${categoryName} videos...`;
+    filteredVideos = videos.filter(video => video.categories && video.categories.includes(selectedCategory));
+    document.getElementById('searchInput').placeholder = `🔍 Search ${categoryName} videos...`;
 }
 
-// ========== SEARCH FUNCTIONALITY FOR LIST PAGE ==========
 function setupSearch() {
     const searchInput = document.getElementById('searchInput');
     const searchResults = document.getElementById('searchResults');
-
     searchInput.addEventListener('input', function() {
         const query = this.value.toLowerCase().trim();
-        
         if (query.length < 2) {
             searchResults.style.display = 'none';
             return;
         }
-
-        // Search in FILTERED videos only
         const searchInVideos = selectedCategory ? filteredVideos : videos;
         const queryWords = query.split(/\s+/).filter(word => word.length > 1);
-        
         const results = searchInVideos.filter(video => {
-            // Check video ID
             if (video.id.toLowerCase().includes(query)) return true;
-            
-            // Check video title
             if (video.title && video.title.toLowerCase().includes(query)) return true;
-            
-            // Check categories
             if (video.categories) {
-                const catMatch = video.categories.some(cat => 
-                    cat.toLowerCase().includes(query)
-                );
-                if (catMatch) return true;
-                
-                // Also check category names
+                if (video.categories.some(cat => cat.toLowerCase().includes(query))) return true;
                 const categoryNames = video.categories.map(catId => {
                     const cat = allCategories.find(c => c.id === catId);
                     return cat ? cat.name.toLowerCase() : catId;
                 });
-                
                 if (categoryNames.some(name => name.includes(query))) return true;
             }
-            
-            // Multi-word search
             if (queryWords.length > 1) {
-                const searchText = [
-                    video.id,
-                    video.title || '',
-                    video.categories ? video.categories.join(' ') : ''
-                ].join(' ').toLowerCase();
-                
+                const searchText = [video.id, video.title || '', video.categories ? video.categories.join(' ') : ''].join(' ').toLowerCase();
                 return queryWords.every(word => searchText.includes(word));
             }
-            
             return false;
         });
-
         displaySearchResults(results, query);
     });
-
-    // Close search results when clicking outside
     document.addEventListener('click', function(event) {
         if (!searchInput.contains(event.target) && !searchResults.contains(event.target)) {
             searchResults.style.display = 'none';
@@ -570,30 +476,19 @@ function setupSearch() {
     });
 }
 
-// ========== DISPLAY SEARCH RESULTS ==========
 function displaySearchResults(results, query) {
     const searchResults = document.getElementById('searchResults');
-    
     if (results.length === 0) {
-        searchResults.innerHTML = `
-            <div class="search-no-results">
-                No videos found for "${query}"
-            </div>
-        `;
+        searchResults.innerHTML = `<div class="search-no-results">No videos found for "${query}"</div>`;
         searchResults.style.display = 'block';
         return;
     }
-
     let resultsHTML = '';
-    
     results.forEach(video => {
-        // Get category names
-        const categoryNames = video.categories ? 
-            video.categories.map(catId => {
-                const cat = allCategories.find(c => c.id === catId);
-                return cat ? cat.name : catId;
-            }).join(', ') : 'No categories';
-        
+        const categoryNames = video.categories ? video.categories.map(catId => {
+            const cat = allCategories.find(c => c.id === catId);
+            return cat ? cat.name : catId;
+        }).join(', ') : 'No categories';
         resultsHTML += `
             <div class="search-result-item" onclick="goToVideo('${video.id}')">
                 <div class="search-video-id">${video.id}</div>
@@ -602,56 +497,155 @@ function displaySearchResults(results, query) {
             </div>
         `;
     });
-
     searchResults.innerHTML = resultsHTML;
     searchResults.style.display = 'block';
 }
 
-// ========== GO TO VIDEO ==========
 function goToVideo(videoId) {
     window.location.href = `video.html?v=${videoId}`;
 }
 
-// ========== GET CATEGORY NAMES FOR DISPLAY ==========
 function getCategoryNames(categoryIds) {
     if (!categoryIds || !Array.isArray(categoryIds)) return '';
-    
     return categoryIds.map(catId => {
         const cat = allCategories.find(c => c.id === catId);
         return cat ? cat.name : catId;
     }).join(', ');
 }
 
-// ========== EXISTING PAGINATION CODE (UPDATED ADS IN GRID) ==========
-// ⭐⭐ SMART AD REFRESH SYSTEM (keys unchanged but same) ⭐⭐
+async function initializePage() {
+    await loadCategoriesData();
+    filterVideosByCategory();
+    setupSearch();
+    const urlParams = new URLSearchParams(window.location.search);
+    const PAGE = parseInt(urlParams.get('page')) || 1;
+    const totalVideos = filteredVideos.length;
+    const totalPages = Math.ceil(totalVideos / PER_PAGE);
+    const start = (PAGE - 1) * PER_PAGE;
+    const end = start + PER_PAGE;
+    const c = document.getElementById("videoList");
+    if (PAGE > totalPages || PAGE < 1) {
+        const categoryParam = selectedCategory ? `?category=${selectedCategory}` : '';
+        window.location.href = `list.html${categoryParam}`;
+        return;
+    }
+    const currentVideos = filteredVideos.slice(start, end);
+    c.innerHTML = '';
+    if (currentVideos.length === 0 && filteredVideos.length > 0) {
+        c.innerHTML = '<p style="text-align:center;padding:50px;grid-column:1/-1">No more videos on this page</p>';
+    } else if (filteredVideos.length === 0) {
+        c.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:50px;">
+            <p>No videos found in ${categoryName} category</p>
+            <a href="index.html" style="color:#ff9900; margin-top:10px; display:inline-block;">← Back to Categories</a>
+        </div>`;
+    } else {
+        currentVideos.forEach((v, i) => {
+            const hasTitle = v.title && v.title.trim().length > 0;
+            const alignClass = hasTitle ? 'left' : 'center';
+            const categoryNames = getCategoryNames(v.categories);
+            const videoHTML = `
+                <a href="video.html?v=${v.id}">
+                    <div class="thumb-container">
+                        <img class="thumb-img" src="Thumbs/${v.id}.webp" alt="${v.id}" loading="lazy">
+                        ${v.preview ? `<video class="preview-video" muted loop playsinline preload="none" data-src="${v.preview}"></video>` : ''}
+                        ${v.duration ? `<div class="duration">${v.duration}</div>` : ''}
+                    </div>
+                    <div class="video-title ${alignClass}">
+                        ${hasTitle ? `<span class="vid-id">${v.id}:</span> ${v.title}` : v.id}
+                    </div>
+                    ${categoryNames ? `<div class="video-categories">${categoryNames.split(', ').map(cat => `<span class="category-tag">${cat}</span>`).join('')}</div>` : ''}
+                </a>`;
+            c.insertAdjacentHTML('beforeend', videoHTML);
+        });
+    }
+    generatePagination(PAGE, totalPages, selectedCategory);
+    setupTouchPreview();
+    if (PAGE === 1 && window.location.search.includes('page=1')) {
+        const categoryParam = selectedCategory ? `?category=${selectedCategory}` : '';
+        window.history.replaceState({}, document.title, `list.html${categoryParam}`);
+    }
+}
+
+function generatePagination(currentPage, totalPages, category) {
+    const paginationContainer = document.getElementById('paginationContainer');
+    if (totalPages <= 1) {
+        paginationContainer.style.display = 'none';
+        return;
+    }
+    let paginationHTML = '';
+    const maxVisiblePages = 7;
+    if (currentPage > 1) {
+        const prevPage = currentPage - 1;
+        const categoryParam = category ? `category=${category}&page=${prevPage}` : `page=${prevPage}`;
+        paginationHTML += `<a href="list.html?${categoryParam}">« Prev</a> `;
+    }
+    let startPage = Math.max(1, currentPage - 3);
+    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+    if (endPage - startPage + 1 < maxVisiblePages) {
+        startPage = Math.max(1, endPage - maxVisiblePages + 1);
+    }
+    if (startPage > 1) {
+        const categoryParam = category ? `category=${category}` : '';
+        paginationHTML += `<a href="list.html?${categoryParam}">1</a> `;
+        if (startPage > 2) paginationHTML += `<span>...</span> `;
+    }
+    for (let i = startPage; i <= endPage; i++) {
+        if (i === currentPage) {
+            paginationHTML += `<span>${i}</span> `;
+        } else {
+            const categoryParam = category ? `category=${category}&page=${i}` : `page=${i}`;
+            paginationHTML += `<a href="list.html?${categoryParam}">${i}</a> `;
+        }
+    }
+    if (endPage < totalPages) {
+        if (endPage < totalPages - 1) paginationHTML += `<span>...</span> `;
+        const categoryParam = category ? `category=${category}&page=${totalPages}` : `page=${totalPages}`;
+        paginationHTML += `<a href="list.html?${categoryParam}">${totalPages}</a> `;
+    }
+    if (currentPage < totalPages) {
+        const categoryParam = category ? `category=${category}&page=${currentPage + 1}` : `page=${currentPage + 1}`;
+        paginationHTML += `<a href="list.html?${categoryParam}">Next »</a>`;
+    }
+    paginationContainer.innerHTML = paginationHTML;
+}
+
+function setupTouchPreview() {
+    const containers = document.querySelectorAll('.thumb-container');
+    containers.forEach(container => {
+        const thumb = container.querySelector('.thumb-img');
+        const preview = container.querySelector('.preview-video');
+        if (!preview) return;
+        container.addEventListener('touchstart', function() {
+            document.querySelectorAll('.preview-video').forEach(v => { v.pause(); v.style.display = "none"; });
+            document.querySelectorAll('.thumb-img').forEach(t => { t.style.display = "block"; });
+            if (!preview.src) preview.src = preview.dataset.src;
+            thumb.style.display = "none";
+            preview.style.display = "block";
+            preview.play();
+        });
+        container.addEventListener('touchend', function() {
+            preview.pause();
+            preview.style.display = "none";
+            thumb.style.display = "block";
+        });
+    });
+}
+
+// ========== AD REFRESH SYSTEM (UPDATED DOMAIN) ==========
 (function() {
   'use strict';
-  
-  // Ad loading function (updated with new atOptions format)
   function loadAd(id, key, w, h) {
     let d = document.getElementById(id);
     if(!d) return;
     d.innerHTML = '';
-    
-    // Create script for atOptions
     let s1 = document.createElement('script');
-    s1.innerHTML = `
-    var atOptions = {
-      'key': '${key}',
-      'format': 'iframe',
-      'height': ${h},
-      'width': ${w},
-      'params': {}
-    };`;
+    s1.innerHTML = `var atOptions = {'key': '${key}', 'format': 'iframe', 'height': ${h}, 'width': ${w}, 'params': {}};`;
     let s2 = document.createElement('script');
-    s2.src = 'https://www.highperformanceformat.com/' + key + '/invoke.js?x=' + Math.random();
+    s2.src = 'https://encyclopediainsoluble.com/' + key + '/invoke.js?x=' + Math.random();
     s2.async = true;
-
     d.appendChild(s1);
     d.appendChild(s2);
   }
-
-  // Load all ads function (using new keys)
   function loadAllAds() {
     if(window.innerWidth < 768) {
       loadAd('ad-top', '28a19f677ddf30c65892eb4af1ddee10', 320, 50);
@@ -663,15 +657,11 @@ function getCategoryNames(categoryIds) {
       loadAd('sticky', '28a19f677ddf30c65892eb4af1ddee10', 320, 50);
     }
   }
-
-  // ⭐ SMART REFRESH VARIABLES ⭐
   let refreshCount = 0;
   const MAX_REFRESHES = 3;
   let lastActivity = Date.now();
   let lastRefresh = 0;
   let isUserActive = true;
-
-  // Activity detection
   const activityEvents = ['mousedown', 'mousemove', 'scroll', 'touchstart', 'click', 'keydown'];
   activityEvents.forEach(event => {
     document.addEventListener(event, () => {
@@ -680,307 +670,32 @@ function getCategoryNames(categoryIds) {
       trySmartRefresh();
     }, { passive: true });
   });
-
-  // Inactivity detection
   setInterval(() => {
-    if(Date.now() - lastActivity > 30000) {
-      isUserActive = false;
-    }
+    if(Date.now() - lastActivity > 30000) isUserActive = false;
   }, 10000);
-
-  // Smart refresh function
   function trySmartRefresh() {
     const now = Date.now();
-    
-    if(
-      refreshCount >= MAX_REFRESHES ||
-      now - lastRefresh < 120000 ||
-      now - lastActivity > 15000 ||
-      !isUserActive ||
-      document.hidden ||
-      Math.random() > 0.2
-    ) {
-      return;
-    }
-    
+    if(refreshCount >= MAX_REFRESHES || now - lastRefresh < 120000 || now - lastActivity > 15000 || !isUserActive || document.hidden || Math.random() > 0.2) return;
     const delay = 2000 + Math.random() * 3000;
-    
     setTimeout(() => {
-      if(
-        refreshCount < MAX_REFRESHES &&
-        Date.now() - lastActivity < 20000 &&
-        isUserActive &&
-        !document.hidden
-      ) {
+      if(refreshCount < MAX_REFRESHES && Date.now() - lastActivity < 20000 && isUserActive && !document.hidden) {
         loadAllAds();
         refreshCount++;
         lastRefresh = Date.now();
       }
     }, delay);
   }
-
-  // Initial ad load
   document.addEventListener('DOMContentLoaded', function() {
     loadAllAds();
-    
-    // First smart refresh after 45 seconds
-    setTimeout(() => {
-      if(Date.now() - lastActivity < 30000) {
-        trySmartRefresh();
-      }
-    }, 45000);
+    setTimeout(() => { if(Date.now() - lastActivity < 30000) trySmartRefresh(); }, 45000);
   });
-
-  // Gallery specific - ads in grid (updated with new keys)
-  function loadGridAd() {
-    if(window.innerWidth < 768) {
-      // 320x50
-      let d = document.createElement('div');
-      d.innerHTML = '<script>atOptions={\'key\':\'28a19f677ddf30c65892eb4af1ddee10\',\'format\':\'iframe\',\'height\':50,\'width\':320,\'params\':{}};<\/script><script async src="https://www.highperformanceformat.com/28a19f677ddf30c65892eb4af1ddee10/invoke.js"><\/script>';
-      document.currentScript.parentNode.insertBefore(d, document.currentScript);
-    } else {
-      // 300x250
-      let d = document.createElement('div');
-      d.innerHTML = '<script>atOptions={\'key\':\'1236280d3c879dfd9af37ab923f7cfb3\',\'format\':\'iframe\',\'height\':250,\'width\':300,\'params\':{}};<\/script><script async src="https://www.highperformanceformat.com/1236280d3c879dfd9af37ab923f7cfb3/invoke.js"><\/script>';
-      document.currentScript.parentNode.insertBefore(d, document.currentScript);
-    }
-  }
-
-  // Make functions available globally
   window.loadAd = loadAd;
   window.loadAllAds = loadAllAds;
-  window.loadGridAd = loadGridAd;
   window.trySmartRefresh = trySmartRefresh;
   window.goToVideo = goToVideo;
-  
 })();
 
-// ========== MAIN INITIALIZATION ==========
-async function initializePage() {
-    // Load categories data
-    await loadCategoriesData();
-    
-    // Filter videos by category
-    filterVideosByCategory();
-    
-    // Setup search
-    setupSearch();
-    
-    // Get pagination info
-    const urlParams = new URLSearchParams(window.location.search);
-    const PAGE = parseInt(urlParams.get('page')) || 1;
-    
-    // Calculate pagination
-    const totalVideos = filteredVideos.length;
-    const totalPages = Math.ceil(totalVideos / PER_PAGE);
-    const start = (PAGE - 1) * PER_PAGE;
-    const end = start + PER_PAGE;
-    const c = document.getElementById("videoList");
-    
-    // Redirect if invalid page
-    if (PAGE > totalPages || PAGE < 1) {
-        const categoryParam = selectedCategory ? `?category=${selectedCategory}` : '';
-        window.location.href = `list.html${categoryParam}`;
-        return;
-    }
-    
-    // Display videos
-    const currentVideos = filteredVideos.slice(start, end);
-    
-    if (currentVideos.length === 0 && filteredVideos.length > 0) {
-        // No videos on this page
-        c.innerHTML = '<p style="text-align:center;padding:50px;grid-column:1/-1">No more videos on this page</p>';
-    } else if (filteredVideos.length === 0) {
-        // No videos in category
-        c.innerHTML = `
-            <div style="grid-column:1/-1; text-align:center; padding:50px;">
-                <p>No videos found in ${categoryName} category</p>
-                <a href="index.html" style="color:#ff9900; margin-top:10px; display:inline-block;">← Back to Categories</a>
-            </div>
-        `;
-    } else {
-        currentVideos.forEach((v, i) => {
-            const hasTitle = v.title && v.title.trim().length > 0;
-            const alignClass = hasTitle ? 'left' : 'center';
-            const categoryNames = getCategoryNames(v.categories);
-            
-            const videoHTML = `
-    <a href="video.html?v=${v.id}">
-        <div class="thumb-container">
-            <img class="thumb-img"
-                 src="Thumbs/${v.id}.webp"
-                 alt="${v.id}"
-                 loading="lazy">
-
-            ${v.preview ? `
-    <video class="preview-video"
-           muted
-           loop
-           playsinline
-           preload="none"
-           data-src="${v.preview}">
-    </video>
-` : ''}
-
-            ${v.duration ? `<div class="duration">${v.duration}</div>` : ''}
-        </div>
-                    <div class="video-title ${alignClass}">
-                        ${hasTitle ? `<span class="vid-id">${v.id}:</span> ${v.title}` : v.id}
-                    </div>
-                    ${categoryNames ? `
-                        <div class="video-categories">
-                            ${categoryNames.split(', ').map(cat => 
-                                `<span class="category-tag">${cat}</span>`
-                            ).join('')}
-                        </div>
-                    ` : ''}
-                </a>`;
-            
-            c.insertAdjacentHTML('beforeend', videoHTML);
-            
-            // Insert ad after every 5 videos (updated with new codes)
-            if((i+1)%5===0 && (i+1) < currentVideos.length){
-                c.insertAdjacentHTML('beforeend', `
-                    <div class="ad-box">
-                        <div class="ad-mobile">
-                            <script>
-                                atOptions = {
-                                    'key' : '28a19f677ddf30c65892eb4af1ddee10',
-                                    'format' : 'iframe',
-                                    'height' : 50,
-                                    'width' : 320,
-                                    'params' : {}
-                                };
-                            <\/script>
-                            <script src="https://www.highperformanceformat.com/28a19f677ddf30c65892eb4af1ddee10/invoke.js"><\/script>
-                        </div>
-                        <div class="ad-desktop">
-                            <script>
-                                atOptions = {
-                                    'key' : '1236280d3c879dfd9af37ab923f7cfb3',
-                                    'format' : 'iframe',
-                                    'height' : 250,
-                                    'width' : 300,
-                                    'params' : {}
-                                };
-                            <\/script>
-                            <script src="https://www.highperformanceformat.com/1236280d3c879dfd9af37ab923f7cfb3/invoke.js"><\/script>
-                        </div>
-                    </div>`);
-            }
-        });
-    }
-    
-    // Generate pagination
-    generatePagination(PAGE, totalPages, selectedCategory);
-    setupTouchPreview();
-    
-    // Clean URL (remove ?page=1 but keep category)
-    if (PAGE === 1 && window.location.search.includes('page=1')) {
-        const categoryParam = selectedCategory ? `?category=${selectedCategory}` : '';
-        window.history.replaceState({}, document.title, `list.html${categoryParam}`);
-    }
-}
-
-// ========== GENERATE PAGINATION ==========
-function generatePagination(currentPage, totalPages, category) {
-    const paginationContainer = document.getElementById('paginationContainer');
-    
-    if (totalPages <= 1) {
-        paginationContainer.style.display = 'none';
-        return;
-    }
-    
-    let paginationHTML = '';
-    const maxVisiblePages = 7;
-    
-    // Previous button
-    if (currentPage > 1) {
-        const prevPage = currentPage - 1;
-        const categoryParam = category ? `category=${category}&page=${prevPage}` : `page=${prevPage}`;
-        paginationHTML += `<a href="list.html?${categoryParam}">« Prev</a> `;
-    }
-    
-    // Page numbers
-    let startPage = Math.max(1, currentPage - 3);
-    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-    
-    if (endPage - startPage + 1 < maxVisiblePages) {
-        startPage = Math.max(1, endPage - maxVisiblePages + 1);
-    }
-    
-    // First page
-    if (startPage > 1) {
-        const categoryParam = category ? `category=${category}` : '';
-        paginationHTML += `<a href="list.html?${categoryParam}">1</a> `;
-        if (startPage > 2) paginationHTML += `<span>...</span> `;
-    }
-    
-    // Page numbers
-    for (let i = startPage; i <= endPage; i++) {
-        if (i === currentPage) {
-            paginationHTML += `<span>${i}</span> `;
-        } else {
-            const categoryParam = category ? `category=${category}&page=${i}` : `page=${i}`;
-            paginationHTML += `<a href="list.html?${categoryParam}">${i}</a> `;
-        }
-    }
-    
-    // Last page
-    if (endPage < totalPages) {
-        if (endPage < totalPages - 1) paginationHTML += `<span>...</span> `;
-        const categoryParam = category ? `category=${category}&page=${totalPages}` : `page=${totalPages}`;
-        paginationHTML += `<a href="list.html?${categoryParam}">${totalPages}</a> `;
-    }
-    
-    // Next button
-    if (currentPage < totalPages) {
-        const categoryParam = category ? `category=${category}&page=${currentPage + 1}` : `page=${currentPage + 1}`;
-        paginationHTML += `<a href="list.html?${categoryParam}">Next »</a>`;
-    }
-    
-    paginationContainer.innerHTML = paginationHTML;
-  }
-  function setupTouchPreview() {
-    const containers = document.querySelectorAll('.thumb-container');
-
-    containers.forEach(container => {
-        const thumb = container.querySelector('.thumb-img');
-        const preview = container.querySelector('.preview-video');
-
-        if (!preview) return;
-
-        container.addEventListener('touchstart', function() {
-
-            document.querySelectorAll('.preview-video').forEach(v => {
-                v.pause();
-                v.style.display = "none";
-            });
-
-            document.querySelectorAll('.thumb-img').forEach(t => {
-                t.style.display = "block";
-            });
-
-            if (!preview.src) {
-                preview.src = preview.dataset.src;
-            }
-
-            thumb.style.display = "none";
-            preview.style.display = "block";
-            preview.play();
-        });
-
-        container.addEventListener('touchend', function() {
-            preview.pause();
-            preview.style.display = "none";
-            thumb.style.display = "block";
-        });
-
-    });
-  }
-// ========== START EVERYTHING ==========
 document.addEventListener('DOMContentLoaded', initializePage);
 </script>
-
 </body>
 </html>
