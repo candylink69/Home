@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>CandyLink69 – Loading Video...</title>
 
+<!-- Font Awesome for small social icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 <style>
 * {
     margin: 0;
@@ -26,7 +29,7 @@ body{
     padding:12px 12px 20px;
 }
 
-/* 🔥 BLINKING ANIMATED TITLE 🔥 */
+/* 🔥 BLINKING TITLE */
 .title{
     font-size:22px;
     font-weight:bold;
@@ -56,7 +59,7 @@ body{
     100% {opacity:1;}
 }
 
-/* ✅ AD container below title */
+/* AD spot below title */
 .ad-spot {
     margin: 10px 0 12px 0;
     background: transparent;
@@ -66,7 +69,46 @@ body{
     align-items: center;
 }
 
-/* ⚠️ WARNING MESSAGE BOX (above video) */
+/* Small Social Icons (above warning box) */
+.social-small {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 12px 0 8px 0;
+    flex-wrap: wrap;
+}
+.social-small-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #222;
+    color: white;
+    font-size: 22px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+}
+.social-small-icon:active {
+    transform: translateY(2px);
+}
+.social-small-icon.instagram { background: radial-gradient(circle at 30% 110%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
+.social-small-icon.telegram { background: #0088cc; }
+.social-small-icon.facebook { background: #1877f2; }
+.social-small-icon:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.05);
+}
+.join-text-small {
+    text-align: center;
+    font-size: 12px;
+    color: #ffcc88;
+    margin-bottom: 6px;
+}
+
+/* Warning Box */
 .warning-box {
     background: #1f1a0c;
     border-left: 6px solid #ffaa00;
@@ -79,35 +121,20 @@ body{
     box-shadow: 0 0 12px rgba(255, 170, 0, 0.3);
     text-align: left;
     font-family: 'Segoe UI', Arial, sans-serif;
-    transition: all 0.2s;
 }
-
 .warning-message {
     font-size: 14px;
     line-height: 1.45;
     color: #ffe6b3;
-    letter-spacing: 0.2px;
 }
-
 .warning-message:first-child {
     margin-bottom: 12px;
     border-bottom: 1px dashed #ffaa5566;
     padding-bottom: 10px;
 }
-
-.warning-message strong, .warning-message b {
-    color: #ffaa44;
-}
-
-.warning-emoji {
-    font-size: 18px;
-    margin-right: 6px;
-    display: inline-block;
-}
-
-.warning-message i {
-    color: #ffbb66;
-}
+.warning-message strong, .warning-message b { color: #ffaa44; }
+.warning-emoji { font-size: 18px; margin-right: 6px; display: inline-block; }
+.warning-message i { color: #ffbb66; }
 
 /* Video Player */
 .video-box{
@@ -128,7 +155,7 @@ body{
     border:none;
 }
 
-/* 🔥 ULTRA COMPACT CTA */
+/* Smartlink CTA */
 .danger-box{
     margin:10px auto 8px;
     padding:6px 12px;
@@ -158,9 +185,12 @@ body{
     text-decoration:none;
     transition:0.2s;
 }
-.danger-btn:hover {
-    background:#ff5500;
-    transform: scale(1.02);
+.danger-btn:hover { background:#ff5500; transform: scale(1.02); }
+
+/* Native Ad (below smartlink) */
+.native-ad-container {
+    margin: 15px 0 12px;
+    text-align: center;
 }
 
 /* Navigation */
@@ -181,11 +211,9 @@ body{
     font-weight:bold;
     transition:0.2s;
 }
-.nav-btn:hover{
-    background:#ff3300;
-}
+.nav-btn:hover{ background:#ff3300; }
 
-/* STICKY */
+/* Sticky Ad Footer */
 #sticky{
     position:fixed;
     bottom:0;
@@ -199,6 +227,16 @@ body{
     justify-content:center;
     align-items:center;
     border-top:1px solid #ff6600;
+}
+
+/* Bottom social row (above sticky) */
+.bottom-social {
+    margin: 20px 0 10px;
+    padding: 10px 0 5px;
+    border-top: 1px solid #333;
+}
+.bottom-social .join-text-small {
+    margin-bottom: 8px;
 }
 
 /* Video info */
@@ -223,40 +261,33 @@ body{
     display: inline-block;
 }
 
-/* Native ad container */
-#native-ad {
-    margin: 12px 0;
-    text-align: center;
-}
-
-/* Responsive */
 @media (max-width: 650px) {
-    .warning-message {
-        font-size: 12.5px;
-        line-height: 1.4;
-    }
-    .warning-box {
-        padding: 10px 10px;
-    }
-    .danger-text {
-        white-space: normal;
-        font-size: 12px;
-    }
+    .warning-message { font-size: 12.5px; line-height: 1.4; }
+    .warning-box { padding: 10px 10px; }
+    .danger-text { white-space: normal; font-size: 12px; }
+    .social-small-icon { width: 36px; height: 36px; font-size: 20px; }
 }
 </style>
 </head>
-
 <body>
 
 <div class="container">
 
-    <!-- 🔥 FIXED BLINKING TITLE - CandyLink69 (NEVER CHANGES) -->
+    <!-- Blinking Title -->
     <div class="title" id="mainTitle">🔥 CandyLink69 🔥</div>
 
-    <!-- ✅ AD HAS BEEN MOVED HERE - directly below title (dynamic ad-top) -->
+    <!-- Top Ad (new domain) -->
     <div id="ad-top" class="ad-spot"></div>
 
-    <!-- ⚠️ WARNING MESSAGES (EXACTLY as requested - English + Hindi) above video player -->
+    <!-- Small Social Icons + text (above warning box) -->
+    <div class="join-text-small">For the latest updates, you can connect with us on these platforms.</div>
+    <div class="social-small">
+        <a href="https://www.instagram.com/candylink_official" target="_blank" class="social-small-icon instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://t.me/candylink6" target="_blank" class="social-small-icon telegram"><i class="fab fa-telegram-plane"></i></a>
+        <a href="https://www.facebook.com/Candylinkhub" target="_blank" class="social-small-icon facebook"><i class="fab fa-facebook-f"></i></a>
+    </div>
+
+    <!-- Warning Messages -->
     <div class="warning-box">
         <div class="warning-message">
             <span class="warning-emoji">⚠️</span> <strong>When you press Play, a new ad page will open 2 times.</strong> Each time, go back immediately.<br>
@@ -270,53 +301,61 @@ body{
         </div>
     </div>
 
-    <!-- VIDEO PLAYER (Dynamic) -->
+    <!-- Video Player -->
     <div class="video-box">
         <iframe id="videoPlayer" src="" allowfullscreen></iframe>
     </div>
 
-    <!-- Video Info & ID -->
+    <!-- Video Info -->
     <div class="video-info">
         <div>🎬 Video ID: <span class="video-id" id="currentVideoId">V001</span></div>
         <div id="videoDescription" style="margin-top:6px;"></div>
     </div>
 
-    <!-- Navigation (Prev/Next & Gallery) -->
+    <!-- Navigation -->
     <div class="nav-buttons">
         <a class="nav-btn" href="index.html">📁 Back to Gallery</a>
         <a class="nav-btn" id="prevBtn" href="#" style="display:none">◀ Previous</a>
         <a class="nav-btn" id="nextBtn" href="#" style="display:none">Next ▶</a>
     </div>
 
-    <!-- 🔥 CTA BUTTON (same spicy link) -->
+    <!-- Smartlink (new domain) -->
     <div class="danger-box">
         <div class="danger-text">🥵 YOU WANT SOMETHING SPICY? 🥵</div>
-        <a class="danger-btn" href="https://www.effectivegatecpm.com/njp16fur?key=f0a7ec3b2fa8d91d821777018c8eec71" target="_blank" rel="noopener noreferrer">
+        <a class="danger-btn" href="https://encyclopediainsoluble.com/njp16fur?key=f0a7ec3b2fa8d91d821777018c8eec71" target="_blank" rel="noopener noreferrer">
             CLICK HERE
         </a>
     </div>
 
-    <!-- NATIVE AD (unchanged) -->
-    <div id="native-ad">
-        <script async data-cfasync="false"
-            src="https://pl28370520.effectivegatecpm.com/dceead676280d8758acad3c44709124b/invoke.js"></script>
+    <!-- Native Banner (moved below smartlink, new domain) -->
+    <div class="native-ad-container">
+        <script async data-cfasync="false" src="https://encyclopediainsoluble.com/dceead676280d8758acad3c44709124b/invoke.js"></script>
         <div id="container-dceead676280d8758acad3c44709124b"></div>
     </div>
 
-    <!-- BOTTOM AD (static) -->
+    <!-- Bottom Ad (new domain) -->
     <div id="ad-bottom"></div>
+
+    <!-- Bottom Social Row (above sticky ad) -->
+    <div class="bottom-social">
+        <div class="join-text-small">For the latest updates, you can connect with us on these platforms.</div>
+        <div class="social-small">
+            <a href="https://www.instagram.com/candylink_official" target="_blank" class="social-small-icon instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://t.me/candylink6" target="_blank" class="social-small-icon telegram"><i class="fab fa-telegram-plane"></i></a>
+            <a href="https://www.facebook.com/Candylinkhub" target="_blank" class="social-small-icon facebook"><i class="fab fa-facebook-f"></i></a>
+        </div>
+    </div>
 
 </div>
 
-<!-- STICKY AD FIXED FOOTER -->
+<!-- Sticky Ad Footer (new domain) -->
 <div id="sticky"></div>
 
-<!-- SOCIAL BAR (script) -->
-<script src="https://pl28370524.effectivegatecpm.com/3a/d6/0f/3ad60f18f18ad6833a8dd0aadd895e49.js"></script>
+<!-- ✅ SOCIAL BAR SCRIPT (FLOATING NOTIFICATION) - KEPT AS REQUESTED, NOT REMOVED -->
+<script src="https://encyclopediainsoluble.com/3a/d6/0f/3ad60f18f18ad6833a8dd0aadd895e49.js"></script>
 
-<!-- DYNAMIC VIDEO LOADER + SAFE AUTO REFRESH (Random 2-4 min, Max 2 refreshes) -->
 <script>
-    // ==================== VIDEO LOADER ====================
+    // ========== VIDEO LOADER ==========
     const urlParams = new URLSearchParams(window.location.search);
     const videoId = urlParams.get('v') || 'V001';
 
@@ -324,25 +363,20 @@ body{
         .then(response => response.json())
         .then(videosData => {
             const video = videosData[videoId];
-
             if (video) {
                 document.title = `CandyLink69 – ${video.title || videoId}`;
                 document.getElementById('videoPlayer').src = video.embed;
                 document.getElementById('currentVideoId').textContent = videoId;
-
                 if (video.description) {
                     document.getElementById('videoDescription').textContent = video.description;
                 }
-
                 const videoIds = Object.keys(videosData);
                 const currentIndex = videoIds.indexOf(videoId);
-
                 if (currentIndex > 0) {
                     const prevBtn = document.getElementById('prevBtn');
                     prevBtn.href = `video.html?v=${videoIds[currentIndex - 1]}`;
                     prevBtn.style.display = 'inline-block';
                 }
-
                 if (currentIndex < videoIds.length - 1) {
                     const nextBtn = document.getElementById('nextBtn');
                     nextBtn.href = `video.html?v=${videoIds[currentIndex + 1]}`;
@@ -357,176 +391,96 @@ body{
             document.querySelector('.video-box').innerHTML = '<div style="padding:50px;color:#ff8888">⚠️ Failed to load video data.</div>';
         });
 
-    // ==================== AD LOADER FUNCTION ====================
+    // ========== AD LOADER (new domain) ==========
     function loadAd(containerId, key, width, height) {
         const container = document.getElementById(containerId);
         if (!container) return;
-
         container.innerHTML = '';
         delete window.atOptions;
-
         const script1 = document.createElement('script');
-        script1.innerHTML = `
-            var atOptions = {
-                'key': '${key}',
-                'format': 'iframe',
-                'height': ${height},
-                'width': ${width},
-                'params': {}
-            };
-        `;
+        script1.innerHTML = `var atOptions = {'key': '${key}','format': 'iframe','height': ${height},'width': ${width},'params': {}};`;
         const script2 = document.createElement('script');
-        script2.src = 'https://www.highperformanceformat.com/' + key + '/invoke.js?x=' + Math.random();
+        script2.src = 'https://encyclopediainsoluble.com/' + key + '/invoke.js?x=' + Math.random();
         script2.async = true;
-
         container.appendChild(script1);
         container.appendChild(script2);
     }
 
-    // ==================== SAFE AUTO REFRESH SYSTEM ====================
+    // ========== AUTO REFRESH (top & sticky only, max 2 times) ==========
     let refreshCount = 0;
-    const MAX_REFRESHES = 2;        // Sirf 2 baar refresh (as per your requirement)
+    const MAX_REFRESHES = 2;
     let refreshTimer = null;
     let isUserActive = true;
-    let lastActivity = Date.now();
     let inactivityTimer = null;
 
-    // Random delay between 2 minutes (120000ms) and 4 minutes (240000ms)
     function getRandomDelay() {
-        const minDelay = 120000;  // 2 minutes
-        const maxDelay = 240000;  // 4 minutes
-        return Math.floor(Math.random() * (maxDelay - minDelay + 1) + minDelay);
+        return Math.floor(Math.random() * (240000 - 120000 + 1) + 120000); // 2-4 min
     }
 
-    // Refresh only ad-top and sticky
     function refreshTopAndStickyAds() {
-        // Check conditions before refreshing
         if (refreshCount >= MAX_REFRESHES) {
-            if (refreshTimer) {
-                clearTimeout(refreshTimer);
-                refreshTimer = null;
-            }
+            if (refreshTimer) clearTimeout(refreshTimer);
             return;
         }
-
-        // ONLY refresh if user is active AND tab is visible
         if (!isUserActive || document.hidden) {
-            // Reschedule for later when user becomes active
-            if (refreshCount < MAX_REFRESHES) {
-                scheduleRefresh();
-            }
+            if (refreshCount < MAX_REFRESHES) scheduleRefresh();
             return;
         }
-
         const isMobile = window.innerWidth < 768;
-
-        // Refresh ad-top
         if (isMobile) {
             loadAd('ad-top', '28a19f677ddf30c65892eb4af1ddee10', 320, 50);
         } else {
             loadAd('ad-top', 'a7f6af07e7b981a82b1a2a982b13ba01', 728, 90);
         }
-
-        // Refresh sticky
         loadAd('sticky', '28a19f677ddf30c65892eb4af1ddee10', 320, 50);
-
         refreshCount++;
-
-        // Schedule next refresh if under limit
-        if (refreshCount < MAX_REFRESHES) {
-            scheduleRefresh();
-        }
+        if (refreshCount < MAX_REFRESHES) scheduleRefresh();
     }
 
     function scheduleRefresh() {
-        if (refreshTimer) {
-            clearTimeout(refreshTimer);
-        }
-        if (refreshCount >= MAX_REFRESHES) {
-            return;
-        }
-
-        const delay = getRandomDelay();
-        refreshTimer = setTimeout(function() {
-            refreshTopAndStickyAds();
-        }, delay);
+        if (refreshTimer) clearTimeout(refreshTimer);
+        if (refreshCount >= MAX_REFRESHES) return;
+        refreshTimer = setTimeout(() => refreshTopAndStickyAds(), getRandomDelay());
     }
 
-    // Reset user activity tracking
     function resetUserActivity() {
         isUserActive = true;
-        lastActivity = Date.now();
-        
-        // Reset inactivity timer
-        if (inactivityTimer) {
-            clearTimeout(inactivityTimer);
-        }
-        
-        // After 5 minutes of no activity, mark user as inactive
-        inactivityTimer = setTimeout(function() {
-            isUserActive = false;
-        }, 300000); // 5 minutes
+        if (inactivityTimer) clearTimeout(inactivityTimer);
+        inactivityTimer = setTimeout(() => { isUserActive = false; }, 300000);
     }
 
-    // Load initial ads (ad-top, ad-bottom, sticky)
     function loadInitialAds() {
         const isMobile = window.innerWidth < 768;
-
-        // ad-top
         if (isMobile) {
             loadAd('ad-top', '28a19f677ddf30c65892eb4af1ddee10', 320, 50);
-        } else {
-            loadAd('ad-top', 'a7f6af07e7b981a82b1a2a982b13ba01', 728, 90);
-        }
-
-        // ad-bottom (static - loaded once)
-        if (isMobile) {
             loadAd('ad-bottom', '1236280d3c879dfd9af37ab923f7cfb3', 300, 250);
         } else {
+            loadAd('ad-top', 'a7f6af07e7b981a82b1a2a982b13ba01', 728, 90);
             loadAd('ad-bottom', 'a7f6af07e7b981a82b1a2a982b13ba01', 728, 90);
         }
-
-        // sticky
         loadAd('sticky', '28a19f677ddf30c65892eb4af1ddee10', 320, 50);
     }
 
-    // ==================== EVENT LISTENERS ====================
+    // Activity tracking
     const activityEvents = ['mousedown', 'mousemove', 'scroll', 'touchstart', 'click', 'keydown'];
-    activityEvents.forEach(function(event) {
-        document.addEventListener(event, function() {
+    activityEvents.forEach(event => {
+        document.addEventListener(event, () => {
             resetUserActivity();
-            // If refreshes are still pending, make sure schedule is active
-            if (refreshCount < MAX_REFRESHES && !refreshTimer) {
-                scheduleRefresh();
-            }
+            if (refreshCount < MAX_REFRESHES && !refreshTimer) scheduleRefresh();
         }, { passive: true });
     });
-
-    // Handle page visibility (tab switching)
-    document.addEventListener('visibilitychange', function() {
-        if (!document.hidden && isUserActive) {
-            // Tab became visible again - reschedule if needed
-            if (refreshCount < MAX_REFRESHES && !refreshTimer) {
-                scheduleRefresh();
-            }
-        }
+    document.addEventListener('visibilitychange', () => {
+        if (!document.hidden && isUserActive && refreshCount < MAX_REFRESHES && !refreshTimer) scheduleRefresh();
     });
 
-    // ==================== INITIALIZATION ====================
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', () => {
         loadInitialAds();
         resetUserActivity();
-        scheduleRefresh();  // First refresh will happen randomly between 2-4 minutes
+        scheduleRefresh();
     });
-
-    // Cleanup on page unload
-    window.addEventListener('beforeunload', function() {
-        if (refreshTimer) {
-            clearTimeout(refreshTimer);
-        }
-        if (inactivityTimer) {
-            clearTimeout(inactivityTimer);
-        }
+    window.addEventListener('beforeunload', () => {
+        if (refreshTimer) clearTimeout(refreshTimer);
+        if (inactivityTimer) clearTimeout(inactivityTimer);
     });
 </script>
 </body>
