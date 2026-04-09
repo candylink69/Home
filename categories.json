@@ -36,6 +36,12 @@
     "description": ""
   },
   {
+    "id": "C",
+    "name": "Cheating (C)",
+    "thumbnail": "Thumbs/C001.webp",
+    "description": ""
+  },
+  {
     "id": "O",
     "name": "Outdoor",
     "thumbnail": "Thumbs/O001.webp",
