@@ -285,6 +285,13 @@ const videos = [
     duration: "37:49",
     categories: ["BM"],
     preview: "https://candylink69.embed4me.vip/UiLyovWAsORdzf2ieAMkvQ/hld/puo3lcki/xoizn9/preview.webp"
+  },
+  {
+    id: "B002",
+    title: "Housemaid Teasing Her Boss And Paid The Price For It",
+    duration: "28:09",
+    categories: ["Boss"],
+    preview: "https://candylink69.embed4me.vip/s0yPvwjVmSCoMo3cWt975g/x68/ipljeq8a/8xatpf/preview.webp"
   }
 ];
 
