@@ -292,6 +292,13 @@ const videos = [
     duration: "28:09",
     categories: ["Boss"],
     preview: "https://candylink69.embed4me.vip/s0yPvwjVmSCoMo3cWt975g/x68/ipljeq8a/8xatpf/preview.webp"
+  },
+  {
+    id: "Movie005",
+    title: "Heroes of Might and Magic Armagedons Blade in the Black Ladys Chamber",
+    duration: "2:34:48",
+    categories: ["Full-Movies"],
+    preview: "https://candylink69.embed4me.vip/QNqDW39GVDIepGh03qyJmg/vz/xieomnsk/r1tty1/preview.webp"
   }
 ];
 
