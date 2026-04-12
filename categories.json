@@ -42,6 +42,12 @@
     "description": ""
   },
   {
+    "id": "BS",
+    "name": "BSDM-Submissive (BS)",
+    "thumbnail": "Thumbs/BS001.webp",
+    "description": ""
+  },
+  {
     "id": "O",
     "name": "Outdoor",
     "thumbnail": "Thumbs/O001.webp",
