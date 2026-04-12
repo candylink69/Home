@@ -299,6 +299,27 @@ const videos = [
     duration: "2:34:48",
     categories: ["Full-Movies"],
     preview: "https://candylink69.embed4me.vip/QNqDW39GVDIepGh03qyJmg/vz/xieomnsk/r1tty1/preview.webp"
+  },
+  {
+    id: "BS001",
+    title: "He torture the girl and fuck her so brutally that they tear open both her ass and her pussy.",
+    duration: "1:28:55",
+    categories: ["BS"],
+    preview: "https://candylink69.embed4me.vip/uCeD6eFJFLC11FcKDEVGVQ/mik/dq8zrxeh/95qz5n/preview.webp"
+  },
+    {
+    id: "O002",
+    title: "At the bus stand, right in front of her own grandfather, she starts getting fucked by a stranger.",
+    duration: "35:18",
+    categories: ["O"],
+    preview: "https://candylink69.embed4me.vip/YYv-lzn-cOVjEluKUm1nhA/il/dq8zrxeh/nfvm9u/preview.webp"
+  },
+    {
+    id: "S006",
+    title: "She gets fucked in the ass by her own brother to fulfill her anal fantasy.",
+    duration: "31:05",
+    categories: ["sister"],
+    preview: "https://candylink69.embed4me.vip/0D0BOdszcoZJ8PKvZh2ibQ/s93/dq8zrxeh/qbw6gh/preview.webp"
   }
 ];
 
