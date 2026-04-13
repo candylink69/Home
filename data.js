@@ -314,12 +314,19 @@ const videos = [
     categories: ["O"],
     preview: "https://candylink69.embed4me.vip/YYv-lzn-cOVjEluKUm1nhA/il/dq8zrxeh/nfvm9u/preview.webp"
   },
-    {
+  {
     id: "S006",
     title: "She gets fucked in the ass by her own brother to fulfill her anal fantasy.",
     duration: "31:05",
     categories: ["sister"],
     preview: "https://candylink69.embed4me.vip/0D0BOdszcoZJ8PKvZh2ibQ/s93/dq8zrxeh/qbw6gh/preview.webp"
+  },
+  {
+    id: "S007",
+    title: "Sister's ex-boyfriend fucks her brutally.",
+    duration: "39:22",
+    categories: ["sister"],
+    preview: "https://candylink69.embed4me.vip/RO905At_Yk4iHLBUyP-few/djx/6spnil6i/xoljeg/preview.webp"
   }
 ];
 
