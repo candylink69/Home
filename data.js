@@ -334,6 +334,13 @@ const videos = [
     duration: "2:01:09",
     categories: ["Full-Movies"],
     preview: "https://candylink69.embed4me.vip/ewVSHBKC8UxF6XydBBGBjA/k5/fmg9yach/ua5rc9/preview.webp"
+  },
+  {
+    id: "GB001",
+    title: "",
+    duration: "37:03",
+    categories: ["GB"],
+    preview: "https://candylink69.embed4me.vip/GTFBxmREQ6W91Ehl00k46g/js/skucp8et/qbflz1/preview.webp"
   }
 ];
 
