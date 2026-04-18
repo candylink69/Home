@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>CandyLink69 – Official Site</title>
+  
+  <!-- Same favicon links -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #0b0b0b;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    /* Flaming Wrapper (same style) */
+    .wrapper {
+      max-width: 650px;
+      width: 100%;
+      margin: 20px auto;
+      padding: 24px 20px;
+      border-radius: 20px;
+      border: 3px solid transparent;
+      background: linear-gradient(#0b0b0b, #0b0b0b) padding-box,
+                  linear-gradient(45deg, #ff0033, #ff9900, #ff0033) border-box;
+      animation: flame 3s linear infinite;
+      box-shadow: 0 20px 35px rgba(0,0,0,0.5);
+    }
+
+    @keyframes flame {
+      0% { filter: hue-rotate(0deg); }
+      100% { filter: hue-rotate(360deg); }
+    }
+
+    /* Blinking Title */
+    .title {
+      font-size: 26px;
+      font-weight: bold;
+      margin-bottom: 25px;
+      padding: 12px 20px;
+      border-radius: 14px;
+      background: rgba(0,0,0,0.6);
+      border: 3px solid;
+      text-shadow: 0 0 12px currentColor;
+      animation: blinkColors 2s infinite alternate, pulseLight 1.5s infinite alternate;
+      display: inline-block;
+    }
+
+    @keyframes blinkColors {
+      0%   {color:#ff2d55; border-color:#ff2d55; box-shadow:0 0 20px #ff2d55;}
+      14%  {color:#ff5500; border-color:#ff5500; box-shadow:0 0 20px #ff5500;}
+      28%  {color:#ffaa00; border-color:#ffaa00; box-shadow:0 0 20px #ffaa00;}
+      42%  {color:#ffff00; border-color:#ffff00; box-shadow:0 0 20px #ffff00;}
+      57%  {color:#00ff88; border-color:#00ff88; box-shadow:0 0 20px #00ff88;}
+      71%  {color:#0088ff; border-color:#0088ff; box-shadow:0 0 20px #0088ff;}
+      85%  {color:#aa55ff; border-color:#aa55ff; box-shadow:0 0 20px #aa55ff;}
+      100% {color:#ff2d55; border-color:#ff2d55; box-shadow:0 0 20px #ff2d55;}
+    }
+
+    @keyframes pulseLight {
+      0% { opacity: 0.8; }
+      100% { opacity: 1; }
+    }
+
+    /* Professional English Message */
+    .thankyou-message {
+      font-size: 20px;
+      font-weight: 600;
+      background: rgba(255,51,0,0.12);
+      padding: 18px 12px;
+      border-radius: 18px;
+      margin: 15px 0 20px;
+      line-height: 1.45;
+    }
+
+    .permanent-text {
+      font-size: 18px;
+      color: #ffcc88;
+      margin-bottom: 15px;
+      font-weight: 500;
+    }
+
+    /* Click Here label */
+    .click-label {
+      font-size: 16px;
+      color: #ffaa66;
+      margin-bottom: 6px;
+      letter-spacing: 1px;
+    }
+
+    /* 3D BUTTON - Smaller & mobile-friendly */
+    .btn-3d {
+      display: inline-block;
+      background: linear-gradient(145deg, #ff3300, #cc2200);
+      color: white;
+      font-size: 22px;
+      font-weight: bold;
+      padding: 12px 28px;
+      border-radius: 50px;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      box-shadow: 0 8px 0 #7a1f00, 0 4px 12px rgba(0,0,0,0.4);
+      transition: all 0.1s ease;
+      margin: 8px 0;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-3d:hover {
+      transform: translateY(3px);
+      box-shadow: 0 5px 0 #7a1f00, 0 6px 16px rgba(0,0,0,0.5);
+    }
+
+    .btn-3d:active {
+      transform: translateY(8px);
+      box-shadow: 0 2px 0 #7a1f00;
+    }
+
+    .timer-note {
+      margin-top: 25px;
+      font-size: 14px;
+      color: #aaa;
+      background: rgba(0,0,0,0.5);
+      display: inline-block;
+      padding: 5px 14px;
+      border-radius: 40px;
+    }
+
+    /* Responsive for small screens */
+    @media (max-width: 550px) {
+      .wrapper {
+        padding: 20px 16px;
+      }
+      .title {
+        font-size: 22px;
+        padding: 10px 16px;
+      }
+      .thankyou-message {
+        font-size: 18px;
+        padding: 15px 10px;
+      }
+      .btn-3d {
+        font-size: 18px;
+        padding: 10px 22px;
+        letter-spacing: 1.5px;
+      }
+      .permanent-text {
+        font-size: 16px;
+      }
+      .click-label {
+        font-size: 14px;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .btn-3d {
+        font-size: 16px;
+        padding: 8px 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="wrapper">
+  <!-- Blinking Header -->
+  <div class="title">🔥 CandyLink69 🔥</div>
+
+  <!-- Professional English Message -->
+  <div class="thankyou-message">
+    🎉 Thank you so much for your support! 🎉<br>
+    Our website has now evolved into a professional platform. 🎉
+  </div>
+
+  <div class="permanent-text">
+    ⭐ Our New Official Permanent Link is below: ⭐
+  </div>
+
+  <!-- 👇🏻 Click Here label above button -->
+  <div class="click-label">👇🏻 Click Here</div>
+
+  <!-- 3D Animated Button (smaller, fits all devices) -->
+  <a href="https://candylink69.com" class="btn-3d" id="redirectBtn">
+    CANDYLINK69.COM
+  </a>
+
+  <div class="timer-note" id="timerNote">
+    Redirecting in 30 seconds...
+  </div>
+</div>
+
+<script>
+  // 30 seconds auto-redirect
+  let secondsLeft = 30;
+  const timerElement = document.getElementById('timerNote');
+  let countdownInterval;
+
+  function updateTimer() {
+    if (timerElement) {
+      timerElement.textContent = `Redirecting in ${secondsLeft} second${secondsLeft !== 1 ? 's' : ''}...`;
+    }
+    if (secondsLeft <= 0) {
+      clearInterval(countdownInterval);
+      window.location.href = 'https://candylink69.com';
+    }
+    secondsLeft--;
+  }
+
+  countdownInterval = setInterval(updateTimer, 1000);
+  updateTimer();
+
+  // If user clicks the button, we can optionally clear timer (not necessary, but good)
+  const btn = document.getElementById('redirectBtn');
+  btn.addEventListener('click', function() {
+    clearInterval(countdownInterval);
+  });
+</script>
+
+</body>
+</html>
